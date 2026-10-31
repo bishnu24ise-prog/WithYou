@@ -19,26 +19,30 @@
 
 | Service | Status | Link |
 |:---|:---|:---|
-| **Next.js Web Application** | 🟢 **Live on Vercel** | [https://safespark.vercel.app](https://safespark.vercel.app) *(or [safespark-app.vercel.app](https://safespark-app.vercel.app))* |
+| **Next.js Web Application** | 🟢 **Live on Vercel** | [https://safespark.vercel.app](https://safespark.vercel.app) *(Mirror: [safespark-app.vercel.app](https://safespark-app.vercel.app))* |
 | **FastAPI Backend API** | 🟢 **Live on Render** | [https://safespark.onrender.com](https://safespark.onrender.com) |
 | **Interactive Swagger Docs** | 🟢 **Live** | [https://safespark.onrender.com/docs](https://safespark.onrender.com/docs) |
 | **GitHub Repository** | 🟢 **Main Branch** | [https://github.com/bishnu24ise-prog/WithYou](https://github.com/bishnu24ise-prog/WithYou) |
 
 ---
 
-### Inspiration & Core Philosophy 🌟
-A woman is not one fragile thing: she is tender and fierce, artist and engineer, healer and fighter. Yet millions endure domestic coercion in isolation because their phones, messaging apps, and search histories are monitored by perpetrators.
+## 🌟 Inspiration & Core Philosophy
+
+A woman is not one fragile thing: she is tender and fierce, artist and engineer, healer and fighter. Yet millions endure domestic coercion and violence in absolute isolation because their smartphones, messaging apps, and web search histories are under surveillance by perpetrators.
 
 **SafeSpark** is an AI-powered safety platform engineered around the concept of **"The Spark Within"**:
 - **Discreet Steganographic SOS:** Conceals distress messages and GPS telemetry imperceptibly inside ordinary pictures.
-- **Empathetic 3D AI Therapy Companion:** Confidential trauma-informed support and somatic grounding techniques available 24/7.
-- **Bilingual AI LawBot:** Direct plain-language guidance on the Protection of Women from Domestic Violence Act (PWDVA 2005) and Bharatiya Nyaya Sanhita (BNS).
+- **Empathetic 3D AI Therapy Companion ("Maya"):** Confidential trauma-informed support and somatic grounding techniques available 24/7.
+- **Bilingual AI LawBot with Live Research:** Grounded legal guidance on the Protection of Women from Domestic Violence Act (PWDVA 2005) and Bharatiya Nyaya Sanhita (BNS) backed by live official citations.
+- **Self-Healing Help Directory:** Real-time verified One Stop Centres, shelter homes, and legal aid clinics auto-updated with current contact numbers.
+- **Law & Helpline Watch:** Automated regulatory watchdog tracking changes across national safety and police helplines.
+- **Complaint Assist:** Sandboxed web agent that pre-fills formal complaint drafts while strictly stopping before final submission to protect survivor agency.
 - **Authority Incident Command Dashboard:** Real-time triage, geocoded dossiers, and verified NGO escalation.
-- **Paranoia-Grade Privacy Safeguards:** Zero ad trackers, triple-Esc quick exit to neutral sites, and instant browser cleanup.
+- **Paranoia-Grade Privacy Safeguards:** Zero ad trackers, bi-directional PII stripping, triple-Esc quick exit to neutral sites, and instant browser cleanup.
 
 ---
 
-## Verified Research & Survey Evidence Base 📊
+## 📊 Verified Research & Survey Evidence Base
 
 All statistics powering SafeSpark are verified against official global and national survey registries:
 
@@ -54,35 +58,79 @@ All statistics powering SafeSpark are verified against official global and natio
 
 ---
 
-## SafeSpark’s Multi-Pillar Architecture 💡
+## 💡 SafeSpark’s Multi-Pillar Architecture & Features
 
-### 1. Covert Steganographic SOS Messaging 🛡️
-Survivors under surveillance cannot safely dial 112 or send obvious distress texts. SafeSpark uses least-significant-bit (LSB) steganography to encode structured distress information (victim contact, physical injuries, perpetrator descriptions, coordinates) into the pixel matrix of an innocuous photo (e.g. flowers, scenery).
-- **Stealth Preservation:** Looks identical to a normal wallpaper or photo album upload.
-- **Authority Decoder:** Authorized responders extract the payload into a structured emergency dossier.
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                   SAFESPARK ARCHITECTURE                                     │
+├──────────────────────────┬───────────────────────────────┬───────────────────────────────────┤
+│ Pillar                   │ Core Tech                     │ Safety / Capability               │
+├──────────────────────────┼───────────────────────────────┼───────────────────────────────────┤
+│ 1. Steganographic SOS    │ LSB Pixel Encoding / OpenCV   │ Invisible photo embedding         │
+│ 2. 3D AI Therapy Avatar  │ Three.js / R3F / ElevenLabs   │ Somatic de-escalation & voice     │
+│ 3. LawBot Live Research  │ TinyFish Search + Fetch       │ Real-time statutory citations     │
+│ 4. Help Directory        │ TinyFish Parallel Batch Fetch │ Self-healing verified shelter DB  │
+│ 5. Helpline Watch        │ Content Hash + LLM Diff       │ Live regulatory policy alerts     │
+│ 6. Complaint Assist      │ TinyFish Web Agent (SSE)      │ Pre-fill with mandatory safe halt │
+│ 7. Command Dashboard     │ Next.js App Router / MongoDB  │ Geocoded incident escalation      │
+│ 8. Privacy Shield        │ Bi-directional PII Scrubber   │ Zero survivor identity leakage    │
+└──────────────────────────┴───────────────────────────────┴───────────────────────────────────┘
+```
 
-### 2. 3D AI Therapy Avatar ("Maya") 💬
-With an 85.2% treatment gap for depression, stigma and fear of discovery prevent millions from seeking therapy.
+### 1. Covert Steganographic SOS Messaging 🛡️ (`/create-post`)
+Survivors under domestic surveillance cannot safely dial 112 or send plain-text distress messages without risking immediate discovery.
+- **Least-Significant-Bit (LSB) Steganography:** Encodes structured distress payloads (victim contact, physical injuries, perpetrator descriptions, coordinates) imperceptibly into the pixel matrix of an innocuous photo (e.g., flowers, nature, art).
+- **Stealth Preservation:** Visually indistinguishable from a standard wallpaper or mobile snapshot.
+- **Authority Decoder:** First responders and verified authorities extract the hidden payload into a structured emergency dossier on the Incident Dashboard.
+
+### 2. 3D AI Therapy Companion — "Maya" 💬 (`/therapybot`)
+Addresses the 85.2% mental health treatment gap with an interactive, confidential 3D avatar:
 - **Trauma-Informed Support:** Trained in somatic de-escalation, 4-7-8 calming breathwork, and 5-4-3-2-1 sensory grounding.
-- **Real-Time Lip-Sync & Morphing:** Powered by Three.js and `@react-three/fiber` for comforting human connection.
-- **Natural Voice Output:** Integrated with ElevenLabs speech synthesis and confidential text-to-speech pipelines.
+- **Interactive 3D Avatar:** Built with Three.js and `@react-three/fiber` for expressive, soothing human connection.
+- **Voice Synthesis:** Integrated confidential text-to-speech powered by ElevenLabs.
 
-### 3. AI LawBot (PWDVA & BNS Knowledge Base) ⚖️
-Bridges the 1.3% institutional help gap by translating complex legal codes into accessible, actionable rights:
-- **PWDVA 2005:** Protection Orders (Sec 18), Residence Rights (Sec 19), Monetary Relief (Sec 20), Emergency Custody.
-- **Bharatiya Nyaya Sanhita (BNS):** Modern cruelty and harassment provisions replacing legacy statutes.
-- **Emergency Helplines:** Integrated hotlines for National Emergency (**112**), Women Helpline (**1091**), and One-Stop Crisis Centers (**181**).
+### 3. AI LawBot with Live Cited Research ⚖️ (`/lawbot`)
+Bridges the legal information deficit by turning legal jargon into accessible rights, powered by live **TinyFish Search & Parallel Batch Fetch**:
+- **Statutory Grounding:** Covers PWDVA 2005 (Protection Orders under Sec 18, Residence Rights under Sec 19, Monetary Relief under Sec 20) and Bharatiya Nyaya Sanhita (BNS).
+- **Live Search & Fetch Flow:** Queries trusted government and legal repositories (`nalsa.gov.in`, `ncw.nic.in`, `wcd.nic.in`) and fetches the top 3–5 pages in clean markdown.
+- **Cited Sources Panel:** Displays official domain tags, verified source badges, and clickable citations with non-legal-advice disclaimers.
+- **Zero Hallucination Guarantee:** Strict context injection and low temperature (`0.1`) ensure answers are drawn strictly from verified legal texts, with an automatic fallback to local statutes if rate limits occur.
 
-### 4. Live Authority Incident Command Dashboard 📊
-- Incident dossiers with severity weighting (*Very High*, *High*, *Medium*, *Low*).
-- Status toggle workflow (`pending` ➔ `closed`) with persistent audit trails.
-- Automatic location geocoding and emergency contact mapping.
+### 4. Self-Healing Crisis & Help Directory 🏥 (`/directory`)
+Maintains an accurate directory of One Stop Centres (OSCs), shelter homes, family counselling centres, and legal aid clinics across India:
+- **Batch Parallel Scraping:** Fetches up to 10 URLs concurrently via TinyFish Fetch.
+- **Adaptive Auto-Enrichment:** Fills missing fields (24/7 hours, direct helplines, nodal officer contacts, legal services) and stamps each entry with `verifiedAt` and `sourceUrl`.
+- **Live Shimmer UI:** Rows shimmer with real-time progress indicators (`"Checking wcd.nic.in, ncw.nic.in... 2 of 6 fetched"`) and one-click dial buttons.
+
+### 5. Law & Helpline Watch 📡 (`/dashboard`)
+A scheduled watchdog monitoring key government helplines and statutory advisory portals:
+- **Automated Drift Detection:** Fetches and hashes the main content of regulatory portals (National Cyber Crime Helpline 1930, NCW Helpline 7827170170, NALSA 15100).
+- **1-Line Diff Summaries:** Generates concise plain-language alerts when statutory guidelines or emergency numbers are updated.
+- **Live Updates Feed:** Displays change-alert cards on the Incident Dashboard and updates `VerifiedBadge` timestamps across statistical evidence cards.
+
+### 6. Complaint Assist — Human-in-the-Loop Web Agent 🚀 (`/assist`)
+Assists survivors in navigating complex, overwhelming public grievance portals (e.g., cybercrime reporting):
+- **Stealth Browser Automation (SSE):** Proxies real-time browser actions into a sandboxed browser frame with step-by-step progress logging.
+- **Automated Pre-Fill:** Transfers incident categories and facts from the survivor's LawBot summary without manual re-typing.
+- **Mandatory Safety Directive:** The agent is **strictly prohibited by design from clicking final Submit, entering OTPs, or solving CAPTCHAs**. It halts automatically before the final step and yields control back to the survivor via a glowing *"Review & Submit Yourself"* button.
+- **Interactive Demo Fixture:** Includes a 1-click demo replay mode for instant judging and offline presentations.
+
+### 7. Authority Incident Command Dashboard 📊 (`/dashboard`)
+- **Triage Command:** Real-time incident triage categorized by severity (*Very High*, *High*, *Medium*, *Low*).
+- **Interactive Geocoding:** Decoded steganographic coordinates automatically mapped for rapid responder deployment.
+- **Resolution Tracking:** Status updates (`pending` ➔ `closed`) with persistent audit logs.
+
+### 8. Silence & Statistical Evidence Story 📈 (`SilenceDataStory.tsx`)
+Interactive data journalism bringing to light the hidden realities of gender-based violence:
+- Compares NFHS-5, NCRB, WHO, Gallup, and PLOS Mental Health findings.
+- Interactive charts illustrating the 80.1% silence gap and 1.3% institutional reporting gap.
+- Live verified badges on all source citations.
 
 ---
 
-## Design System: "The Spark Within" 🎨
+## 🎨 Design System: "The Spark Within"
 
-SafeSpark adopts an Indian-inspired visual language celebrating agency and courage rather than victimhood:
+SafeSpark adopts an Indian-inspired visual language celebrating agency, resilience, and courage rather than victimhood:
 
 - **Rani Rose (`#D81B60`):** Core brand energy, fierce love, and protective warmth.
 - **Marigold (`#FFB300`):** Auspicious celebration, renewal, and hope.
@@ -94,16 +142,31 @@ SafeSpark adopts an Indian-inspired visual language celebrating agency and coura
 
 ---
 
-## Safety & Paranoia-Grade Privacy Controls 🔒
+## 🔒 Paranoia-Grade Privacy & Safety Controls
 
-1. **Triple-Escape Quick Exit:** Pressing `Esc` 3 times immediately replaces browser history and redirects to a neutral search query (e.g., Google News or Weather).
-2. **Always-Visible Helplines:** 24/7 direct dial buttons for **112**, **1091**, and **181** pinned to the top header on desktop and a sticky bottom bar on mobile.
-3. **Calm Mode:** A single toggle to soften palette intensity and disable motion animations for neurodivergent or overwhelmed users.
-4. **Zero Trackers:** No Google Analytics, no Meta Pixel, and no identifying session footprints left on the user's device.
+1. **Triple-Escape Quick Exit:** Pressing `Esc` 3 times immediately replaces browser history and redirects to a neutral search engine or weather forecast.
+2. **Bi-Directional PII Scrubber:** All outbound queries and goals are scrubbed before leaving the server. Phone numbers, personal names, emails, Aadhaar numbers, GPS coordinates, and street addresses are replaced with generic tags (`[REDACTED_PHONE]`, `[REDACTED_AADHAAR]`), while preserving public national helplines (`112`, `1091`, `181`, `1930`, `15100`).
+3. **Always-Visible Emergency Helplines:** Instant dial buttons for **112**, **1091**, and **181** pinned to the top header on desktop and a sticky bottom bar on mobile.
+4. **Server-Side API Key Isolation:** `TINYFISH_API_KEY`, `GEMINI_API_KEY`, and `ELEVEN_LABS_API_KEY` are strictly held in server-side environments and never exposed in client bundles.
+5. **Zero Trackers:** No Google Analytics, no Meta Pixel, and no tracking cookies stored on the user's device.
 
 ---
 
-## Tech Stack 🔧
+## 🗺️ Application Routes
+
+| Path | Description | Key Components |
+|:---|:---|:---|
+| `/` | Landing page & *The Spark Within* hero | `HeroSpark`, `Manifesto`, `SilenceDataStory` |
+| `/therapybot` | 3D Interactive AI Therapy Companion | `Canvas`, `@react-three/fiber`, ElevenLabs |
+| `/lawbot` | AI Legal Research with Live Sources | `SourcesPanel`, TinyFish Search & Fetch, Gemini |
+| `/directory` | Self-Healing Help & Crisis Directory | `LiveEnrichTable`, `VerifiedBadge`, TinyFish Batch Fetch |
+| `/assist` | Human-in-the-Loop Complaint Pre-Fill Agent | `AgentLivePanel`, TinyFish SSE Stream |
+| `/create-post` | Steganographic Distress Image Creator | `InputForm`, LSB Steganography Engine |
+| `/dashboard` | Incident Command & Live Regulatory Watch | `UpdatesFeed`, `RealtimeList`, `DashboardRoleBanner` |
+
+---
+
+## 🔧 Tech Stack
 
 ### Frontend
 - **Framework:** Next.js 15 (App Router), React 18, TypeScript
@@ -114,13 +177,14 @@ SafeSpark adopts an Indian-inspired visual language celebrating agency and coura
 
 ### Backend & AI Services
 - **API Engine:** Python 3.11, FastAPI, Uvicorn
-- **AI Models:** Google Gemini 2.5 Flash, Groq Gemma, Amazon Bedrock
+- **Web Agent & Live Research:** TinyFish API (Search, Parallel Batch Fetch, Browser Automation SSE)
+- **AI Models:** Google Gemini 1.5 Flash, Groq Gemma, Amazon Bedrock
 - **Text-to-Speech:** ElevenLabs TTS API
 - **Data Persistence:** MongoDB with local JSON resilient fallbacks
 
 ---
 
-## Getting Started Locally 🚀
+## 🚀 Getting Started Locally
 
 ### 1. Clone the Repository
 ```bash
@@ -141,6 +205,7 @@ CLERK_SECRET_KEY=sk_test_...
 NEXT_PUBLIC_BACKEND_URL=https://safespark.onrender.com
 GEMINI_API_KEY=your_gemini_api_key
 ELEVEN_LABS_API_KEY=your_elevenlabs_api_key
+TINYFISH_API_KEY=your_tinyfish_api_key
 ```
 
 Start the Next.js development server:
@@ -162,6 +227,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Configure `backend/.env` (see `backend/.env.example`):
+```env
+MONGO_URI=your_mongo_uri
+TINYFISH_API_KEY=your_tinyfish_api_key
+GEMINI_API_KEY=your_gemini_api_key
+```
+
 Start the FastAPI backend:
 ```bash
 uvicorn backend.main:app --reload --port 8000
@@ -170,59 +242,36 @@ API documentation available at **http://127.0.0.1:8000/docs** (or live at **http
 
 ---
 
-## Verified Emergency Helplines (India) 📞
+## 🧪 Running Automated Tests
+
+Run the backend unit test suite for privacy protection and the TinyFish integration client:
+
+```bash
+# Test PII Stripping (phones, emails, Aadhaar, coordinates)
+python -m unittest backend/tests/test_pii_stripper.py
+
+# Test TinyFish Service Client (Search, Fetch, Error Handling)
+python -m unittest backend/tests/test_tinyfish_service.py
+```
+
+To run a production frontend build check:
+```bash
+cd frontend
+npm run build
+```
+
+---
+
+## 📞 Verified Emergency Helplines (India)
 
 - **112** — National Emergency Dispatch (Police, Fire, Ambulance)
 - **1091** — Women Distress Helpline (24/7 Police Dispatch)
 - **181** — Women One-Stop Crisis Center (Medical, Legal, Counseling)
+- **1930** — National Cybercrime Helpline
+- **15100** — National Legal Services Authority (NALSA Free Legal Aid)
 - **14416** — Tele-MANAS (Govt. Mental Health Toll-Free Support)
 
 ---
 
-## License 📄
+## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-
----
-
-## 🐟 TinyFish Web Agent & Live Research Integration
-
-SafeSpark natively integrates [TinyFish](https://tinyfish.ai) to ground crisis response, legal assistance, and institutional help directories in live, verified web data with **zero PII leakage**.
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        SafeSpark Architecture                          │
-├────────────────────┬───────────────────────────────────────────────────┤
-│ Feature            │ TinyFish Capability & Workflow                    │
-├────────────────────┼───────────────────────────────────────────────────┤
-│ 1. LawBot Research │ Search API (IN) + Parallel Batch Fetch (10 URLs)  │
-│ 2. Help Directory  │ Batch Fetch (wcd.nic.in, ncw.nic.in, nalsa.gov.in)│
-│ 3. Law Watch       │ Content Hashing & Diff Summary on Govt Portals    │
-│ 4. Complaint Assist│ Web Agent SSE Stream with Mandatory Safety Halt   │
-└────────────────────┴───────────────────────────────────────────────────┘
-```
-
-### 1. Live Cited Research (`POST /api/tinyfish/research`)
-- **Search & Parallel Fetch:** Queries official statutory portals (`nalsa.gov.in`, `ncw.nic.in`, `wcd.nic.in`) and fetches top 3–5 pages concurrently.
-- **Sources Panel:** Renders verified sources with favicons, domain tags, "read N pages" indicator, and non-legal-advice disclaimers.
-- **Fail-Safe Fallback:** Automatically switches to cached statutory knowledge base if TinyFish experiences rate limits or network issues.
-
-### 2. Self-Healing Crisis Directory (`POST /api/tinyfish/enrich`)
-- **Batch Parallel Scraping:** Fetches up to 10 One-Stop Sakhi Centres, shelters, and legal aid clinics per request.
-- **Adaptive Extraction:** Fills only missing or outdated fields (phone, 24/7 hours, languages, legal services) and stamps each record with `verifiedAt` and `sourceUrl`.
-- **Live Shimmer Table:** Real-time progress bar (`"Checking wcd.nic.in... 2 of 6"`) and `VerifiedBadge` badges.
-
-### 3. Law & Helpline Watch (`GET /api/tinyfish/watch`)
-- **Automated Regulatory Monitoring:** Hashes main content of central grievance and police helpline pages.
-- **1-Line Diff Summaries:** Generates concise plain-language alerts when statutory policies or helpline numbers change.
-- **Live Updates Feed:** Real-time alert cards on the dashboard and verified badges on survey stat cards.
-
-### 4. Complaint Assist (`POST /api/tinyfish/assist`)
-- **Stealth Browser Automation (SSE):** Streams real-time browser actions into a sandboxed browser-window frame with progress ring.
-- **Mandatory Safety Directive:** The agent pre-fills incident categories and descriptions based on the survivor's LawBot summary, but is **strictly prohibited by design from clicking Submit, solving CAPTCHAs, or entering OTPs**. Full control is handed back for personal human verification.
-- **Interactive Demo Fixture:** Includes a 1-click demo replay mode for offline judging.
-
-### 🛡️ Privacy & Safety Shield
-- **Non-Negotiable PII Stripping:** Every outbound query and goal is passed through `stripPiiFromText` (`backend/utils/pii_stripper.py` and `frontend/src/lib/pii-stripper.ts`). Phone numbers, emails, Aadhaar numbers, GPS coordinates, and street addresses are replaced with generic placeholders.
-- **Server-Side Security:** `TINYFISH_API_KEY` is strictly held server-side in `.env` and `.env.local` and never sent to client bundles.
-- **Unit Tested:** Includes comprehensive unit tests in `backend/tests/test_pii_stripper.py` and `backend/tests/test_tinyfish_service.py`.
