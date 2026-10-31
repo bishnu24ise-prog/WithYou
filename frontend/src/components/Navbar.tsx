@@ -24,8 +24,9 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'Home' },
-    { href: '/create-post', label: 'Report (Covert SOS)' },
+    { href: '/create-post', label: 'Report (SOS)' },
     { href: '/lawbot', label: 'Law Bot' },
+    { href: '/therapybot', label: '3D Avatar' },
     { href: '/directory', label: 'Help Directory' },
     { href: '/assist', label: 'Complaint Assist' },
     { href: '/dashboard', label: 'Dashboard' },
@@ -48,7 +49,7 @@ export default function Navbar() {
       </Link>
 
       {/* Desktop Navigation Links */}
-      <div className="hidden md:flex items-center justify-center gap-6 lg:gap-8 font-semibold text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+      <div className="hidden md:flex items-center justify-center gap-3 lg:gap-5 font-semibold text-xs sm:text-[13px] text-slate-600 dark:text-slate-300">
         {navLinks.map((link) => {
           const active = isActive(link.href);
           const isSos = link.href === '/create-post';
