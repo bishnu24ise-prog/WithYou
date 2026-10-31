@@ -302,6 +302,8 @@ export default function TherapyBotPage() {
             <iframe
               src="/avatar/index.html"
               title="Maya 3D Avatar"
+              allow="microphone; camera; autoplay"
+              loading="eager"
               className="w-full h-full border-none rounded-2xl min-h-[340px] bg-slate-950"
             />
           ) : (
