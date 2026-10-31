@@ -46,12 +46,29 @@ export default function TherapyBotPage() {
   const t = useTranslations('therapy');
   const locale = useLocale();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const { speak, stopAudio, startListening } = useVoiceAgent({
     language: locale,
   });
 
   const [breathPhase, setBreathPhase] = useState<'Inhale' | 'Hold' | 'Exhale'>('Inhale');
+  const handleReplayBot = (textToPlay: string, audioUrl?: string) => {
+    if (view3D && iframeRef.current?.contentWindow) {
+      iframeRef.current.contentWindow.postMessage(
+        {
+          type: 'SAFE_SPARK_SPEAK',
+          text: textToPlay,
+          audio: audioUrl ? audioUrl.replace('data:audio/mp3;base64,', '') : undefined,
+          facialExpression: 'smile',
+          animation: 'Talking_0',
+        },
+        '*'
+      );
+    } else {
+      speak(textToPlay, locale);
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -117,16 +134,44 @@ export default function TherapyBotPage() {
       setExpression('comforting');
       setMessages((prev) => [...prev, { sender: 'bot', text: botReply, audioUrl }]);
 
+      // Direct postMessage to 3D Avatar iframe so Maya animates and speaks
+      if (iframeRef.current?.contentWindow) {
+        iframeRef.current.contentWindow.postMessage(
+          {
+            type: 'SAFE_SPARK_SPEAK',
+            text: botReply,
+            audio: audioUrl ? audioUrl.replace('data:audio/mp3;base64,', '') : undefined,
+            facialExpression: 'smile',
+            animation: 'Talking_0',
+          },
+          '*'
+        );
+      }
+
       if (voiceEnabled) {
         setIsSpeaking(true);
         setExpression('talking');
-        speak(botReply, locale, () => {
-          setIsSpeaking(false);
-          setExpression('comforting');
-          if (handsFree) {
-            startListening();
-          }
-        });
+        if (!view3D) {
+          // Sanctuary visualizer uses parent speech synthesis
+          speak(botReply, locale, () => {
+            setIsSpeaking(false);
+            setExpression('comforting');
+            if (handsFree) {
+              startListening();
+            }
+          });
+        } else {
+          // 3D Avatar handles speech internally to prevent double voice / echo
+          const wordCount = botReply.split(' ').length;
+          const durMs = Math.max(3000, wordCount * 350);
+          setTimeout(() => {
+            setIsSpeaking(false);
+            setExpression('comforting');
+            if (handsFree) {
+              startListening();
+            }
+          }, durMs);
+        }
       }
     } catch (err) {
       console.warn('Therapy chat notice:', err);
@@ -235,6 +280,7 @@ export default function TherapyBotPage() {
           {view3D ? (
             /* Fully Native 3D Avatar (Built directly into Next.js public directory with locale parameter) */
             <iframe
+              ref={iframeRef}
               src={`/avatar/index.html?embedded=true&locale=${locale}`}
               title="Maya 3D Avatar"
               allow="microphone; camera; autoplay"
@@ -340,13 +386,23 @@ export default function TherapyBotPage() {
                   </div>
                 )}
                 <div
-                  className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm ${
+                  className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm relative group ${
                     msg.sender === 'user'
                       ? 'bg-rani text-white rounded-br-none shadow-rani/20'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-bl-none border border-slate-200/70 dark:border-slate-700/70'
                   }`}
                 >
                   {msg.text}
+                  {msg.sender === 'bot' && (
+                    <button
+                      type="button"
+                      onClick={() => handleReplayBot(msg.text, msg.audioUrl)}
+                      title="Hear Maya speak this aloud"
+                      className="ml-2 inline-flex items-center text-xs text-rani hover:text-rani-600 transition p-1 hover:bg-rose-50 dark:hover:bg-slate-700 rounded-full"
+                    >
+                      <Volume2 className="h-3.5 w-3.5" />
+                    </button>
+                  )}
                 </div>
                 {msg.sender === 'user' && (
                   <div className="w-7 h-7 rounded-full bg-rani text-white flex items-center justify-center shrink-0">

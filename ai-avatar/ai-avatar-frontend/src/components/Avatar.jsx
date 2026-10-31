@@ -115,23 +115,78 @@ export function Avatar(props) {
 
   const [lipsync, setLipsync] = useState();
 
+  const [isSpeakingWebSpeech, setIsSpeakingWebSpeech] = useState(false);
+
   useEffect(() => {
-    console.log(message);
+    console.log("Avatar received message:", message);
     if (!message) {
       setAnimation('Idle');
+      setIsSpeakingWebSpeech(false);
       return;
     }
-    setAnimation(message.animation);
-    setFacialExpression(message.facialExpression);
+    setAnimation(message.animation || 'Talking_0');
+    setFacialExpression(message.facialExpression || 'smile');
     setLipsync(message.lipsync);
+
+    // 1. Play real audio if provided
     if (message.audio) {
-      const audio = new Audio('data:audio/mp3;base64,' + message.audio);
-      audio.play().catch((e) => console.warn('Audio playback notice:', e));
-      setAudio(audio);
-      audio.onended = onMessagePlayed;
-    } else {
-      const dur = (message.lipsync?.metadata?.duration || 2.5) * 1000;
-      const timer = setTimeout(onMessagePlayed, dur);
+      try {
+        const audio = new Audio('data:audio/mp3;base64,' + message.audio);
+        audio.play().catch((e) => {
+          console.warn('Audio play notice, falling back to Web Speech:', e);
+          fallbackWebSpeech(message.text);
+        });
+        setAudio(audio);
+        audio.onended = () => {
+          setAudio(null);
+          onMessagePlayed();
+        };
+        return;
+      } catch (err) {
+        console.warn('Audio construction notice:', err);
+      }
+    }
+
+    // 2. Guaranteed zero-API-cost browser SpeechSynthesis fallback
+    fallbackWebSpeech(message.text);
+
+    function fallbackWebSpeech(spokenText) {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window && spokenText) {
+        try {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(spokenText);
+          const params = new URLSearchParams(window.location.search);
+          const activeLocale = params.get('locale') || 'en-IN';
+          utterance.lang = activeLocale;
+          utterance.rate = 0.95;
+
+          utterance.onstart = () => {
+            setIsSpeakingWebSpeech(true);
+          };
+          utterance.onend = () => {
+            setIsSpeakingWebSpeech(false);
+            onMessagePlayed();
+          };
+          utterance.onerror = () => {
+            setIsSpeakingWebSpeech(false);
+            onMessagePlayed();
+          };
+
+          window.speechSynthesis.speak(utterance);
+          return;
+        } catch (synthErr) {
+          console.warn('SpeechSynthesis notice:', synthErr);
+        }
+      }
+
+      // 3. Cadence animation timer if SpeechSynthesis unavailable
+      setIsSpeakingWebSpeech(true);
+      const wordCount = (spokenText || "").split(' ').length;
+      const dur = Math.max(2500, wordCount * 350);
+      const timer = setTimeout(() => {
+        setIsSpeakingWebSpeech(false);
+        onMessagePlayed();
+      }, dur);
       return () => clearTimeout(timer);
     }
   }, [message]);
@@ -228,7 +283,8 @@ export function Avatar(props) {
     }
 
     const appliedMorphTargets = [];
-    if (message && audio && !audio.paused) {
+    const isSpeakingAudio = (audio && !audio.paused) || isSpeakingWebSpeech;
+    if (message && isSpeakingAudio) {
       const currentAudioTime = audio.currentTime || 0;
       let matchedPhoneme = false;
 

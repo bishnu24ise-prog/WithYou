@@ -236,6 +236,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));
     const userMessage = body.message;
+    const language = body.language || 'en-IN';
 
     // Default greeting if no message is provided
     if (!userMessage || !userMessage.trim()) {
@@ -323,6 +324,36 @@ Return in JSON format:
         }
       } catch (voiceErr) {
         console.warn('Avatar voice error:', voiceErr);
+      }
+    }
+
+    // 2b. Sarvam AI Text-to-Speech (Bulbul v3 for Indic Languages)
+    const SARVAM_KEY = process.env.SARVAM_API_KEY;
+    if (!audioBase64 && SARVAM_KEY) {
+      try {
+        const sarvamRes = await fetch('https://api.sarvam.ai/text-to-speech', {
+          method: 'POST',
+          headers: {
+            'api-subscription-key': SARVAM_KEY,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            text: botReply.slice(0, 500),
+            language_code: language || 'en-IN',
+            model: process.env.SARVAM_TTS_MODEL || 'bulbul:v3',
+            speaker: 'shubh',
+            audio_format: 'mp3',
+          }),
+        });
+        if (sarvamRes.ok) {
+          const sJson = await sarvamRes.json();
+          if (sJson?.audios?.[0]) {
+            audioBase64 = sJson.audios[0];
+            durationEstimate = Math.max(2.0, botReply.split(' ').length * 0.4);
+          }
+        }
+      } catch (sarvamErr) {
+        console.warn('Sarvam TTS in /chat route notice:', sarvamErr);
       }
     }
 
