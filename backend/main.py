@@ -40,7 +40,8 @@ db = None
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origin_regex=r"https://.*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -59,16 +60,30 @@ async def startup_event():
 # Environment and AWS setup
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_REGION = os.getenv("AWS_REGION")
+AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
 S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME", "shebuilds-womentechmakers")
 
-s3_client = boto3.client(
-    "s3",
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-    region_name=AWS_REGION,
-)
-bedrock_client = boto3.client("bedrock-runtime", region_name=AWS_REGION)
+s3_client = None
+bedrock_client = None
+
+try:
+    if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY:
+        s3_client = boto3.client(
+            "s3",
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+            region_name=AWS_REGION,
+        )
+        bedrock_client = boto3.client(
+            "bedrock-runtime",
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+            region_name=AWS_REGION,
+        )
+    else:
+        logger.info("AWS credentials not configured; S3/Bedrock client initialization deferred.")
+except Exception as e:
+    logger.warning("AWS client initialization warning: %s", e)
 
 # API Endpoints
 @app.post("/text-generation")
@@ -238,6 +253,11 @@ async def upload_embeddings():
 @app.post("/generate-image")
 async def generate_image(data: dict):
     """Generate an image based on a text prompt using Amazon Bedrock and store it in S3."""
+    if not bedrock_client or not s3_client:
+        raise HTTPException(
+            status_code=503,
+            detail="AWS Bedrock/S3 is not configured. Please set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.",
+        )
     try:
         # Payload for image generation
         prompt = data.get("prompt")
