@@ -115,80 +115,38 @@ export function Avatar(props) {
 
   const [lipsync, setLipsync] = useState();
 
-  const [isSpeakingWebSpeech, setIsSpeakingWebSpeech] = useState(false);
+  const [isSpeakingMotion, setIsSpeakingMotion] = useState(false);
 
   useEffect(() => {
-    console.log("Avatar received message:", message);
     if (!message) {
       setAnimation('Idle');
-      setIsSpeakingWebSpeech(false);
+      setIsSpeakingMotion(false);
       return;
     }
-    setAnimation(message.animation || 'Talking_0');
+
+    // Set expressive talking animation and facial expression
+    const talkingAnimations = ['Talking_0', 'Talking_1', 'Talking_2'];
+    const chosenAnim = message.animation || talkingAnimations[Math.floor(Math.random() * talkingAnimations.length)];
+    setAnimation(chosenAnim);
     setFacialExpression(message.facialExpression || 'smile');
     setLipsync(message.lipsync);
 
-    // 1. Play real audio if provided
-    if (message.audio) {
-      try {
-        const audio = new Audio('data:audio/mp3;base64,' + message.audio);
-        audio.play().catch((e) => {
-          console.warn('Audio play notice, falling back to Web Speech:', e);
-          fallbackWebSpeech(message.text);
-        });
-        setAudio(audio);
-        audio.onended = () => {
-          setAudio(null);
-          onMessagePlayed();
-        };
-        return;
-      } catch (err) {
-        console.warn('Audio construction notice:', err);
-      }
-    }
+    // Calculate duration for speech mouth movements and gestures
+    const wordCount = (message.text || '').split(' ').length;
+    const durMs = Math.max(2500, message.duration ? message.duration * 1000 : (message.lipsync?.metadata?.duration ? message.lipsync.metadata.duration * 1000 : wordCount * 380));
 
-    // 2. Guaranteed zero-API-cost browser SpeechSynthesis fallback
-    fallbackWebSpeech(message.text);
+    setIsSpeakingMotion(true);
 
-    function fallbackWebSpeech(spokenText) {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window && spokenText) {
-        try {
-          window.speechSynthesis.cancel();
-          const utterance = new SpeechSynthesisUtterance(spokenText);
-          const params = new URLSearchParams(window.location.search);
-          const activeLocale = params.get('locale') || 'en-IN';
-          utterance.lang = activeLocale;
-          utterance.rate = 0.95;
+    const timer = setTimeout(() => {
+      setIsSpeakingMotion(false);
+      setAnimation('Idle');
+      onMessagePlayed();
+    }, durMs);
 
-          utterance.onstart = () => {
-            setIsSpeakingWebSpeech(true);
-          };
-          utterance.onend = () => {
-            setIsSpeakingWebSpeech(false);
-            onMessagePlayed();
-          };
-          utterance.onerror = () => {
-            setIsSpeakingWebSpeech(false);
-            onMessagePlayed();
-          };
-
-          window.speechSynthesis.speak(utterance);
-          return;
-        } catch (synthErr) {
-          console.warn('SpeechSynthesis notice:', synthErr);
-        }
-      }
-
-      // 3. Cadence animation timer if SpeechSynthesis unavailable
-      setIsSpeakingWebSpeech(true);
-      const wordCount = (spokenText || "").split(' ').length;
-      const dur = Math.max(2500, wordCount * 350);
-      const timer = setTimeout(() => {
-        setIsSpeakingWebSpeech(false);
-        onMessagePlayed();
-      }, dur);
-      return () => clearTimeout(timer);
-    }
+    return () => {
+      clearTimeout(timer);
+      setIsSpeakingMotion(false);
+    };
   }, [message]);
 
   const { animations } = useGLTF('/models/animations.glb');
@@ -283,9 +241,8 @@ export function Avatar(props) {
     }
 
     const appliedMorphTargets = [];
-    const isSpeakingAudio = (audio && !audio.paused) || isSpeakingWebSpeech;
-    if (message && isSpeakingAudio) {
-      const currentAudioTime = audio.currentTime || 0;
+    if (message && isSpeakingMotion) {
+      const currentAudioTime = audio?.currentTime || 0;
       let matchedPhoneme = false;
 
       // 1. Precise Phoneme Cues if available

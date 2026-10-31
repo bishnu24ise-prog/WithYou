@@ -12,6 +12,135 @@ export interface UseVoiceAgentOptions {
   autoStopMs?: number;
 }
 
+// Browser Web Speech synthesis fallback (zero API cost, 100% offline & safe)
+export function speakWithBrowserVoice(
+  textToSpeak: string,
+  lang: string = 'en-IN',
+  onComplete?: () => void,
+  onStart?: () => void
+) {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window) || !textToSpeak || !textToSpeak.trim()) {
+    onComplete?.();
+    return;
+  }
+
+  try {
+    // 1. Resume engine in case browser paused it
+    window.speechSynthesis.resume();
+
+    // 2. Clear old queue
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    // Pin utterance to window so Chromium garbage collection doesn't drop it mid-sentence
+    (window as any).__safespark_utterance = utterance;
+
+    const voices = window.speechSynthesis.getVoices();
+    const normLang = (lang || 'en-IN').toLowerCase();
+    const prefix = normLang.split('-')[0];
+
+    let chosenVoice: SpeechSynthesisVoice | null = null;
+    if (voices && voices.length > 0) {
+      // 1. Match exact lang with natural/female preference
+      chosenVoice =
+        voices.find(
+          (v) =>
+            v.lang.toLowerCase() === normLang &&
+            (v.name.toLowerCase().includes('female') ||
+              v.name.toLowerCase().includes('natural') ||
+              v.name.toLowerCase().includes('online') ||
+              v.name.toLowerCase().includes('google') ||
+              v.name.toLowerCase().includes('india') ||
+              v.name.toLowerCase().includes('priya') ||
+              v.name.toLowerCase().includes('heera'))
+        ) || null;
+
+      // 2. Match exact lang
+      if (!chosenVoice) {
+        chosenVoice = voices.find((v) => v.lang.toLowerCase() === normLang) || null;
+      }
+
+      // 3. Match prefix with natural/female preference
+      if (!chosenVoice) {
+        chosenVoice =
+          voices.find(
+            (v) =>
+              v.lang.toLowerCase().startsWith(prefix) &&
+              (v.name.toLowerCase().includes('female') ||
+                v.name.toLowerCase().includes('zira') ||
+                v.name.toLowerCase().includes('natural') ||
+                v.name.toLowerCase().includes('google'))
+          ) || null;
+      }
+
+      if (!chosenVoice) {
+        chosenVoice = voices.find((v) => v.lang.toLowerCase().startsWith(prefix)) || null;
+      }
+
+      // 4. For English fallback
+      if (!chosenVoice && prefix === 'en') {
+        chosenVoice = voices.find((v) => v.lang.toLowerCase().startsWith('en')) || null;
+      }
+
+      // 5. Default voice
+      if (!chosenVoice) {
+        chosenVoice = voices.find((v) => v.default) || voices[0] || null;
+      }
+    }
+
+    if (chosenVoice) {
+      utterance.voice = chosenVoice;
+      utterance.lang = chosenVoice.lang;
+    } else {
+      utterance.lang = prefix === 'en' ? 'en-US' : normLang;
+    }
+
+    utterance.volume = 1.0;
+    utterance.rate = 0.95;
+    utterance.pitch = 1.0;
+
+    let hasEnded = false;
+    const handleEnd = () => {
+      if (hasEnded) return;
+      hasEnded = true;
+      (window as any).__safespark_utterance = null;
+      onComplete?.();
+    };
+
+    utterance.onstart = () => {
+      onStart?.();
+    };
+    utterance.onend = handleEnd;
+    utterance.onerror = (e) => {
+      console.warn('SpeechSynthesis playback event notice:', e);
+      handleEnd();
+    };
+
+    // Chrome keepalive: prevent long utterances from pausing
+    const keepAlive = setInterval(() => {
+      if (!window.speechSynthesis.speaking || hasEnded) {
+        clearInterval(keepAlive);
+      } else {
+        window.speechSynthesis.resume();
+      }
+    }, 5000);
+
+    // Wait 30ms after cancel() before speaking so browser audio queue cleanly unblocks
+    setTimeout(() => {
+      try {
+        window.speechSynthesis.resume();
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        console.warn('SpeechSynthesis speak notice:', err);
+        handleEnd();
+      }
+    }, 40);
+  } catch (e) {
+    console.warn('SpeechSynthesis setup notice:', e);
+    onComplete?.();
+  }
+}
+
 export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
   const currentLocale = useLocale();
   const activeLanguage = options.language || currentLocale || 'en-IN';
@@ -28,6 +157,20 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
   const recognitionRef = useRef<any>(null);
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);
   const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Pre-load browser voices on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+      const onVoices = () => window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = onVoices;
+      return () => {
+        if (window.speechSynthesis.onvoiceschanged === onVoices) {
+          window.speechSynthesis.onvoiceschanged = null;
+        }
+      };
+    }
+  }, []);
 
   // Stop any active audio immediately (Barge-in support)
   const stopAudio = useCallback(() => {
@@ -148,7 +291,7 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
       }
     }
 
-    // 3. Setup MediaRecorder for backend Sarvam STT (especially for Indian languages & iOS)
+    // 3. Setup MediaRecorder for backend Sarvam STT
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
@@ -176,7 +319,6 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
 
       recorder.onstop = async () => {
         setIsRecording(false);
-        // Only call backend STT if webSpeech did not already return a transcript
         if (audioChunksRef.current.length > 0) {
           const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
           if (audioBlob.size > 2000) {
@@ -211,7 +353,7 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
         activeStreamRef.current = null;
       };
 
-      recorder.start(500); // 500ms slice
+      recorder.start(500);
       setIsRecording(true);
     } catch (micErr: any) {
       if (!webSpeechActive) {
@@ -246,21 +388,68 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
     }
   }, [isRecording, startListening, stopListening]);
 
-  // Speak text using Sarvam Bulbul v3 or ElevenLabs / Web Speech
+  // Speak text using audioUrl, backend TTS, or browser Web Speech
   const speak = useCallback(
-    async (textToSpeak: string, customLang?: string, onComplete?: () => void) => {
+    async (
+      textToSpeak: string,
+      customLang?: string,
+      onComplete?: () => void,
+      onStart?: () => void,
+      audioUrl?: string
+    ) => {
       stopAudio();
-      if (!textToSpeak || !textToSpeak.trim()) return;
+      if (!textToSpeak || !textToSpeak.trim()) {
+        onComplete?.();
+        return;
+      }
 
       const lang = customLang || activeLanguage;
       setIsSpeaking(true);
 
+      // If audioUrl is already provided, play directly!
+      if (audioUrl) {
+        try {
+          const audio = new Audio(audioUrl);
+          currentAudioRef.current = audio;
+
+          audio.onplay = () => {
+            setIsSpeaking(true);
+            onStart?.();
+          };
+
+          audio.onended = () => {
+            setIsSpeaking(false);
+            currentAudioRef.current = null;
+            onComplete?.();
+          };
+
+          audio.onerror = () => {
+            // Fallback to browser voice
+            speakWithBrowserVoice(
+              textToSpeak,
+              lang,
+              () => {
+                setIsSpeaking(false);
+                onComplete?.();
+              },
+              onStart
+            );
+          };
+
+          await audio.play();
+          return;
+        } catch (playErr) {
+          console.warn('Audio playback notice, using browser voice fallback:', playErr);
+        }
+      }
+
+      // Try backend TTS with 1.5s timeout
       try {
-        // Request backend TTS
         const res = await fetch('/api/voice/speak', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text: textToSpeak, language: lang }),
+          signal: AbortSignal.timeout(1500),
         });
 
         if (res.ok) {
@@ -270,14 +459,27 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
             const audio = new Audio(audioSrc);
             currentAudioRef.current = audio;
 
+            audio.onplay = () => {
+              setIsSpeaking(true);
+              onStart?.();
+            };
+
             audio.onended = () => {
               setIsSpeaking(false);
+              currentAudioRef.current = null;
               onComplete?.();
             };
 
             audio.onerror = () => {
-              setIsSpeaking(false);
-              onComplete?.();
+              speakWithBrowserVoice(
+                textToSpeak,
+                lang,
+                () => {
+                  setIsSpeaking(false);
+                  onComplete?.();
+                },
+                onStart
+              );
             };
 
             await audio.play();
@@ -285,35 +487,22 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
           }
         }
       } catch (err) {
-        console.warn('Backend TTS notice:', err);
+        // Backend unavailable or timed out; proceed immediately to browser synthesis
       }
 
-      // Browser Web Speech fallback
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        try {
-          const utterance = new SpeechSynthesisUtterance(textToSpeak);
-          utterance.lang = lang;
-          utterance.rate = 0.95;
-
-          utterance.onend = () => {
-            setIsSpeaking(false);
-            onComplete?.();
-          };
-
-          utterance.onerror = () => {
-            setIsSpeaking(false);
-            onComplete?.();
-          };
-
-          window.speechSynthesis.speak(utterance);
-          return;
-        } catch (synthErr) {
-          console.warn('SpeechSynthesis fallback notice:', synthErr);
+      // Browser Web Speech fallback (instant, zero cost, works on every device)
+      speakWithBrowserVoice(
+        textToSpeak,
+        lang,
+        () => {
+          setIsSpeaking(false);
+          onComplete?.();
+        },
+        () => {
+          setIsSpeaking(true);
+          onStart?.();
         }
-      }
-
-      setIsSpeaking(false);
-      onComplete?.();
+      );
     },
     [activeLanguage, stopAudio]
   );
@@ -332,4 +521,3 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
     cleanupVoice,
   };
 }
-

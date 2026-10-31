@@ -12,12 +12,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Text cannot be empty' }, { status: 400 });
     }
 
-    // Try forwarding to FastAPI backend with Sarvam Bulbul v3
+    // Try forwarding to FastAPI backend with Sarvam Bulbul v3 (strict 1.5s timeout)
     try {
       const res = await fetch(`${BACKEND_URL}/api/voice/speak`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, language, speaker }),
+        signal: AbortSignal.timeout(1500),
       });
 
       if (res.ok) {
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(data);
       }
     } catch (backendErr) {
-      console.warn('Backend TTS proxy notice:', backendErr);
+      // Backend offline or timed out; continue to fallbacks
     }
 
     // ElevenLabs fallback if available
@@ -74,4 +75,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: err.message || 'TTS error' }, { status: 500 });
   }
 }
-

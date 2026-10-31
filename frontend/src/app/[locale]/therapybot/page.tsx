@@ -14,6 +14,7 @@ import {
   Maximize2,
   Shield,
   Radio,
+  Play,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -47,27 +48,68 @@ export default function TherapyBotPage() {
   const locale = useLocale();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const stopAllVoice = () => {
+    stopAudio();
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause();
+      currentAudioRef.current.currentTime = 0;
+      currentAudioRef.current = null;
+    }
+    if (iframeRef.current?.contentWindow) {
+      iframeRef.current.contentWindow.postMessage({ type: 'SAFE_SPARK_STOP' }, '*');
+    }
+  };
 
   const { speak, stopAudio, startListening } = useVoiceAgent({
     language: locale,
   });
 
   const [breathPhase, setBreathPhase] = useState<'Inhale' | 'Hold' | 'Exhale'>('Inhale');
-  const handleReplayBot = (textToPlay: string, audioUrl?: string) => {
-    if (view3D && iframeRef.current?.contentWindow) {
-      iframeRef.current.contentWindow.postMessage(
-        {
-          type: 'SAFE_SPARK_SPEAK',
-          text: textToPlay,
-          audio: audioUrl ? audioUrl.replace('data:audio/mp3;base64,', '') : undefined,
-          facialExpression: 'smile',
-          animation: 'Talking_0',
-        },
-        '*'
-      );
-    } else {
-      speak(textToPlay, locale);
+
+  // Trigger speech playback in parent window and synchronize Maya's 3D motion
+  const playSpokenReply = (textToPlay: string, audioUrl?: string, onDone?: () => void) => {
+    stopAllVoice();
+
+    // Ensure audio and speech synthesis are resumed on user action
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.resume();
     }
+
+    const handleSpeechStart = () => {
+      setIsSpeaking(true);
+      setExpression('talking');
+      // Signal 3D avatar iframe to animate and lip-sync now that voice is playing
+      if (iframeRef.current?.contentWindow) {
+        iframeRef.current.contentWindow.postMessage(
+          {
+            type: 'SAFE_SPARK_SPEAK',
+            text: textToPlay,
+            facialExpression: 'smile',
+            animation: 'Talking_0',
+            duration: Math.max(2.5, textToPlay.split(' ').length * 0.4),
+          },
+          '*'
+        );
+      }
+    };
+
+    const handleSpeechEnd = () => {
+      setIsSpeaking(false);
+      setExpression('comforting');
+      if (iframeRef.current?.contentWindow) {
+        iframeRef.current.contentWindow.postMessage({ type: 'SAFE_SPARK_STOP' }, '*');
+      }
+      onDone?.();
+    };
+
+    // Use unified voice agent helper (handles direct audioUrl, backend TTS, or browser SpeechSynthesis)
+    speak(textToPlay, locale, handleSpeechEnd, handleSpeechStart, audioUrl);
+  };
+
+  const handleReplayBot = (textToPlay: string, audioUrl?: string) => {
+    playSpokenReply(textToPlay, audioUrl);
   };
 
   useEffect(() => {
@@ -98,12 +140,17 @@ export default function TherapyBotPage() {
     const text = textToSend || input;
     if (!text || !text.trim() || loading) return;
 
+    // Wake speech synthesis immediately during user click event
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.resume();
+    }
+
     const userMsg: Message = { sender: 'user', text };
     setMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInput('');
     setLoading(true);
     setExpression('listening');
-    stopAudio();
+    stopAllVoice();
 
     try {
       const chatRes = await fetch('/chat', {
@@ -134,44 +181,12 @@ export default function TherapyBotPage() {
       setExpression('comforting');
       setMessages((prev) => [...prev, { sender: 'bot', text: botReply, audioUrl }]);
 
-      // Direct postMessage to 3D Avatar iframe so Maya animates and speaks
-      if (iframeRef.current?.contentWindow) {
-        iframeRef.current.contentWindow.postMessage(
-          {
-            type: 'SAFE_SPARK_SPEAK',
-            text: botReply,
-            audio: audioUrl ? audioUrl.replace('data:audio/mp3;base64,', '') : undefined,
-            facialExpression: 'smile',
-            animation: 'Talking_0',
-          },
-          '*'
-        );
-      }
-
       if (voiceEnabled) {
-        setIsSpeaking(true);
-        setExpression('talking');
-        if (!view3D) {
-          // Sanctuary visualizer uses parent speech synthesis
-          speak(botReply, locale, () => {
-            setIsSpeaking(false);
-            setExpression('comforting');
-            if (handsFree) {
-              startListening();
-            }
-          });
-        } else {
-          // 3D Avatar handles speech internally to prevent double voice / echo
-          const wordCount = botReply.split(' ').length;
-          const durMs = Math.max(3000, wordCount * 350);
-          setTimeout(() => {
-            setIsSpeaking(false);
-            setExpression('comforting');
-            if (handsFree) {
-              startListening();
-            }
-          }, durMs);
-        }
+        playSpokenReply(botReply, audioUrl, () => {
+          if (handsFree) {
+            startListening();
+          }
+        });
       }
     } catch (err) {
       console.warn('Therapy chat notice:', err);
@@ -179,7 +194,7 @@ export default function TherapyBotPage() {
         'I am here with you right now. Please take a slow, gentle breath. You are safe, and help is always within reach.';
       setMessages((prev) => [...prev, { sender: 'bot', text: fallback }]);
       if (voiceEnabled) {
-        speak(fallback, locale);
+        playSpokenReply(fallback);
       }
     } finally {
       setLoading(false);
@@ -199,7 +214,7 @@ export default function TherapyBotPage() {
       {/* Left Column: Native 3D Avatar & Sanctuary Visualizer */}
       <div className="w-full lg:w-5/12 flex flex-col bg-gradient-to-b from-rose-50/60 via-indigo-50/40 to-purple-50/40 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-950 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-4 shadow-sm relative overflow-hidden">
         {/* Controls Bar */}
-        <div className="flex items-center justify-between mb-3 gap-2">
+        <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
           <div className="flex items-center gap-1.5 bg-white/90 dark:bg-slate-800/90 p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60 shadow-sm">
             <button
               onClick={() => setView3D(true)}
@@ -219,14 +234,24 @@ export default function TherapyBotPage() {
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            {/* Quick Voice Test Button */}
+            <button
+              onClick={() => handleReplayBot('Hello, I am Maya. My voice is working and I am here with you.')}
+              className="text-xs px-2.5 py-1 rounded-lg border font-semibold flex items-center gap-1 bg-white/90 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-rani hover:text-rani transition-all shadow-sm"
+              title="Test Maya's Voice & Audio"
+            >
+              <Play className="w-3 h-3 text-rani fill-rani/20" />
+              <span>Test Voice</span>
+            </button>
+
             {/* Hands-free mode toggle */}
             <button
               onClick={() => setHandsFree(!handsFree)}
               className={`text-xs px-2.5 py-1 rounded-lg border font-semibold flex items-center gap-1 transition-all ${
                 handsFree
                   ? 'bg-rani text-white border-rani shadow-sm'
-                  : 'bg-white/90 dark:bg-slate-800/90 border-slate-200 text-slate-600 dark:text-slate-300'
+                  : 'bg-white/90 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'
               }`}
               title="Hands-free Conversation Mode"
             >
@@ -253,7 +278,7 @@ export default function TherapyBotPage() {
                 const next = !voiceEnabled;
                 setVoiceEnabled(next);
                 if (!next) {
-                  stopAudio();
+                  stopAllVoice();
                   setIsSpeaking(false);
                 }
               }}
@@ -290,65 +315,57 @@ export default function TherapyBotPage() {
           ) : (
             /* Active Sanctuary Visualizer */
             <div className="flex flex-col items-center justify-center p-6 text-center w-full">
-              <div className="relative mb-5 flex items-center justify-center">
+              <div className="relative mb-6">
                 <div
-                  className={`absolute rounded-full transition-all duration-1000 ${
+                  className={`w-36 h-36 rounded-full flex items-center justify-center transition-all duration-1000 ${
                     breathPhase === 'Inhale'
-                      ? 'w-48 h-48 bg-rani/15 scale-110'
+                      ? 'scale-125 bg-rose-200/70 dark:bg-rose-950/60 shadow-xl shadow-rose-300/30'
                       : breathPhase === 'Hold'
-                      ? 'w-48 h-48 bg-purple-400/20 scale-105'
-                      : 'w-40 h-40 bg-peacock/15 scale-90'
+                      ? 'scale-115 bg-indigo-200/70 dark:bg-indigo-950/60 shadow-xl shadow-indigo-300/30'
+                      : 'scale-90 bg-purple-200/60 dark:bg-purple-950/50 shadow-md'
                   }`}
-                />
-                <div
-                  className={`absolute rounded-full transition-all duration-700 ${
-                    isSpeaking
-                      ? 'w-40 h-40 bg-rani/25 animate-ping'
-                      : loading
-                      ? 'w-36 h-36 bg-amber-400/20 animate-spin'
-                      : 'w-36 h-36 bg-indigo-300/20'
-                  }`}
-                />
-                <div className="relative w-28 h-28 rounded-full bg-gradient-to-tr from-rani via-purple-600 to-peacock flex items-center justify-center shadow-xl shadow-rani/20 text-white transition-transform duration-500 hover:scale-105">
-                  {isSpeaking ? (
-                    <Sparkles className="h-12 w-12 animate-pulse text-amber-200" />
-                  ) : loading ? (
-                    <RefreshCw className="h-10 w-10 animate-spin text-white" />
-                  ) : (
-                    <Heart className="h-12 w-12 text-rose-100 fill-rose-100/40 animate-pulse" />
-                  )}
+                >
+                  <div
+                    className={`w-24 h-24 rounded-full flex flex-col items-center justify-center transition-all duration-700 ${
+                      breathPhase === 'Inhale'
+                        ? 'bg-rose-400 text-white'
+                        : breathPhase === 'Hold'
+                        ? 'bg-indigo-400 text-white'
+                        : 'bg-purple-400 text-white'
+                    }`}
+                  >
+                    <Sparkles className="h-6 w-6 animate-pulse" />
+                    <span className="text-xs font-semibold mt-1">{breathPhase}</span>
+                  </div>
                 </div>
               </div>
-
-              <div className="flex flex-col items-center gap-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-bold text-slate-800 dark:text-slate-100 text-base">{t('title')}</h3>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-wider bg-rose-100 dark:bg-rose-950/60 text-rani">
-                    {expression}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs">{t('subtitle')}</p>
-                <div className="mt-2 text-xs font-semibold text-rani">
-                  Breath: <span className="underline uppercase tracking-wide">{breathPhase}</span>
-                </div>
-              </div>
+              <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
+                4-4-6 Somatic Breathing: Inhale peace, hold gently, and slowly release all tension.
+              </p>
             </div>
           )}
+
+          {/* Real-time Status Badge */}
+          <div className="absolute bottom-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-medium border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center gap-1.5 z-10">
+            <span
+              className={`h-2 w-2 rounded-full ${
+                isSpeaking ? 'bg-rani animate-ping' : loading ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500'
+              }`}
+            />
+            <span className="capitalize text-slate-700 dark:text-slate-200">
+              {isSpeaking ? 'Maya is speaking...' : loading ? 'Maya is reflecting...' : 'Maya is present'}
+            </span>
+          </div>
         </div>
 
         {/* Quick Grounding Exercises */}
         <div className="mt-3">
-          <div className="flex flex-wrap gap-2">
+          <p className="text-[11px] text-slate-500 mb-1.5 font-medium flex items-center gap-1">
+            <Sparkles className="h-3 w-3 text-rani" /> {t('groundingExercise')}
+          </p>
+          <div className="grid grid-cols-2 gap-2">
             <button
-              onClick={() => handleSend('Can you guide me through a 2-minute 4-7-8 calming breath exercise?')}
-              className="text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-700 dark:text-slate-200 hover:border-rani hover:text-rani transition shadow-xs font-medium"
-            >
-              🌬️ {t('quickBreath')}
-            </button>
-            <button
-              onClick={() =>
-                handleSend('I am feeling overwhelmed and panic-stricken. Please guide me through 5-4-3-2-1 grounding.')
-              }
+              onClick={() => handleSend('Can you guide me through a 2-minute calming breath exercise?')}
               className="text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-700 dark:text-slate-200 hover:border-rani hover:text-rani transition shadow-xs font-medium"
             >
               🧘 {t('quickGrounding')}
@@ -421,40 +438,40 @@ export default function TherapyBotPage() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Form with Dedicated Voice Dictation */}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
-          }}
-          className="mt-3 flex items-center gap-2 pt-3 border-t border-slate-200 dark:border-slate-800"
-        >
-          <div className="relative flex-1 flex items-center bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 px-3 py-1 focus-within:ring-2 focus-within:ring-rani shadow-xs">
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={t('inputPlaceholder')}
-              disabled={loading}
-              className="border-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-sm px-1 placeholder:text-slate-400"
-            />
-            <VoiceInput
-              buttonSize="sm"
-              language={locale}
-              showWarning={true}
-              onTranscript={(txt) => {
-                setInput((prev) => (prev ? `${prev} ${txt}` : txt));
-              }}
-            />
-          </div>
-
-          <Button
-            type="submit"
-            disabled={loading || !input.trim()}
-            className="bg-rani hover:bg-rani/90 text-white w-11 h-11 p-0 rounded-2xl shadow-sm shrink-0"
+        {/* Input area */}
+        <div className="pt-3 border-t border-slate-200/80 dark:border-slate-800">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSend();
+            }}
+            className="flex items-center gap-2"
           >
-            <Send className="h-4 w-4" />
-          </Button>
-        </form>
+            <div className="relative flex-1">
+              <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={t('chatPlaceholder')}
+                disabled={loading}
+                className="pr-10 rounded-xl bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 focus-visible:ring-rani h-11 text-sm"
+              />
+              <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                <VoiceInput
+                  language={locale}
+                  onTranscriptChange={(transcribed) => setInput((prev) => (prev ? `${prev} ${transcribed}` : transcribed))}
+                />
+              </div>
+            </div>
+            <Button
+              type="submit"
+              disabled={loading || !input.trim()}
+              className="bg-rani hover:bg-rani-600 text-white rounded-xl h-11 px-4 shadow-sm shadow-rani/20 flex items-center gap-1.5 shrink-0"
+            >
+              <Send className="h-4 w-4" />
+              <span className="hidden sm:inline">{t('send')}</span>
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   );
