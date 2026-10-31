@@ -300,7 +300,7 @@ export default function TherapyBotPage() {
           {view3D ? (
             /* Fully Native 3D Avatar (Built directly into Next.js public directory) */
             <iframe
-              src="/avatar/index.html"
+              src="/avatar/index.html?embedded=true"
               title="Maya 3D Avatar"
               allow="microphone; camera; autoplay"
               loading="eager"
