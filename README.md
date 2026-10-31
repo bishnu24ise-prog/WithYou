@@ -67,13 +67,16 @@ All statistics powering SafeSpark are verified against official global and natio
 │ Pillar                   │ Core Tech                     │ Safety / Capability               │
 ├──────────────────────────┼───────────────────────────────┼───────────────────────────────────┤
 │ 1. Steganographic SOS    │ LSB Pixel Encoding / OpenCV   │ Invisible photo embedding         │
-│ 2. 3D AI Therapy Avatar  │ Three.js / R3F / ElevenLabs   │ Somatic de-escalation & voice     │
-│ 3. LawBot Live Research  │ TinyFish Search + Fetch       │ Real-time statutory citations     │
-│ 4. Help Directory        │ TinyFish Parallel Batch Fetch │ Self-healing verified shelter DB  │
-│ 5. Helpline Watch        │ Content Hash + LLM Diff       │ Live regulatory policy alerts     │
-│ 6. Complaint Assist      │ TinyFish Web Agent (SSE)      │ Pre-fill with mandatory safe halt │
-│ 7. Command Dashboard     │ Next.js App Router / MongoDB  │ Geocoded incident escalation      │
-│ 8. Privacy Shield        │ Bi-directional PII Scrubber   │ Zero survivor identity leakage    │
+│ 2. 3D AI Therapy Avatar  │ Three.js / Native Embedded    │ Zero localhost:5173 dependency    │
+│ 3. 13 Indian Languages   │ next-intl / Static JSON       │ 100% offline, zero-leak i18n      │
+│ 4. Indic Voice Agent     │ Sarvam Saaras + Bulbul v3     │ Hands-free dictation & TTS        │
+│ 5. "Speak to Fill Form"  │ Gemini JSON Extraction        │ Low-literacy conversational SOS   │
+│ 6. LawBot Live Research  │ TinyFish Search + Fetch       │ Real-time statutory citations     │
+│ 7. Help Directory        │ TinyFish Parallel Batch Fetch │ Self-healing verified shelter DB  │
+│ 8. Helpline Watch        │ Content Hash + LLM Diff       │ Live regulatory policy alerts     │
+│ 9. Complaint Assist      │ TinyFish Web Agent (SSE)      │ Pre-fill with mandatory safe halt │
+│ 10. Command Dashboard    │ Next.js App Router / MongoDB  │ Bilingual triage & escalation     │
+│ 11. Privacy Shield       │ In-Memory Processing & Scrub  │ Zero audio retention & PII scrub  │
 └──────────────────────────┴───────────────────────────────┴───────────────────────────────────┘
 ```
 
@@ -364,8 +367,6 @@ npm run build
 - [ ] **Bilingual SOS Dashboard**: Submit an SOS in Hindi; open the Authority Dashboard; verify the English translation displays by default with a toggle to view the original Hindi text.
 - [ ] **Native 3D Avatar**: Open `/therapybot`; verify the 3D avatar renders smoothly inside the page with zero connection errors and lipsync activates when speaking.
 - [ ] **Quick Exit Cleanup**: With audio playing or mic active, press `Esc` 3 times; verify audio halts immediately, cookies are purged, and the browser redirects to Google Weather.
-
-## License 📄
 
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
