@@ -25,12 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SafeAuthProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${roboto.className} antialiased selection:bg-rani selection:text-white`}
-          suppressHydrationWarning
-        >
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${roboto.className} antialiased selection:bg-rani selection:text-white`}
+        suppressHydrationWarning
+      >
+        <SafeAuthProvider>
           <ServiceWorkerCleaner />
           <ThemeProvider
             attribute="class"
@@ -45,8 +45,8 @@ export default function RootLayout({
             </div>
             <Toaster position="top-right" />
           </ThemeProvider>
-        </body>
-      </html>
-    </SafeAuthProvider>
+        </SafeAuthProvider>
+      </body>
+    </html>
   );
 }

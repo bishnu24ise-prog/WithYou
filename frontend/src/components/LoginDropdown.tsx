@@ -39,6 +39,11 @@ export function LoginDropdown() {
       badge: 'Law Enforcement / Official',
     });
     router.push('/dashboard');
+    setTimeout(() => {
+      if (window.location.pathname !== '/dashboard') {
+        window.location.href = '/dashboard';
+      }
+    }, 150);
   };
 
   const handleCitizenLogin = () => {
@@ -49,6 +54,11 @@ export function LoginDropdown() {
       badge: 'Protected Citizen',
     });
     router.push('/create-post');
+    setTimeout(() => {
+      if (window.location.pathname !== '/create-post') {
+        window.location.href = '/create-post';
+      }
+    }, 150);
   };
 
   const handleCustomPortal = () => {
@@ -72,7 +82,7 @@ export function LoginDropdown() {
           <ChevronDown className="h-3.5 w-3.5 opacity-70" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-72 p-2 shadow-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl" align="end">
+      <DropdownMenuContent className="w-72 p-2 shadow-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl z-50" align="end">
         <DropdownMenuLabel className="font-semibold text-xs text-slate-500 uppercase tracking-wider px-2 py-1 flex items-center justify-between">
           <span>Choose Your Role</span>
           <span className="text-[10px] text-rani font-bold flex items-center gap-1">

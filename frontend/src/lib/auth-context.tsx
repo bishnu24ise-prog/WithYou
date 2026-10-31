@@ -1,8 +1,9 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { ClerkProvider, useClerk as useClerkOriginal, UserButton as UserButtonOriginal } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export const isClerkConfigured =
   typeof process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY === 'string' &&
@@ -13,6 +14,7 @@ export const isClerkConfigured =
 export interface SafeUser {
   id: string;
   name: string;
+  fullName?: string;
   email: string;
   role: 'authority' | 'victim';
   badge: string;
@@ -51,53 +53,89 @@ function MockAuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<SafeUser | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  // Restore session from localStorage on client mount
-  useEffect(() => {
+  // Sync state from storage
+  const syncFromStorage = useCallback(() => {
     try {
-      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const stored = typeof window !== 'undefined' ? localStorage.getItem(LOCAL_STORAGE_KEY) : null;
       if (stored) {
         const parsed = JSON.parse(stored);
         if (parsed && (parsed.role === 'authority' || parsed.role === 'victim')) {
           setUser(parsed);
           document.cookie = `safespark_role=${parsed.role}; path=/; max-age=86400; SameSite=Lax`;
+          return;
         }
       }
+      setUser(null);
     } catch {
-      // Ignore JSON parse errors
+      setUser(null);
     }
-    setMounted(true);
   }, []);
 
+  // Restore session from localStorage on client mount & listen for changes
+  useEffect(() => {
+    syncFromStorage();
+    setMounted(true);
+
+    const handleStorageChange = () => syncFromStorage();
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('safespark_auth_change', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('safespark_auth_change', handleStorageChange);
+    };
+  }, [syncFromStorage]);
+
   const loginAs = (role: 'authority' | 'victim', details?: Partial<SafeUser>) => {
+    const displayName =
+      details?.name ||
+      details?.fullName ||
+      (role === 'authority' ? 'Insp. Ananya Sharma' : 'Priya Sharma (Protected)');
+
     const newUser: SafeUser = {
       id: details?.id || `${role}_${Date.now()}`,
-      name: details?.name || (role === 'authority' ? 'Insp. Ananya Sharma' : 'Priya Sharma (Protected)'),
+      name: displayName,
+      fullName: displayName,
       email: details?.email || (role === 'authority' ? 'insp.sharma@police.gov.in' : 'priya.survivor@safespark.org'),
       role,
-      badge: role === 'authority' ? 'Law Enforcement / Official' : 'Protected Citizen',
-      department: details?.department || (role === 'authority' ? 'Special Police Unit for Women & Children (SPUWAC)' : 'Confidential Case Reporting'),
+      badge: details?.badge || (role === 'authority' ? 'Law Enforcement / Official' : 'Protected Citizen'),
+      department:
+        details?.department ||
+        (role === 'authority'
+          ? 'Special Police Unit for Women & Children (SPUWAC)'
+          : 'Confidential Case Reporting'),
       avatar: details?.avatar || (role === 'authority' ? '🛡️' : '🌸'),
     };
 
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newUser));
       document.cookie = `safespark_role=${role}; path=/; max-age=86400; SameSite=Lax`;
+      window.dispatchEvent(new Event('safespark_auth_change'));
     } catch {
       // Ignore storage errors
     }
 
     setUser(newUser);
+    toast.success(
+      role === 'authority'
+        ? `Authenticated as Official: ${displayName} 🛡️`
+        : `Authenticated as Protected Citizen: ${displayName} 🌸`
+    );
   };
 
   const signOut = async () => {
     try {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
       document.cookie = 'safespark_role=; path=/; max-age=0; SameSite=Lax';
+      window.dispatchEvent(new Event('safespark_auth_change'));
     } catch {
       // Ignore
     }
     setUser(null);
-    router.push('/');
+    toast.success('Signed out. Anonymous mode active.');
+    if (typeof window !== 'undefined') {
+      window.location.href = '/';
+    }
   };
 
   const mockValue: SafeClerkContextType = {
@@ -134,27 +172,42 @@ function RealClerkBridge({ children }: { children: React.ReactNode }) {
   }, []);
 
   const loginAs = (role: 'authority' | 'victim', details?: Partial<SafeUser>) => {
+    const displayName =
+      details?.name ||
+      details?.fullName ||
+      (role === 'authority' ? 'Insp. Ananya Sharma' : 'Priya Sharma (Protected)');
+
     const newUser: SafeUser = {
       id: details?.id || `${role}_${Date.now()}`,
-      name: details?.name || (role === 'authority' ? 'Insp. Ananya Sharma' : 'Priya Sharma (Protected)'),
+      name: displayName,
+      fullName: displayName,
       email: details?.email || (role === 'authority' ? 'insp.sharma@police.gov.in' : 'priya.survivor@safespark.org'),
       role,
-      badge: role === 'authority' ? 'Law Enforcement / Official' : 'Protected Citizen',
+      badge: details?.badge || (role === 'authority' ? 'Law Enforcement / Official' : 'Protected Citizen'),
       department: details?.department || (role === 'authority' ? 'SPUWAC Police Unit' : 'Confidential'),
       avatar: role === 'authority' ? '🛡️' : '🌸',
     };
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newUser));
+      document.cookie = `safespark_role=${role}; path=/; max-age=86400; SameSite=Lax`;
+      window.dispatchEvent(new Event('safespark_auth_change'));
     } catch {}
     setOverrideUser(newUser);
+    toast.success(`Logged in as ${displayName}`);
   };
 
   const signOut = async () => {
     try {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
+      document.cookie = 'safespark_role=; path=/; max-age=0; SameSite=Lax';
+      window.dispatchEvent(new Event('safespark_auth_change'));
     } catch {}
     setOverrideUser(null);
     await clerk.signOut();
+    toast.success('Signed out successfully.');
+    if (typeof window !== 'undefined') {
+      window.location.href = '/';
+    }
   };
 
   const activeUser = overrideUser || clerk.user;
@@ -212,7 +265,7 @@ export function useSafeAuth() {
 
 export function SafeUserButton() {
   const [mounted, setMounted] = useState(false);
-  const { user, role, signOut } = useSafeClerk();
+  const { user, role } = useSafeClerk();
 
   useEffect(() => {
     setMounted(true);
@@ -226,11 +279,14 @@ export function SafeUserButton() {
 
   return (
     <div className="flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-800">
-      <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold shadow-xs ${
-        role === 'authority'
-          ? 'bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-950/80 dark:text-blue-200 dark:border-blue-800'
-          : 'bg-rose-100 text-rose-900 border border-rose-300 dark:bg-rose-950/80 dark:text-rose-200 dark:border-rose-800'
-      }`}>
+      <div
+        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold shadow-xs transition-all ${
+          role === 'authority'
+            ? 'bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-950/80 dark:text-blue-200 dark:border-blue-800'
+            : 'bg-rose-100 text-rose-900 border border-rose-300 dark:bg-rose-950/80 dark:text-rose-200 dark:border-rose-800'
+        }`}
+        title={`${user.name} (${user.department || role})`}
+      >
         <span>{user.avatar || (role === 'authority' ? '🛡️' : '🌸')}</span>
         <span className="truncate max-w-[120px]">{user.name?.split(' ')[0]}</span>
         <span className="text-[10px] uppercase font-bold tracking-wider opacity-80">

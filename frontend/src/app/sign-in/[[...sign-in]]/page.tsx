@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSafeClerk } from '@/lib/auth-context';
-import { Shield, User, ArrowLeft, Lock, Mail, BadgeCheck, Sparkles, Building, Phone } from 'lucide-react';
+import { Shield, User, ArrowLeft, Lock, Mail, BadgeCheck, Sparkles, Building, Phone, ArrowRight, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -33,6 +33,9 @@ export default function SignInPage() {
       badge: 'Law Enforcement / Official',
     });
     router.push('/dashboard');
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 150);
   };
 
   const handleSurvivorSubmit = (e: React.FormEvent) => {
@@ -44,27 +47,56 @@ export default function SignInPage() {
       badge: 'Protected Citizen',
     });
     router.push('/create-post');
+    setTimeout(() => {
+      window.location.href = '/create-post';
+    }, 150);
   };
 
-  const loadPreset = (type: 'police' | 'ngo' | 'anonymous' | 'verified_citizen') => {
-    if (type === 'police') {
-      setActiveTab('authority');
-      setAuthName('Insp. Ananya Sharma');
-      setAuthEmail('insp.sharma@police.gov.in');
-      setAuthDept('Special Police Unit for Women & Children (SPUWAC)');
-    } else if (type === 'ngo') {
-      setActiveTab('authority');
-      setAuthName('Dr. Meera Iyer');
-      setAuthEmail('meera.iyer@onestopcrisis.org');
-      setAuthDept('One-Stop Crisis Center (Sakhi Center 181)');
-    } else if (type === 'anonymous') {
-      setActiveTab('victim');
-      setVictimName('Anonymous Survivor');
-      setVictimPhone('+91 Confidential');
-    } else if (type === 'verified_citizen') {
-      setActiveTab('victim');
-      setVictimName('Kavita Verma');
-      setVictimPhone('+91 98112 34567');
+  const executeQuickLogin = (role: 'police' | 'ngo' | 'anonymous' | 'verified_citizen') => {
+    if (role === 'police') {
+      loginAs('authority', {
+        name: 'Insp. Ananya Sharma',
+        email: 'insp.sharma@police.gov.in',
+        department: 'Special Police Unit for Women & Children (SPUWAC)',
+        badge: 'Law Enforcement / Official',
+      });
+      router.push('/dashboard');
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 150);
+    } else if (role === 'ngo') {
+      loginAs('authority', {
+        name: 'Dr. Meera Iyer',
+        email: 'meera.iyer@onestopcrisis.org',
+        department: 'One-Stop Crisis Center (Sakhi Center 181)',
+        badge: 'Crisis Center Director',
+      });
+      router.push('/dashboard');
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 150);
+    } else if (role === 'anonymous') {
+      loginAs('victim', {
+        name: 'Anonymous Survivor',
+        email: 'anonymous@safespark.org',
+        department: 'Zero-Trace Confidential Account',
+        badge: 'Protected Citizen',
+      });
+      router.push('/create-post');
+      setTimeout(() => {
+        window.location.href = '/create-post';
+      }, 150);
+    } else if (role === 'verified_citizen') {
+      loginAs('victim', {
+        name: 'Kavita Verma',
+        email: 'kavita.verma@gmail.com',
+        department: 'Community Member (Case Tracker)',
+        badge: 'Protected Citizen',
+      });
+      router.push('/create-post');
+      setTimeout(() => {
+        window.location.href = '/create-post';
+      }, 150);
     }
   };
 
@@ -87,8 +119,46 @@ export default function SignInPage() {
             SafeSpark Login Portal
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-            Choose your account role to access authorized tools, case dossiers, or confidential survivor resources.
+            Choose your account role to access authorized case dossiers, official investigation tools, or confidential survivor resources.
           </p>
+        </div>
+
+        {/* 1-Click Fast Track Hero Buttons */}
+        <div className="bg-slate-50 dark:bg-slate-900/60 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
+            <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" /> Instant 1-Click Demo Login
+          </span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button
+              type="button"
+              onClick={() => executeQuickLogin('police')}
+              className="flex items-center justify-between p-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-md transition-all group"
+            >
+              <div className="flex items-center gap-2 text-left">
+                <Shield className="w-4 h-4 shrink-0" />
+                <div>
+                  <div className="font-bold">Login as Authority</div>
+                  <div className="text-[10px] text-blue-200">Insp. Sharma (SPUWAC Police)</div>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 opacity-75 group-hover:translate-x-0.5 transition-transform shrink-0" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => executeQuickLogin('anonymous')}
+              className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-rani to-saffron hover:opacity-95 text-white font-semibold text-xs shadow-md transition-all group"
+            >
+              <div className="flex items-center gap-2 text-left">
+                <User className="w-4 h-4 shrink-0" />
+                <div>
+                  <div className="font-bold">Login as Survivor</div>
+                  <div className="text-[10px] text-pink-100">Confidential Citizen SOS</div>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 opacity-75 group-hover:translate-x-0.5 transition-transform shrink-0" />
+            </button>
+          </div>
         </div>
 
         {/* Role Tabs */}
@@ -205,21 +275,21 @@ export default function SignInPage() {
             {/* Quick Presets */}
             <div className="pt-2">
               <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-2">
-                ⚡ 1-Click Quick Demo Presets
+                ⚡ More 1-Click Authority Profiles
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <button
                   type="button"
-                  onClick={() => loadPreset('police')}
-                  className="text-left p-2 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-400 bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-blue-50/50 transition-colors"
+                  onClick={() => executeQuickLogin('police')}
+                  className="text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-blue-50/50 transition-colors"
                 >
                   <div className="font-bold text-blue-600 dark:text-blue-400">🛡️ Police Duty Officer</div>
-                  <div className="text-[10px] text-slate-400">Insp. Sharma • SPUWAC</div>
+                  <div className="text-[10px] text-slate-400">Insp. Sharma • SPUWAC Command</div>
                 </button>
                 <button
                   type="button"
-                  onClick={() => loadPreset('ngo')}
-                  className="text-left p-2 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-400 bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-blue-50/50 transition-colors"
+                  onClick={() => executeQuickLogin('ngo')}
+                  className="text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-blue-50/50 transition-colors"
                 >
                   <div className="font-bold text-purple-600 dark:text-purple-400">🏥 NGO Crisis Director</div>
                   <div className="text-[10px] text-slate-400">Dr. Meera Iyer • Sakhi 181</div>
@@ -296,21 +366,21 @@ export default function SignInPage() {
             {/* Quick Presets */}
             <div className="pt-2">
               <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-2">
-                ⚡ 1-Click Quick Demo Presets
+                ⚡ More 1-Click Survivor Profiles
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <button
                   type="button"
-                  onClick={() => loadPreset('anonymous')}
-                  className="text-left p-2 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-rani bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-rose-50/50 transition-colors"
+                  onClick={() => executeQuickLogin('anonymous')}
+                  className="text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-rani bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-rose-50/50 transition-colors"
                 >
                   <div className="font-bold text-rani">🌸 Anonymous Survivor</div>
                   <div className="text-[10px] text-slate-400">Zero ID trace • Steganography SOS</div>
                 </button>
                 <button
                   type="button"
-                  onClick={() => loadPreset('verified_citizen')}
-                  className="text-left p-2 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-rani bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-rose-50/50 transition-colors"
+                  onClick={() => executeQuickLogin('verified_citizen')}
+                  className="text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-rani bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-rose-50/50 transition-colors"
                 >
                   <div className="font-bold text-emerald-600 dark:text-emerald-400">👤 Registered Citizen</div>
                   <div className="text-[10px] text-slate-400">Kavita Verma • Case Tracking</div>
@@ -320,16 +390,16 @@ export default function SignInPage() {
           </form>
         )}
 
-        {/* Footer info */}
-        <div className="text-center pt-2 border-t border-slate-200 dark:border-slate-800">
-          <p className="text-xs text-slate-500">
-            Need a new account?{' '}
-            <Link href="/sign-up" className="text-rani font-bold hover:underline">
-              Register here
-            </Link>
-          </p>
+        {/* Footer links */}
+        <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+          <span>Don&apos;t have an account?</span>
+          <Link
+            href="/sign-up"
+            className="text-rani font-bold hover:underline"
+          >
+            Register SafeSpark Identity →
+          </Link>
         </div>
-
       </div>
     </div>
   );

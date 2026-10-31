@@ -67,7 +67,7 @@ export function InputForm({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: user?.fullName || '',
+      name: user?.fullName || user?.name || '',
       phone: '',
       location: { lat: 28.6139, lng: 77.2090 }, // Default coordinates
       occurrenceDuration: '1',
