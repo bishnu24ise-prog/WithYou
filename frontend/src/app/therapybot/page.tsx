@@ -12,10 +12,8 @@ import {
   Bot,
   ExternalLink,
   Box,
-  Terminal,
   Activity,
-  CheckCircle2,
-  Play,
+  Maximize2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -30,16 +28,14 @@ export default function TherapyBotPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: 'bot',
-      text: "Hello, I am Maya, your confidential Therapy Companion. You are in a safe, judgment-free space. Take a gentle breath, and share whatever is on your heart.",
+      text: "Hello, I am Maya, your confidential 3D Therapy Companion. You are in a safe, judgment-free space. Take a gentle breath, and share whatever is on your heart.",
     },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(true);
-  const [view3D, setView3D] = useState(false);
-  const [isViteRunning, setIsViteRunning] = useState(false);
-  const [isCheckingVite, setIsCheckingVite] = useState(false);
+  const [view3D, setView3D] = useState(true); // Now 100% natively embedded via /avatar/index.html
   const [expression, setExpression] = useState<'listening' | 'talking' | 'comforting'>('listening');
   const [breathPhase, setBreathPhase] = useState<'Inhale' | 'Hold' | 'Exhale'>('Inhale');
   const [mounted, setMounted] = useState(false);
@@ -49,27 +45,7 @@ export default function TherapyBotPage() {
 
   useEffect(() => {
     setMounted(true);
-    checkViteServer();
   }, []);
-
-  // Probe whether Vite on port 5173 is reachable
-  const checkViteServer = async () => {
-    setIsCheckingVite(true);
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 1200);
-      await fetch('http://localhost:5173', {
-        mode: 'no-cors',
-        signal: controller.signal,
-      });
-      clearTimeout(timeout);
-      setIsViteRunning(true);
-    } catch {
-      setIsViteRunning(false);
-    } finally {
-      setIsCheckingVite(false);
-    }
-  };
 
   // Soothing 4-7-8 breathing cycle animation timer
   useEffect(() => {
@@ -250,11 +226,21 @@ export default function TherapyBotPage() {
 
   return (
     <div className="flex flex-col lg:flex-row h-[calc(100vh-4.5rem)] max-w-7xl mx-auto w-full p-4 gap-4">
-      {/* Left Column: Companion & Grounding Visualizer */}
+      {/* Left Column: Native 3D Avatar & Sanctuary Visualizer */}
       <div className="w-full lg:w-5/12 flex flex-col bg-gradient-to-b from-rose-50/60 via-indigo-50/40 to-purple-50/40 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-950 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-4 shadow-sm relative overflow-hidden">
         {/* Controls Bar */}
         <div className="flex items-center justify-between mb-3 gap-2">
           <div className="flex items-center gap-1.5 bg-white/90 dark:bg-slate-800/90 p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60 shadow-sm">
+            <button
+              onClick={() => setView3D(true)}
+              className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                view3D
+                  ? 'bg-rani text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-rani'
+              }`}
+            >
+              <Box className="h-3.5 w-3.5" /> 3D Avatar
+            </button>
             <button
               onClick={() => setView3D(false)}
               className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
@@ -265,22 +251,20 @@ export default function TherapyBotPage() {
             >
               <Heart className="h-3.5 w-3.5" /> Sanctuary
             </button>
-            <button
-              onClick={() => {
-                setView3D(true);
-                checkViteServer();
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                view3D
-                  ? 'bg-rani text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-rani'
-              }`}
-            >
-              <Box className="h-3.5 w-3.5" /> 3D Avatar
-            </button>
           </div>
 
           <div className="flex items-center gap-2">
+            {view3D && (
+              <a
+                href="/avatar/index.html"
+                target="_blank"
+                rel="noreferrer"
+                title="Open 3D Avatar in full window"
+                className="text-xs text-slate-600 dark:text-slate-300 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-md border shadow-sm flex items-center gap-1 hover:text-rani font-medium"
+              >
+                <Maximize2 className="h-3 w-3" /> Full
+              </a>
+            )}
             <Button
               variant="outline"
               size="sm"
@@ -312,70 +296,16 @@ export default function TherapyBotPage() {
         </div>
 
         {/* Companion Display Container */}
-        <div className="flex-1 flex flex-col items-center justify-center min-h-[340px] relative bg-white/90 dark:bg-slate-900/90 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-inner p-4">
+        <div className="flex-1 flex flex-col items-center justify-center min-h-[340px] relative bg-white/90 dark:bg-slate-900/90 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-inner">
           {view3D ? (
-            /* 3D Avatar Container with Zero Connection Refusal */
-            <div className="w-full h-full flex flex-col items-center justify-center relative min-h-[320px]">
-              {isViteRunning ? (
-                <>
-                  <iframe
-                    src="http://localhost:5173"
-                    title="3D Avatar"
-                    className="w-full h-full border-none rounded-2xl min-h-[320px]"
-                  />
-                  <div className="absolute top-2 right-2 flex gap-1">
-                    <a
-                      href="http://localhost:5173"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[11px] text-slate-600 dark:text-slate-300 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-md border shadow-sm flex items-center gap-1 hover:text-rani"
-                    >
-                      Fullscreen <ExternalLink className="h-3 w-3" />
-                    </a>
-                  </div>
-                </>
-              ) : (
-                <div className="flex flex-col items-center text-center p-6 max-w-sm">
-                  <div className="w-14 h-14 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200/60 dark:border-rose-900/40 flex items-center justify-center text-rani mb-3 shadow-sm">
-                    <Box className="h-7 w-7" />
-                  </div>
-                  <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-100 mb-1">
-                    3D Interactive Avatar Engine
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
-                    The 3D Three.js avatar runs locally on port <code className="text-rani font-mono bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded">5173</code>.
-                  </p>
-                  
-                  <div className="w-full bg-slate-50 dark:bg-slate-800/60 border rounded-lg p-2.5 text-left mb-4 font-mono text-[11px] text-slate-600 dark:text-slate-300">
-                    <div className="text-[10px] uppercase font-bold text-slate-400 mb-1 font-sans">To launch locally:</div>
-                    <code>cd ai-avatar/ai-avatar-frontend</code><br />
-                    <code>npm run dev</code>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={checkViteServer}
-                      disabled={isCheckingVite}
-                      className="text-xs h-8"
-                    >
-                      {isCheckingVite ? <RefreshCw className="h-3 w-3 animate-spin mr-1" /> : null}
-                      Check Port 5173
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => setView3D(false)}
-                      className="bg-rani hover:bg-rani/90 text-white text-xs h-8 shadow-sm"
-                    >
-                      <Heart className="h-3.5 w-3.5 mr-1" /> Use Sanctuary Visualizer
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
+            /* Fully Native 3D Avatar (Built directly into Next.js public directory) */
+            <iframe
+              src="/avatar/index.html"
+              title="Maya 3D Avatar"
+              className="w-full h-full border-none rounded-2xl min-h-[340px] bg-slate-950"
+            />
           ) : (
-            /* Active Sanctuary Visualizer (100% Guaranteed Uptime) */
+            /* Active Sanctuary Visualizer */
             <div className="flex flex-col items-center justify-center p-6 text-center w-full">
               {/* Animated Harmonic Breathing Rings */}
               <div className="relative mb-5 flex items-center justify-center">
