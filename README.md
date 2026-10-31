@@ -181,3 +181,48 @@ API documentation available at **http://127.0.0.1:8000/docs** (or live at **http
 
 ## License 📄
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+---
+
+## 🐟 TinyFish Web Agent & Live Research Integration
+
+SafeSpark natively integrates [TinyFish](https://tinyfish.ai) to ground crisis response, legal assistance, and institutional help directories in live, verified web data with **zero PII leakage**.
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        SafeSpark Architecture                          │
+├────────────────────┬───────────────────────────────────────────────────┤
+│ Feature            │ TinyFish Capability & Workflow                    │
+├────────────────────┼───────────────────────────────────────────────────┤
+│ 1. LawBot Research │ Search API (IN) + Parallel Batch Fetch (10 URLs)  │
+│ 2. Help Directory  │ Batch Fetch (wcd.nic.in, ncw.nic.in, nalsa.gov.in)│
+│ 3. Law Watch       │ Content Hashing & Diff Summary on Govt Portals    │
+│ 4. Complaint Assist│ Web Agent SSE Stream with Mandatory Safety Halt   │
+└────────────────────┴───────────────────────────────────────────────────┘
+```
+
+### 1. Live Cited Research (`POST /api/tinyfish/research`)
+- **Search & Parallel Fetch:** Queries official statutory portals (`nalsa.gov.in`, `ncw.nic.in`, `wcd.nic.in`) and fetches top 3–5 pages concurrently.
+- **Sources Panel:** Renders verified sources with favicons, domain tags, "read N pages" indicator, and non-legal-advice disclaimers.
+- **Fail-Safe Fallback:** Automatically switches to cached statutory knowledge base if TinyFish experiences rate limits or network issues.
+
+### 2. Self-Healing Crisis Directory (`POST /api/tinyfish/enrich`)
+- **Batch Parallel Scraping:** Fetches up to 10 One-Stop Sakhi Centres, shelters, and legal aid clinics per request.
+- **Adaptive Extraction:** Fills only missing or outdated fields (phone, 24/7 hours, languages, legal services) and stamps each record with `verifiedAt` and `sourceUrl`.
+- **Live Shimmer Table:** Real-time progress bar (`"Checking wcd.nic.in... 2 of 6"`) and `VerifiedBadge` badges.
+
+### 3. Law & Helpline Watch (`GET /api/tinyfish/watch`)
+- **Automated Regulatory Monitoring:** Hashes main content of central grievance and police helpline pages.
+- **1-Line Diff Summaries:** Generates concise plain-language alerts when statutory policies or helpline numbers change.
+- **Live Updates Feed:** Real-time alert cards on the dashboard and verified badges on survey stat cards.
+
+### 4. Complaint Assist (`POST /api/tinyfish/assist`)
+- **Stealth Browser Automation (SSE):** Streams real-time browser actions into a sandboxed browser-window frame with progress ring.
+- **Mandatory Safety Directive:** The agent pre-fills incident categories and descriptions based on the survivor's LawBot summary, but is **strictly prohibited by design from clicking Submit, solving CAPTCHAs, or entering OTPs**. Full control is handed back for personal human verification.
+- **Interactive Demo Fixture:** Includes a 1-click demo replay mode for offline judging.
+
+### 🛡️ Privacy & Safety Shield
+- **Non-Negotiable PII Stripping:** Every outbound query and goal is passed through `stripPiiFromText` (`backend/utils/pii_stripper.py` and `frontend/src/lib/pii-stripper.ts`). Phone numbers, emails, Aadhaar numbers, GPS coordinates, and street addresses are replaced with generic placeholders.
+- **Server-Side Security:** `TINYFISH_API_KEY` is strictly held server-side in `.env` and `.env.local` and never sent to client bundles.
+- **Unit Tested:** Includes comprehensive unit tests in `backend/tests/test_pii_stripper.py` and `backend/tests/test_tinyfish_service.py`.

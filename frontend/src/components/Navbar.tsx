@@ -26,7 +26,8 @@ export default function Navbar() {
     { href: '/', label: 'Home' },
     { href: '/create-post', label: 'Report (Covert SOS)' },
     { href: '/lawbot', label: 'Law Bot' },
-    { href: '/therapybot', label: '3D Companion' },
+    { href: '/directory', label: 'Help Directory' },
+    { href: '/assist', label: 'Complaint Assist' },
     { href: '/dashboard', label: 'Dashboard' },
   ];
 
@@ -121,3 +122,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

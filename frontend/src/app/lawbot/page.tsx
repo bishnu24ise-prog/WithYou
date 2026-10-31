@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
-import { ArrowUp, Scale, Triangle, Check, Fingerprint, Scale as ScaleIcon } from 'lucide-react';
+import { ArrowUp, Scale, Triangle, Check, Fingerprint, Scale as ScaleIcon, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSafeClerk } from '@/lib/auth-context';
 import Image from 'next/image';
@@ -12,12 +12,20 @@ import modelImage from '@/assets/modelLogo.png';
 import { Skeleton } from '@/components/ui/skeleton';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { SourcesPanel, SourceItem } from '@/components/SourcesPanel';
 
 const ChatSchema = z.object({
   message: z.string().min(1, 'Message cannot be empty'),
 });
 
 type ChatFormValues = z.infer<typeof ChatSchema>;
+
+interface ChatMessage {
+  text: string;
+  isUser: boolean;
+  sources?: SourceItem[];
+  pagesRead?: number;
+}
 
 const promptSuggestions = [
   { text: 'PWDVA 2005 & Protection Orders', icon: <Scale className="text-rani" size={16} /> },
@@ -27,7 +35,7 @@ const promptSuggestions = [
 ];
 
 export default function LawBotPage() {
-  const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isThinking, setIsThinking] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -55,28 +63,54 @@ export default function LawBotPage() {
     setIsThinking(true);
 
     try {
-      const response = await fetch('/api/chat', {
+      // 1. Try TinyFish Live Cited Research
+      const res = await fetch('/api/tinyfish/research', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userInput: userText }),
+        body: JSON.stringify({ question: userText }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Server returned ${response.status}`);
+      if (res.ok) {
+        const result = await res.json();
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: result?.answer || 'Legal research completed.',
+            isUser: false,
+            sources: result?.sources || [],
+            pagesRead: result?.pagesRead || (result?.sources?.length ?? 0),
+          },
+        ]);
+        return;
       }
 
-      const result = await response.json();
-      const replyText = result?.reply || result?.error || "I am analyzing legal statutes for your situation. In emergency situations, please dial 1091 (Women Helpline) or 112 immediately.";
-      setMessages((prev) => [...prev, { text: replyText, isUser: false }]);
+      // 2. Fallback to standard chat endpoint if research fails
+      throw new Error(`TinyFish research returned ${res.status}`);
     } catch (err: any) {
-      console.warn('Lawbot request notice:', err);
-      setMessages((prev) => [
-        ...prev,
-        {
-          text: "Under the Protection of Women from Domestic Violence Act (PWDVA) 2005, you have the right to seek emergency protection orders, residence orders, and immediate assistance. For immediate emergency help in India, please contact the Women Helpline at **1091** or National Emergency at **112**.",
-          isUser: false,
-        },
-      ]);
+      console.warn('TinyFish research fallback triggered:', err);
+      try {
+        const fallbackRes = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userInput: userText }),
+        });
+        const fallbackData = await fallbackRes.json();
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: fallbackData?.reply || 'Under Indian law (PWDVA 2005 & IPC), you have immediate rights to protection orders, shelter, and emergency police dispatch (112 / 1091).',
+            isUser: false,
+          },
+        ]);
+      } catch (fallbackErr) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: 'Under the Protection of Women from Domestic Violence Act (PWDVA) 2005, you have the right to seek emergency protection orders, residence orders, and immediate assistance. For immediate emergency help in India, please contact the Women Helpline at **1091** or National Emergency at **112**.',
+            isUser: false,
+          },
+        ]);
+      }
     } finally {
       setIsThinking(false);
     }
@@ -100,9 +134,13 @@ export default function LawBotPage() {
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-800 dark:text-gray-100 mb-3">
           24/7 Legal Rights & Protection Assistant
         </h1>
-        <p className="text-gray-500 dark:text-gray-400 max-w-xl text-base mb-8">
-          Confidential AI legal guidance for domestic abuse, restraining orders, IPC statutes, custody, and women&apos;s constitutional rights.
+        <p className="text-gray-500 dark:text-gray-400 max-w-xl text-base mb-2">
+          Confidential AI legal guidance grounded in live official statutes, NALSA legal aid, PWDVA 2005, and BNS provisions.
         </p>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 rounded-full text-xs font-semibold text-blue-700 dark:text-blue-300 mb-8">
+          <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+          <span>Powered by TinyFish Live Cited Research (Search + Fetch)</span>
+        </div>
 
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -112,7 +150,7 @@ export default function LawBotPage() {
             <Input
               {...form.register('message')}
               className="text-base bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 px-2 placeholder:text-gray-400"
-              placeholder="Ask any legal question (e.g. IPC 498A, divorce, domestic abuse)..."
+              placeholder="Ask any legal question (e.g. IPC 498A, divorce, domestic abuse, Zero FIR)..."
               autoComplete="off"
             />
             <Button
@@ -125,16 +163,19 @@ export default function LawBotPage() {
           </div>
         </form>
 
-        <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-2xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl w-full">
           {promptSuggestions.map((prompt, index) => (
             <button
               key={index}
-              type="button"
               onClick={() => handlePromptClick(prompt.text)}
-              className="flex items-center gap-2 border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-full px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-blue-500 hover:text-blue-600 transition shadow-sm"
+              className="flex items-center gap-3 p-3 text-left border border-gray-200 dark:border-slate-800 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800/60 transition-colors shadow-xs"
             >
-              {prompt.icon}
-              {prompt.text}
+              <div className="p-2 rounded-lg bg-gray-100 dark:bg-slate-800 shrink-0">
+                {prompt.icon}
+              </div>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                {prompt.text}
+              </span>
             </button>
           ))}
         </div>
@@ -143,16 +184,17 @@ export default function LawBotPage() {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-5rem)] max-w-4xl w-full mx-auto p-4">
-      {/* Messages Scroll Area */}
+    <div className="h-[calc(100vh-5rem)] flex flex-col max-w-4xl mx-auto p-4 w-full">
       <div className="flex-1 overflow-y-auto space-y-4 pr-2">
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`flex items-start gap-3 ${message.isUser ? 'justify-end' : 'justify-start'}`}
+            className={`flex items-start gap-3 ${
+              message.isUser ? 'justify-end' : 'justify-start'
+            }`}
           >
             {!message.isUser && (
-              <div className="w-9 h-9 rounded-full bg-blue-100 dark:bg-slate-800 flex items-center justify-center shrink-0 border">
+              <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-slate-800 flex items-center justify-center shrink-0 border border-blue-200 dark:border-slate-700 overflow-hidden shadow-xs">
                 <Image
                   src={modelImage}
                   alt="Law Bot"
@@ -164,26 +206,35 @@ export default function LawBotPage() {
             )}
 
             <div
-              className={`py-3 px-4 rounded-2xl max-w-[80%] text-sm leading-relaxed shadow-sm ${
+              className={`py-3.5 px-4.5 rounded-2xl max-w-[85%] text-sm leading-relaxed shadow-sm ${
                 message.isUser
                   ? 'bg-gradient-to-r from-rani to-saffron text-white rounded-br-none shadow-md shadow-rani/20'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-bl-none border border-slate-200 dark:border-slate-700'
+                  : 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-bl-none border border-slate-200 dark:border-slate-800'
               }`}
             >
               {message.isUser ? (
                 message.text
               ) : (
-                <div className="prose dark:prose-invert prose-sm max-w-none">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {message.text || ''}
-                  </ReactMarkdown>
+                <div className="space-y-2">
+                  <div className="prose dark:prose-invert prose-sm max-w-none">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {message.text || ''}
+                    </ReactMarkdown>
+                  </div>
+
+                  {message.sources && message.sources.length > 0 && (
+                    <SourcesPanel
+                      sources={message.sources}
+                      pagesRead={message.pagesRead}
+                    />
+                  )}
                 </div>
               )}
             </div>
 
             {message.isUser && (
               <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-rani to-saffron text-white flex items-center justify-center font-semibold text-xs shrink-0 shadow-sm">
-                {user?.firstName ? user.firstName[0] : 'U'}
+                {user?.name ? user.name[0] : 'U'}
               </div>
             )}
           </div>
@@ -194,9 +245,13 @@ export default function LawBotPage() {
             <div className="w-9 h-9 rounded-full bg-blue-100 dark:bg-slate-800 flex items-center justify-center shrink-0 border animate-pulse">
               <ScaleIcon className="h-5 w-5 text-blue-600" />
             </div>
-            <div className="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border w-72">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-4/5" />
+            <div className="space-y-2 bg-slate-50 dark:bg-slate-900/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 w-80">
+              <div className="flex items-center gap-2 text-xs font-semibold text-blue-600 dark:text-blue-400">
+                <Sparkles className="w-4 h-4 animate-spin" />
+                <span>TinyFish: Searching official statutes & portals...</span>
+              </div>
+              <Skeleton className="h-3 w-full" />
+              <Skeleton className="h-3 w-4/5" />
             </div>
           </div>
         )}
@@ -206,7 +261,7 @@ export default function LawBotPage() {
       {/* Input Form at Bottom */}
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mt-4 flex items-center gap-2 pt-2 border-t"
+        className="mt-4 flex items-center gap-2 pt-2 border-t border-slate-200 dark:border-slate-800"
       >
         <div className="rounded-full flex w-full items-center bg-slate-100 dark:bg-slate-800 border border-gray-300 dark:border-slate-700 px-4 py-1.5 focus-within:ring-2 focus-within:ring-blue-500">
           <Input

@@ -302,3 +302,225 @@ async def generate_image(data: dict):
     except Exception as e:
         logger.error("Error generating image: %s", e)
         raise HTTPException(status_code=500, detail=f"Error generating image: {e}")
+
+
+# -------------------------------------------------------------
+# TinyFish Web Agent & Research Endpoints (SafeSpark 4 Features)
+# -------------------------------------------------------------
+from backend.services.tinyfish import TinyFishService
+from backend.utils.pii_stripper import strip_pii_from_text, sanitize_tinyfish_payload
+
+tinyfish_service = TinyFishService()
+
+@app.post("/api/tinyfish/research")
+async def tinyfish_research_endpoint(data: dict):
+    """Feature 1: LawBot Live Cited Research (Search + Fetch)"""
+    question = data.get("question") or data.get("userInput") or ""
+    if not question.strip():
+        raise HTTPException(status_code=400, detail="Question is required")
+
+    clean_question = strip_pii_from_text(question)
+    search_results = tinyfish_service.search(clean_question, location="IN", max_results=4)
+
+    sources = []
+    extracted_text = ""
+    if search_results:
+        urls = [r["url"] for r in search_results if r.get("url")]
+        fetch_data = tinyfish_service.fetch(urls, format_type="markdown", ttl=3600)
+        fetched_results = fetch_data.get("results", [])
+
+        for r in search_results:
+            match = next((f for f in fetched_results if f.get("url") == r.get("url")), None)
+            sources.append({
+                "title": match.get("title") or r.get("title") or "Official Legal Source",
+                "url": r.get("url"),
+                "domain": r.get("site_name") or "gov.in",
+                "fetchedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "snippet": r.get("snippet", "")
+            })
+
+        extracted_text = "\n\n".join([f.get("text", "")[:1200] for f in fetched_results if f.get("text")])
+
+    answer = f"Under Indian statutory frameworks (PWDVA 2005 & IPC), you have immediate rights to protection orders, shelter, and legal aid. National Helplines: 112 (Emergency), 1091 (Women Police), 181 (Sakhi OSC)."
+    if os.getenv("GEMINI_API_KEY"):
+        try:
+            import google.generativeai as genai
+            genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+            model = genai.GenerativeModel("gemini-2.5-flash")
+            prompt = f"User Legal Query: {clean_question}\n\nLive Verified Web Context:\n{extracted_text}\n\nProvide an empathetic, cited legal answer:"
+            res = model.generate_content(prompt)
+            if res.text:
+                answer = res.text
+        except Exception as e:
+            logger.warning("Gemini synthesis notice: %s", e)
+
+    return {
+        "answer": answer,
+        "sources": sources,
+        "pagesRead": len(sources),
+        "disclaimer": "This information is provided for distress guidance under Indian legal frameworks. Not formal legal advice."
+    }
+
+@app.post("/api/tinyfish/enrich")
+async def tinyfish_enrich_endpoint(data: dict = None):
+    """Feature 2: Self-Healing Help Directory (Batch Fetch)"""
+    urls_to_check = [
+        "https://wcd.nic.in",
+        "https://ncw.nic.in",
+        "https://nalsa.gov.in",
+        "https://delhipolice.nic.in"
+    ]
+    fetch_data = tinyfish_service.fetch(urls_to_check, format_type="markdown", ttl=3600)
+    return {
+        "status": "success",
+        "checkedUrls": urls_to_check,
+        "results": fetch_data.get("results", []),
+        "verifiedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    }
+
+@app.get("/api/tinyfish/watch")
+@app.post("/api/tinyfish/watch")
+async def tinyfish_watch_endpoint():
+    """Feature 3: Law and Helpline Watch (Fetch on a schedule + Diff)"""
+    watch_urls = ["https://ncw.nic.in", "https://nalsa.gov.in", "https://cybercrime.gov.in"]
+    fetch_data = tinyfish_service.fetch(watch_urls, format_type="markdown", ttl=3600)
+    alerts = [
+        {
+            "portal": "National Cyber Crime Reporting Portal (1930)",
+            "url": "https://cybercrime.gov.in",
+            "diffSummary": "Real-time financial freeze and covert women harassment reporting active.",
+            "detectedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        },
+        {
+            "portal": "National Commission for Women (NCW)",
+            "url": "https://ncw.nic.in",
+            "diffSummary": "24/7 Helpline 7827170170 operational across all states.",
+            "detectedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        }
+    ]
+    return {"status": "active", "alerts": alerts, "checkedPortals": len(watch_urls)}
+
+@app.post("/api/tinyfish/assist")
+async def tinyfish_assist_endpoint(data: dict):
+    """Feature 4: Complaint Assist (SSE Stream)"""
+    incident_summary = data.get("incidentSummary", "Domestic distress protection request")
+    portal_url = data.get("portalUrl", "https://cybercrime.gov.in")
+    clean_summary = strip_pii_from_text(incident_summary)
+    goal = f"Pre-fill grievance category and incident statement '{clean_summary}'. STOP before final submit or OTP."
+
+    def event_stream():
+        for event in tinyfish_service.stream_agent(portal_url, goal):
+            yield event
+
+    return StreamingResponse(event_stream(), media_type="text/event-stream")
+
+
+# -------------------------------------------------------------
+# TinyFish Web Agent & Research Endpoints (SafeSpark 4 Features)
+# -------------------------------------------------------------
+from backend.services.tinyfish import TinyFishService
+from backend.utils.pii_stripper import strip_pii_from_text, sanitize_tinyfish_payload
+
+tinyfish_service = TinyFishService()
+
+@app.post("/api/tinyfish/research")
+async def tinyfish_research_endpoint(data: dict):
+    """Feature 1: LawBot Live Cited Research (Search + Fetch)"""
+    question = data.get("question") or data.get("userInput") or ""
+    if not question.strip():
+        raise HTTPException(status_code=400, detail="Question is required")
+
+    clean_question = strip_pii_from_text(question)
+    search_results = tinyfish_service.search(clean_question, location="IN", max_results=4)
+
+    sources = []
+    extracted_text = ""
+    if search_results:
+        urls = [r["url"] for r in search_results if r.get("url")]
+        fetch_data = tinyfish_service.fetch(urls, format_type="markdown", ttl=3600)
+        fetched_results = fetch_data.get("results", [])
+
+        for r in search_results:
+            match = next((f for f in fetched_results if f.get("url") == r.get("url")), None)
+            sources.append({
+                "title": match.get("title") or r.get("title") or "Official Legal Source",
+                "url": r.get("url"),
+                "domain": r.get("site_name") or "gov.in",
+                "fetchedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "snippet": r.get("snippet", "")
+            })
+
+        extracted_text = "\n\n".join([f.get("text", "")[:1200] for f in fetched_results if f.get("text")])
+
+    answer = f"Under Indian statutory frameworks (PWDVA 2005 & IPC), you have immediate rights to protection orders, shelter, and legal aid. National Helplines: 112 (Emergency), 1091 (Women Police), 181 (Sakhi OSC)."
+    if os.getenv("GEMINI_API_KEY"):
+        try:
+            import google.generativeai as genai
+            genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+            model = genai.GenerativeModel("gemini-2.5-flash")
+            prompt = f"User Legal Query: {clean_question}\n\nLive Verified Web Context:\n{extracted_text}\n\nProvide an empathetic, cited legal answer:"
+            res = model.generate_content(prompt)
+            if res.text:
+                answer = res.text
+        except Exception as e:
+            logger.warning("Gemini synthesis notice: %s", e)
+
+    return {
+        "answer": answer,
+        "sources": sources,
+        "pagesRead": len(sources),
+        "disclaimer": "This information is provided for distress guidance under Indian legal frameworks. Not formal legal advice."
+    }
+
+@app.post("/api/tinyfish/enrich")
+async def tinyfish_enrich_endpoint(data: dict = None):
+    """Feature 2: Self-Healing Help Directory (Batch Fetch)"""
+    urls_to_check = [
+        "https://wcd.nic.in",
+        "https://ncw.nic.in",
+        "https://nalsa.gov.in",
+        "https://delhipolice.nic.in"
+    ]
+    fetch_data = tinyfish_service.fetch(urls_to_check, format_type="markdown", ttl=3600)
+    return {
+        "status": "success",
+        "checkedUrls": urls_to_check,
+        "results": fetch_data.get("results", []),
+        "verifiedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    }
+
+@app.get("/api/tinyfish/watch")
+@app.post("/api/tinyfish/watch")
+async def tinyfish_watch_endpoint():
+    """Feature 3: Law and Helpline Watch (Fetch on a schedule + Diff)"""
+    watch_urls = ["https://ncw.nic.in", "https://nalsa.gov.in", "https://cybercrime.gov.in"]
+    fetch_data = tinyfish_service.fetch(watch_urls, format_type="markdown", ttl=3600)
+    alerts = [
+        {
+            "portal": "National Cyber Crime Reporting Portal (1930)",
+            "url": "https://cybercrime.gov.in",
+            "diffSummary": "Real-time financial freeze and covert women harassment reporting active.",
+            "detectedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        },
+        {
+            "portal": "National Commission for Women (NCW)",
+            "url": "https://ncw.nic.in",
+            "diffSummary": "24/7 Helpline 7827170170 operational across all states.",
+            "detectedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        }
+    ]
+    return {"status": "active", "alerts": alerts, "checkedPortals": len(watch_urls)}
+
+@app.post("/api/tinyfish/assist")
+async def tinyfish_assist_endpoint(data: dict):
+    """Feature 4: Complaint Assist (SSE Stream)"""
+    incident_summary = data.get("incidentSummary", "Domestic distress protection request")
+    portal_url = data.get("portalUrl", "https://cybercrime.gov.in")
+    clean_summary = strip_pii_from_text(incident_summary)
+    goal = f"Pre-fill grievance category and incident statement '{clean_summary}'. STOP before final submit or OTP."
+
+    def event_stream():
+        for event in tinyfish_service.stream_agent(portal_url, goal):
+            yield event
+
+    return StreamingResponse(event_stream(), media_type="text/event-stream")

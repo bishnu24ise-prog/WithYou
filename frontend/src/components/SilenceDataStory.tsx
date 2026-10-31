@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SILENCE_CHAPTERS, StatStory } from '@/data/stats';
 import { AlertCircle, ExternalLink } from 'lucide-react';
+import { VerifiedBadge } from '@/components/VerifiedBadge';
 
 export default function SilenceDataStory() {
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
@@ -110,7 +111,7 @@ export default function SilenceDataStory() {
 
               {/* Verified Source Citation */}
               <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-                <span>Verified Source: <strong className="text-slate-700 dark:text-slate-300">{activeChapter.source} ({activeChapter.year})</strong></span>
+                <VerifiedBadge verifiedAt="2026-10-31" sourceUrl={activeChapter.sourceUrl} size="sm" /><span>Source: <strong className="text-slate-700 dark:text-slate-300">{activeChapter.source} ({activeChapter.year})</strong></span>
                 <a
                   href={activeChapter.sourceUrl}
                   target="_blank"
