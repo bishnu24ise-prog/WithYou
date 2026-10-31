@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 33% 98%;
+    --foreground: 275 60% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 275 60% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 275 60% 12%;
+    --primary: 338 78% 48%; /* Rani Rose #D81B60 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 35 100% 96%;
+    --secondary-foreground: 275 60% 12%;
+    --muted: 335 40% 96%;
+    --muted-foreground: 280 15% 45%;
+    --accent: 180 100% 33%; /* Peacock #00A6A6 */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 335 25% 90%;
+    --input: 335 25% 90%;
+    --ring: 338 78% 48%;
+    --radius: 1rem;
+    --chart-1: 338 78% 48%;
+    --chart-2: 42 100% 50%;
+    --chart-3: 25 100% 55%;
+    --chart-4: 180 100% 33%;
+    --chart-5: 256 100% 80%;
+  }
+
+  .dark {
+    --background: 270 60% 8%; /* Deep Aubergine #11061F */
+    --foreground: 330 30% 96%;
+    --card: 275 45% 12%;
+    --card-foreground: 330 30% 96%;
+    --popover: 275 45% 12%;
+    --popover-foreground: 330 30% 96%;
+    --primary: 338 78% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 275 35% 18%;
+    --secondary-foreground: 330 30% 96%;
+    --muted: 275 30% 18%;
+    --muted-foreground: 275 15% 70%;
+    --accent: 180 80% 45%;
+    --accent-foreground: 270 60% 8%;
+    --destructive: 0 62.8% 45%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 275 30% 22%;
+    --input: 275 30% 22%;
+    --ring: 338 78% 54%;
+    --chart-1: 338 78% 54%;
+    --chart-2: 42 100% 55%;
+    --chart-3: 25 100% 60%;
+    --chart-4: 180 80% 45%;
+    --chart-5: 256 100% 80%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    overflow-x: hidden;
+  }
+}
+
+/* Glassmorphism Styles */
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(216, 27, 96, 0.12);
+}
+
+.dark .glass-card {
+  background: rgba(26, 11, 46, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(183, 156, 255, 0.15);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 35px -10px rgba(216, 27, 96, 0.15),
+              0 0 15px 0 rgba(255, 179, 0, 0.1);
+}
+
+.dark .glass-card-hover:hover {
+  box-shadow: 0 20px 35px -10px rgba(183, 156, 255, 0.2),
+              0 0 20px 0 rgba(0, 166, 166, 0.15);
+}
+
+/* Shimmer Gradient Text */
+.text-gradient-aurora {
+  background: linear-gradient(135deg, #D81B60 0%, #FF7A1A 50%, #FFB300 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-peacock {
+  background: linear-gradient(135deg, #00A6A6 0%, #B79CFF 50%, #D81B60 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Calm Mode & Reduced Motion */
+.calm-mode *,
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(216, 27, 96, 0.25);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(216, 27, 96, 0.45);
+}
