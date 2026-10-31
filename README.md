@@ -3,13 +3,24 @@
 # SafeSpark  
 *A Silent Shield, A Strong Voice — Built For Women To Give Them Support*
 
+[![Render Backend](https://img.shields.io/badge/Render-Live%20Backend-46E3B7?style=flat&logo=render)](https://safespark.onrender.com)
+[![FastAPI Docs](https://img.shields.io/badge/FastAPI-Swagger%20Docs-009688?style=flat&logo=fastapi)](https://safespark.onrender.com/docs)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-18-blue?style=flat&logo=react)](https://reactjs.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-D81B60?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 </div>
+
+---
+
+## 🌐 Live Production Deployment
+
+| Service | Status | Link |
+|:---|:---|:---|
+| **FastAPI Backend API** | 🟢 **Live on Render** | [https://safespark.onrender.com](https://safespark.onrender.com) |
+| **Interactive Swagger Docs** | 🟢 **Live** | [https://safespark.onrender.com/docs](https://safespark.onrender.com/docs) |
+| **GitHub Repository** | 🟢 **Main Branch** | [https://github.com/bishnu24ise-prog/WithYou](https://github.com/bishnu24ise-prog/WithYou) |
 
 ---
 
@@ -100,10 +111,9 @@ SafeSpark adopts an Indian-inspired visual language celebrating agency and coura
 - **Authentication:** Clerk Auth with role-based guest and authority separation
 
 ### Backend & AI Services
-- **API Engine:** Python 3.12, FastAPI, Uvicorn
+- **API Engine:** Python 3.11, FastAPI, Uvicorn
 - **AI Models:** Google Gemini 2.5 Flash, Groq Gemma, Amazon Bedrock
 - **Text-to-Speech:** ElevenLabs TTS API
-- **Vector Knowledge Base:** LangChain, Sentence Transformers, MongoDB Atlas Vector Search
 - **Data Persistence:** MongoDB with local JSON resilient fallbacks
 
 ---
@@ -112,8 +122,8 @@ SafeSpark adopts an Indian-inspired visual language celebrating agency and coura
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/bishnu24ise-prog/SafeSpark.git
-cd SafeSpark
+git clone https://github.com/bishnu24ise-prog/WithYou.git
+cd WithYou
 ```
 
 ### 2. Frontend Setup (Next.js)
@@ -126,7 +136,9 @@ Configure `frontend/.env.local` (see `frontend/.env.example`):
 ```env
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
-NEXT_PUBLIC_BACKEND_URL=http://localhost:5000
+NEXT_PUBLIC_BACKEND_URL=https://safespark.onrender.com
+GEMINI_API_KEY=your_gemini_api_key
+ELEVEN_LABS_API_KEY=your_elevenlabs_api_key
 ```
 
 Start the Next.js development server:
@@ -150,9 +162,9 @@ pip install -r requirements.txt
 
 Start the FastAPI backend:
 ```bash
-uvicorn backend.main:app --reload
+uvicorn backend.main:app --reload --port 8000
 ```
-API documentation available at **http://127.0.0.1:8000/docs**.
+API documentation available at **http://127.0.0.1:8000/docs** (or live at **https://safespark.onrender.com/docs**).
 
 ---
 
