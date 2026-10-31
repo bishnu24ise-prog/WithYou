@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: safespark-backend
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: AWS_REGION
+        value: us-east-1
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: MONGO_ENDPOINT
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GROQ_API_TOKEN
+        sync: false
+

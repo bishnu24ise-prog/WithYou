@@ -3,6 +3,7 @@
 # SafeSpark  
 *A Silent Shield, A Strong Voice — Built For Women To Give Them Support*
 
+[![Vercel Frontend](https://img.shields.io/badge/Vercel-Live%20Frontend-black?style=flat&logo=vercel)](https://safespark.vercel.app)
 [![Render Backend](https://img.shields.io/badge/Render-Live%20Backend-46E3B7?style=flat&logo=render)](https://safespark.onrender.com)
 [![FastAPI Docs](https://img.shields.io/badge/FastAPI-Swagger%20Docs-009688?style=flat&logo=fastapi)](https://safespark.onrender.com/docs)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat&logo=next.js)](https://nextjs.org/)
@@ -18,6 +19,7 @@
 
 | Service | Status | Link |
 |:---|:---|:---|
+| **Next.js Web Application** | 🟢 **Live on Vercel** | [https://safespark.vercel.app](https://safespark.vercel.app) *(or [safespark-app.vercel.app](https://safespark-app.vercel.app))* |
 | **FastAPI Backend API** | 🟢 **Live on Render** | [https://safespark.onrender.com](https://safespark.onrender.com) |
 | **Interactive Swagger Docs** | 🟢 **Live** | [https://safespark.onrender.com/docs](https://safespark.onrender.com/docs) |
 | **GitHub Repository** | 🟢 **Main Branch** | [https://github.com/bishnu24ise-prog/WithYou](https://github.com/bishnu24ise-prog/WithYou) |
