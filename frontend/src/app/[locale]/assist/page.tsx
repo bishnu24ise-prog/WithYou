@@ -1,7 +1,7 @@
 import React from 'react';
 import { AgentLivePanel } from '@/components/AgentLivePanel';
 import { Sparkles, Shield, Lock, FileText, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 export const metadata = {
   title: 'Complaint Assist (TinyFish Web Agent) - SafeSpark',

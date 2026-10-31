@@ -55,12 +55,20 @@ export const Experience = () => {
   return (
     <>
       <CameraControls ref={cameraControls} />
-      <Environment preset="sunset" />
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[-5, 5, 5]} intensity={1.8} castShadow />
+      <directionalLight position={[5, 5, -5]} intensity={1.0} />
+      <directionalLight position={[0, -2, 2]} intensity={0.5} />
+      <Suspense fallback={null}>
+        <Environment preset="sunset" />
+      </Suspense>
       {/* Wrapping Dots into Suspense to prevent Blink when Troika/Font is loaded */}
-      <Suspense>
+      <Suspense fallback={null}>
         <Dots position-y={1.75} position-x={-0.02} />
       </Suspense>
-      <Avatar />
+      <Suspense fallback={null}>
+        <Avatar />
+      </Suspense>
       <ContactShadows opacity={0.7} />
     </>
   );

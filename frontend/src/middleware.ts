@@ -16,7 +16,9 @@ function middlewareHandler(req: NextRequest) {
   if (
     pathname.startsWith('/api') ||
     pathname.startsWith('/chat') ||
-    pathname.startsWith('/avatar')
+    pathname.startsWith('/avatar') ||
+    pathname.startsWith('/models') ||
+    pathname.startsWith('/animations')
   ) {
     return NextResponse.next();
   }
@@ -32,7 +34,7 @@ export default isClerkConfigured
 export const config = {
   matcher: [
     // Skip Next.js internals, static files, and avatar bundle
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)|avatar).*)',
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|glb|gltf|fbx|bin)|avatar|models|animations).*)',
     '/(api|trpc)(.*)',
   ],
 };
