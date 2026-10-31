@@ -3,6 +3,7 @@ import { cleanText, fetchCityName } from '@/lib/utils';
 import React, { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import {
+  Globe,
   CircleX,
   PhoneCall,
   CalendarDays,
@@ -55,6 +56,7 @@ function PostDetail({ id }: { id: string }) {
   const [post, setPost] = useState<Post | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [city, setCity] = useState<string | null>(null);
+  const [viewOriginalLang, setViewOriginalLang] = useState(false);
 
   useEffect(() => {
     const fetchPostById = async () => {
@@ -196,7 +198,9 @@ function PostDetail({ id }: { id: string }) {
   const durationText = post['Duration of domestic violence'] ||
     (post.occurrenceDuration ? `${post.occurrenceDuration} months` : '1 months');
 
-  const situationText = post['Current Situation'] || post.currentSituation || post['Nature of domestic violence'] || 'Emergency domestic safety review required.';
+  const originalSit = post.original_text || post['Current Situation'] || post.currentSituation || post['Nature of domestic violence'] || 'Emergency domestic safety review required.';
+  const englishSit = post.english_text || post['Current Situation'] || post.currentSituation || post['Nature of domestic violence'] || 'Emergency domestic safety review required.';
+  const situationText = viewOriginalLang ? originalSit : englishSit;
   const severityVal = post['Severity of domestic violence'] || (post.visibleInjuries === 'Yes' ? 'Very High' : 'High');
   const culpritText = post['Culprit details'] || post['Culprit Description'] || post.culprit || 'Perpetrator details logged with crisis team';
   const locationText = post.Location || `${lat || 28.6139}, ${lng || 77.2090}`;
@@ -292,7 +296,20 @@ function PostDetail({ id }: { id: string }) {
         {/* Card 3: Nature & Severity of Domestic Violence */}
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between w-full mb-3">
-            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">Nature & Severity</h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">Nature & Severity</h2>
+              {(post.original_text || post.language) && (
+                <button
+                  type="button"
+                  onClick={() => setViewOriginalLang(!viewOriginalLang)}
+                  className="text-[10px] bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 px-2 py-0.5 rounded-full font-bold text-rani border flex items-center gap-1 transition-all"
+                  title="Toggle between English for authorities and original language"
+                >
+                  <Globe className="w-3 h-3" />
+                  <span>{viewOriginalLang ? 'Original' : 'English'}</span>
+                </button>
+              )}
+            </div>
             <div className="p-2 bg-red-50 dark:bg-red-950 rounded-lg text-red-600">
               <ShieldAlert className="h-4 w-4" />
             </div>

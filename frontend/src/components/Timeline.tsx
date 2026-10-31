@@ -12,6 +12,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import Typography from '@mui/material/Typography';
+import { useLocale } from 'next-intl';
 
 interface CustomTimelineProps {
   createdAt?: string;
@@ -25,19 +26,31 @@ export default function CustomTimeline({
   closedAt,
 }: CustomTimelineProps) {
   const [mounted, setMounted] = useState(false);
+  let locale = 'en-IN';
+  try {
+    locale = useLocale();
+  } catch {}
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const formatTime = (d: Date) => {
-    return d
-      .toLocaleTimeString([], {
+    try {
+      return new Intl.DateTimeFormat(locale, {
         hour: 'numeric',
         minute: '2-digit',
         hour12: true,
-      })
-      .toLowerCase();
+      }).format(d);
+    } catch {
+      return d
+        .toLocaleTimeString([], {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+        })
+        .toLowerCase();
+    }
   };
 
   // 1. Live time when user created the issue

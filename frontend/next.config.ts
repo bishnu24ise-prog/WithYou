@@ -1,4 +1,7 @@
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   eslint: {
@@ -8,13 +11,13 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: [], // Allow images from any domain
+    domains: [],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**', // Allow images from any hostname
+        hostname: '**',
         port: '',
-        pathname: '/**', // Allow any path
+        pathname: '/**',
       },
     ],
   },
@@ -48,4 +51,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

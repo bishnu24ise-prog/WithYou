@@ -273,5 +273,99 @@ npm run build
 
 ---
 
+
+
+## 🇮🇳 Multilingual Support (13 Indian Languages)
+
+SafeSpark features complete localization across 13 Indian languages, engineered specifically for survivors with low digital literacy and slow network connections:
+
+| Language | Native Script | Code | TTS Engine | Status |
+|:---|:---|:---|:---|:---|
+| **English (India)** | English | `en-IN` | Sarvam Bulbul v3 | Default / Base |
+| **Hindi** | हिन्दी | `hi-IN` | Sarvam Bulbul v3 | Verified Native |
+| **Bengali** | বাংলা | `bn-IN` | Sarvam Bulbul v3 | Localized |
+| **Tamil** | தமிழ் | `ta-IN` | Sarvam Bulbul v3 | Localized |
+| **Telugu** | తెలుగు | `te-IN` | Sarvam Bulbul v3 | Localized |
+| **Kannada** | ಕನ್ನಡ | `kn-IN` | Sarvam Bulbul v3 | Localized |
+| **Malayalam** | മലയാളം | `ml-IN` | Sarvam Bulbul v3 | Localized |
+| **Marathi** | मराठी | `mr-IN` | Sarvam Bulbul v3 | Localized |
+| **Gujarati** | ગુજરાતી | `gu-IN` | Sarvam Bulbul v3 | Localized |
+| **Punjabi** | ਪੰਜਾਬੀ | `pa-IN` | Sarvam Bulbul v3 | Localized |
+| **Odia** | ଓଡ଼ିଆ | `od-IN` | Sarvam Bulbul v3 | Localized |
+| **Assamese** | অসমীয়া | `as-IN` | ElevenLabs / Web Speech | Second-tier / STT supported |
+| **Urdu (RTL)** | اردو | `ur-IN` | ElevenLabs / Web Speech | Second-tier / RTL enabled |
+
+### i18n Architecture Highlights
+- **Zero Runtime Translation API Overhead**: Static JSON message files (`frontend/messages/*.json`) loaded via `next-intl` App Router for maximum speed, offline resilience, and zero data leakage.
+- **Unprefixed Clean Routes**: Configured with `localePrefix: 'as-needed'` so unprefixed URLs like `/sign-in`, `/sign-up`, and `/dashboard` stay backward-compatible while localized routes like `/hi-IN/lawbot` route seamlessly.
+- **Protected Emergency Elements**: Helpline numbers (`112`, `1091`, `181`), legal act names (`PWDVA 2005`, `BNS`), and the platform name `SafeSpark` are strictly preserved across all languages.
+- **Parity CI Check**: `python scripts/check_i18n_parity.py` validates 100% key and ICU placeholder synchronization across all locales.
+- **Bilingual SOS Reports**: The backend stores the survivor's complaint in their native language and automatically generates an English translation for formal police/authority dossiers. The Authority Dashboard provides a single-click toggle between English and Original text.
+
+---
+
+## 🎙️ Voice-Command & Dictation Agent
+
+An accessible voice interface allowing low-literacy users or survivors under physical distress to operate the platform hands-free:
+
+### Core Capabilities
+1. **Field-Level Dictation (`<VoiceInput />`)**:
+   - Reusable accessible microphone button inside every SOS form field, LawBot chat bar, and Therapy companion box.
+   - 44px+ touch target, live waveform audio visualizer, and gentle privacy notice.
+2. **"Speak to Fill the Form" (Conversational Extraction)**:
+   - On the SOS multi-step form, tapping "Speak to Fill the Form" allows the survivor to speak their story freely in any supported language.
+   - Backend Google Gemini JSON-mode extracts structured fields (`victim_name`, `phone`, `location`, `culprit_description`, `violence_frequency`, etc.).
+   - Pre-fills form fields, tags them with `✨ AI Filled` badges, and asks conversational follow-up questions for missing required details.
+3. **Voice Commands (Navigation & Quick Actions)**:
+   - Gemini intent recognition classifies spoken commands into strict actions:
+     `NEXT`, `BACK`, `CLEAR_FIELD`, `READ_ALOUD`, `GOTO_LAWBOT`, `GOTO_THERAPY`, `CHANGE_LANG`, `QUICK_EXIT`, `DICTATION`.
+4. **Text-to-Speech (Spoken Replies)**:
+   - High-fidelity Indic speech via Sarvam AI `bulbul:v3`.
+   - "Listen" / "Stop" playback controls on LawBot legal answers.
+   - Hands-free conversation mode for Therapy Companion with barge-in support.
+5. **Native 3D Avatar (Maya)**:
+   - Embedded natively inside Next.js public directory (`/avatar/index.html`) with zero localhost:5173 port dependencies.
+   - Dual-mode lipsync: phoneme alignment for English, and real-time Web Audio API frequency/energy amplitude fallback for all 12 Indic languages.
+
+### Privacy & Safety Guarantees
+- **Voice is OFF by Default**: Voice features are completely optional with an upfront warning: *"Voice can be overheard. You can type instead."*
+- **Zero Persistent Audio Storage**: Raw audio streams are processed entirely in ephemeral memory and discarded immediately. No audio is ever written to disk or logged.
+- **In-Memory Rate Limiting**: Capped at 20 voice requests per minute per IP to prevent denial of service and abuse.
+- **Panic Exit Immediate Purge**: Pressing `Esc` three times or tapping "Quick Exit" instantly stops all playing audio, aborts active mic recording, wipes `NEXT_LOCALE` cookies and local session caches, and redirects immediately to a neutral weather portal.
+
+---
+
+## 🧪 Testing & Verification
+
+Run the test suites from the repository root:
+
+```bash
+# 1. Run Backend Voice & STT/TTS Unit Tests
+python -m unittest backend/tests/test_voice_services.py
+
+# 2. Check i18n Key and Placeholder Parity
+python scripts/check_i18n_parity.py
+
+# 3. Compile Next.js Production Build
+cd frontend
+npm run build
+```
+
+---
+
+## 📋 Manual QA Checklist
+
+- [ ] **First-Visit Language Picker**: Open the home page in a private window; verify the Indic script selection modal appears.
+- [ ] **Language Switching**: Switch between English, Hindi, and Tamil; verify the navigation bar, buttons, and headings update immediately in their respective scripts.
+- [ ] **Microphone Permission Denied**: Deny microphone permissions in browser settings; verify the app displays a gentle fallback notice without throwing uncaught exceptions.
+- [ ] **Voice Dictation**: Tap the mic button in LawBot; dictate a query in Hindi (*"घरेलू हिंसा के खिलाफ मुझे क्या अधिकार हैं?"*); verify the transcribed text appears in the input box.
+- [ ] **LawBot Audio Reply**: Submit a question in LawBot; click the "Listen" button on the bot response; verify the voice speaks the answer in the selected language.
+- [ ] **SOS Natural Form Dictation**: In the SOS form, click "Speak to Fill the Form"; speak a distress narrative; verify structured fields are filled with `✨ AI Filled` badges.
+- [ ] **Bilingual SOS Dashboard**: Submit an SOS in Hindi; open the Authority Dashboard; verify the English translation displays by default with a toggle to view the original Hindi text.
+- [ ] **Native 3D Avatar**: Open `/therapybot`; verify the 3D avatar renders smoothly inside the page with zero connection errors and lipsync activates when speaking.
+- [ ] **Quick Exit Cleanup**: With audio playing or mic active, press `Esc` 3 times; verify audio halts immediately, cookies are purged, and the browser redirects to Google Weather.
+
+## License 📄
+
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

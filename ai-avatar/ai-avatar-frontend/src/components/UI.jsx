@@ -1,11 +1,95 @@
 import { useRef, useState, useEffect } from 'react';
 import { useChat } from '../hooks/useChat';
 
+
+const UI_STRINGS = {
+  'hi-IN': {
+    title: 'मेरी थेरेपी सहायक',
+    subtitle: 'मैं आपके साथ हूँ ❤️',
+    q1Prompt: 'मुझे बेचैनी महसूस हो रही है और सहारे की ज़रूरत है।',
+    q1Label: '🌱 मुझे बेचैनी है',
+    q2Prompt: 'क्या आप मुझे एक शांत सांस लेने का व्यायाम सिखा सकती हैं?',
+    q2Label: '🌬️ शांत सांस',
+    q3Prompt: 'मुझे बात करने के लिए एक दयालु साथी चाहिए।',
+    q3Label: '🤍 सहायता चाहिए',
+    placeholder: 'संदेश लिखें...',
+    listening: 'आपकी आवाज़ सुन रहे हैं...',
+  },
+  'bn-IN': {
+    title: 'আমার থেরাপি সহকারী',
+    subtitle: 'আমি আপনার পাশে আছি ❤️',
+    q1Prompt: 'আমি উদ্বিগ্ন বোধ করছি এবং সমর্থন দরকার।',
+    q1Label: '🌱 উদ্বেগ হচ্ছে',
+    q2Prompt: 'আপনি কি আমাকে একটি শান্ত শ্বাস প্রশ্বাসের ব্যায়াম শেখাতে পারেন?',
+    q2Label: '🌬️ শান্ত শ্বাস',
+    q3Prompt: 'আমার কথা বলার জন্য একজন সহানুভূতিশীল সঙ্গী দরকার।',
+    q3Label: '🤍 সহমর্মিতা চাই',
+    placeholder: 'বার্তা লিখুন...',
+    listening: 'আপনার কথা শুনছি...',
+  },
+  'ta-IN': {
+    title: 'எனது சிகிச்சை உதவியாளர்',
+    subtitle: 'நான் உங்களுடன் இருக்கிறேன் ❤️',
+    q1Prompt: 'நான் பதட்டமாக உணர்கிறேன் மற்றும் ஆதரவு தேவை.',
+    q1Label: '🌱 பதட்டமாக உள்ளது',
+    q2Prompt: 'என்னை ஒரு அமைதியான மூச்சுப் பயிற்சிக்கு வழிநடத்த முடியுமா?',
+    q2Label: '🌬️ அமைதியான மூச்சு',
+    q3Prompt: 'பேசுவதற்கு இரக்கமுள்ள ஒருவர் தேவை.',
+    q3Label: '🤍 உதவி தேவை',
+    placeholder: 'செய்தியை உள்ளிடவும்...',
+    listening: 'கேட்கிறது...',
+  },
+  'te-IN': {
+    title: 'నా థెరపీ సహాయకురాలు',
+    subtitle: 'నేను మీతో ఉన్నాను ❤️',
+    q1Prompt: 'నాకు ఆందోళనగా ఉంది మరియు మద్దతు కావాలి.',
+    q1Label: '🌱 ఆందోళనగా ఉంది',
+    q2Prompt: 'మీరు నన్ను ప్రశాంతమైన శ్వాస వ్యాయామంలో మార్గనిర్దేశం చేయగలరా?',
+    q2Label: '🌬️ ప్రశాంత శ్వాస',
+    q3Prompt: 'మాట్లాడటానికి దయగల వ్యక్తి కావాలి.',
+    q3Label: '🤍 మద్దతు కావాలి',
+    placeholder: 'సందేశం టైప్ చేయండి...',
+    listening: 'వినబడుతోంది...',
+  },
+  'mr-IN': {
+    title: 'माझी थेरपी सहाय्यक',
+    subtitle: 'मी तुमच्या सोबत आहे ❤️',
+    q1Prompt: 'मला अस्वस्थ वाटत आहे आणि आधाराची गरज आहे.',
+    q1Label: '🌱 अस्वस्थ वाटत आहे',
+    q2Prompt: 'तुम्ही मला शांत श्वास घेण्याचा व्यायाम शिकवू शकता का?',
+    q2Label: '🌬️ शांत श्वास',
+    q3Prompt: 'मला बोलण्यासाठी एका दयाळू सोबत्याची गरज आहे.',
+    q3Label: '🤍 आधार हवा आहे',
+    placeholder: 'संदेश टाईप करा...',
+    listening: 'ऐकत आहे...',
+  },
+  'en-IN': {
+    title: 'My Therapy Assistant',
+    subtitle: 'I am here with you ❤️',
+    q1Prompt: 'I am feeling anxious and need support.',
+    q1Label: '{strings.q1Label}',
+    q2Prompt: 'Can you guide me through a calming breathing exercise?',
+    q2Label: '{strings.q2Label}',
+    q3Prompt: 'I need someone compassionate to talk to.',
+    q3Label: '{strings.q3Label}',
+    placeholder: 'Type a message...',
+    listening: 'Listening to your voice...',
+  }
+};
+
 export const UI = ({ hidden, ...props }) => {
   const input = useRef();
   const { chat, loading, cameraZoomed, setCameraZoomed, message } = useChat();
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef(null);
+
+  const getLocale = () => {
+    if (typeof window === 'undefined') return 'en-IN';
+    const params = new URLSearchParams(window.location.search);
+    return params.get('locale') || 'en-IN';
+  };
+  const activeLocale = getLocale();
+  const strings = UI_STRINGS[activeLocale] || UI_STRINGS['en-IN'];
 
   useEffect(() => {
     const SpeechRecognition =
@@ -14,7 +98,7 @@ export const UI = ({ hidden, ...props }) => {
       const recognition = new SpeechRecognition();
       recognition.continuous = false;
       recognition.interimResults = true;
-      recognition.lang = 'en-US';
+      recognition.lang = activeLocale;
 
       recognition.onstart = () => {
         setIsListening(true);
@@ -83,8 +167,8 @@ export const UI = ({ hidden, ...props }) => {
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
         {/* Top-Left Card matching video demo */}
         <div className="self-start backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg pointer-events-auto shadow-sm">
-          <h1 className="font-black text-xl">My Therapy Assistant</h1>
-          <p>I will heal you ❤️</p>
+          <h1 className="font-black text-xl">{strings.title}</h1>
+          <p>{strings.subtitle}</p>
         </div>
 
         {/* Action Controls on Right */}
@@ -160,24 +244,24 @@ export const UI = ({ hidden, ...props }) => {
           <div className="flex flex-wrap items-center justify-center gap-2 mb-1">
             <button
               disabled={loading || message}
-              onClick={() => sendMessage("I am feeling anxious and need support.")}
+              onClick={() => sendMessage(strings.q1Prompt)}
               className="text-xs bg-white/70 hover:bg-white text-slate-800 font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm transition disabled:opacity-50"
             >
-              🌱 I feel anxious
+              {strings.q1Label}
             </button>
             <button
               disabled={loading || message}
-              onClick={() => sendMessage("Can you guide me through a calming breathing exercise?")}
+              onClick={() => sendMessage(strings.q2Prompt)}
               className="text-xs bg-white/70 hover:bg-white text-slate-800 font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm transition disabled:opacity-50"
             >
-              🌬️ Calming breath
+              {strings.q2Label}
             </button>
             <button
               disabled={loading || message}
-              onClick={() => sendMessage("I need someone compassionate to talk to.")}
+              onClick={() => sendMessage(strings.q3Prompt)}
               className="text-xs bg-white/70 hover:bg-white text-slate-800 font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm transition disabled:opacity-50"
             >
-              🤍 Need support
+              {strings.q3Label}
             </button>
           </div>
 
@@ -185,7 +269,7 @@ export const UI = ({ hidden, ...props }) => {
           <div className="flex items-center gap-2 w-full">
             <input
               className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-[#fda625] text-slate-900"
-              placeholder={isListening ? "Listening to your voice..." : "Type a message..."}
+              placeholder={isListening ? strings.listening : strings.placeholder}
               ref={input}
               disabled={loading || message}
               onKeyDown={(e) => {

@@ -183,8 +183,29 @@ export function Avatar(props) {
   const [winkRight, setWinkRight] = useState(false);
   const [facialExpression, setFacialExpression] = useState('');
   const [audio, setAudio] = useState();
+  const analyserRef = useRef(null);
+  const dataArrayRef = useRef(null);
 
-  useFrame(() => {
+  useEffect(() => {
+    if (!audio) return;
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        const ctx = new AudioCtx();
+        const source = ctx.createMediaElementSource(audio);
+        const analyser = ctx.createAnalyser();
+        analyser.fftSize = 64;
+        source.connect(analyser);
+        analyser.connect(ctx.destination);
+        analyserRef.current = analyser;
+        dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
+      }
+    } catch (e) {
+      // AudioContext might already be attached or user gesture required
+    }
+  }, [audio]);
+
+  useFrame((state) => {
     !setupMode &&
       Object.keys(nodes.EyeLeft.morphTargetDictionary).forEach((key) => {
         const mapping = facialExpressions[facialExpression];
@@ -207,17 +228,56 @@ export function Avatar(props) {
     }
 
     const appliedMorphTargets = [];
-    if (message && lipsync && audio) {
+    if (message && audio && !audio.paused) {
       const currentAudioTime = audio.currentTime || 0;
-      for (let i = 0; i < lipsync.mouthCues.length; i++) {
-        const mouthCue = lipsync.mouthCues[i];
-        if (
-          currentAudioTime >= mouthCue.start &&
-          currentAudioTime <= mouthCue.end
-        ) {
-          appliedMorphTargets.push(corresponding[mouthCue.value]);
-          lerpMorphTarget(corresponding[mouthCue.value], 1, 0.2);
-          break;
+      let matchedPhoneme = false;
+
+      // 1. Precise Phoneme Cues if available
+      if (lipsync && lipsync.mouthCues && lipsync.mouthCues.length > 0) {
+        for (let i = 0; i < lipsync.mouthCues.length; i++) {
+          const mouthCue = lipsync.mouthCues[i];
+          if (
+            currentAudioTime >= mouthCue.start &&
+            currentAudioTime <= mouthCue.end
+          ) {
+            const target = corresponding[mouthCue.value];
+            if (target) {
+              appliedMorphTargets.push(target);
+              lerpMorphTarget(target, 1, 0.25);
+              matchedPhoneme = true;
+            }
+            break;
+          }
+        }
+      }
+
+      // 2. Audio-Amplitude / Energy Fallback for Indian Languages (Web Audio API Analyser)
+      if (!matchedPhoneme && analyserRef.current && dataArrayRef.current) {
+        try {
+          analyserRef.current.getByteFrequencyData(dataArrayRef.current);
+          let sum = 0;
+          for (let i = 0; i < dataArrayRef.current.length; i++) {
+            sum += dataArrayRef.current[i];
+          }
+          const avg = sum / dataArrayRef.current.length;
+          const energy = Math.min(1, avg / 65);
+          if (energy > 0.08) {
+            appliedMorphTargets.push('viseme_AA', 'viseme_O');
+            lerpMorphTarget('viseme_AA', energy * 0.75, 0.25);
+            lerpMorphTarget('viseme_O', energy * 0.45, 0.25);
+            matchedPhoneme = true;
+          }
+        } catch (e) {}
+      }
+
+      // 3. Harmonic Cadence Fallback (Guaranteed speech mouth motion whenever audio plays)
+      if (!matchedPhoneme) {
+        const t = (state ? state.clock.getElapsedTime() : Date.now() / 1000) * 14;
+        const cadence = (Math.sin(t) + Math.sin(t * 1.6) + 2) / 4;
+        if (cadence > 0.15) {
+          appliedMorphTargets.push('viseme_AA', 'viseme_I');
+          lerpMorphTarget('viseme_AA', cadence * 0.6, 0.2);
+          lerpMorphTarget('viseme_I', cadence * 0.35, 0.2);
         }
       }
     }

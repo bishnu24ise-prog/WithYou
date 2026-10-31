@@ -10,6 +10,38 @@ export const ChatProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [cameraZoomed, setCameraZoomed] = useState(true);
 
+  // Extract locale from query string or default to en-IN
+  const getLocale = () => {
+    if (typeof window === "undefined") return "en-IN";
+    const params = new URLSearchParams(window.location.search);
+    return params.get("locale") || "en-IN";
+  };
+
+  // Support postMessage communication with parent Next.js frame
+  useEffect(() => {
+    const handleWindowMessage = (event) => {
+      if (!event.data) return;
+      if (event.data.type === "SAFE_SPARK_SPEAK") {
+        const { text, audio, animation, facialExpression, lipsync } = event.data;
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: text || "",
+            audio: audio,
+            animation: animation || "Talking_0",
+            facialExpression: facialExpression || "smile",
+            lipsync: lipsync,
+          },
+        ]);
+      } else if (event.data.type === "SAFE_SPARK_STOP") {
+        setMessages([]);
+        setMessage(null);
+      }
+    };
+    window.addEventListener("message", handleWindowMessage);
+    return () => window.removeEventListener("message", handleWindowMessage);
+  }, []);
+
   const chat = async (message) => {
     setLoading(true);
     try {
@@ -18,7 +50,7 @@ export const ChatProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ message, language: getLocale() }),
       });
       if (!data.ok) {
         throw new Error(`Server returned ${data.status}`);
