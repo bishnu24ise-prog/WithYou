@@ -3,7 +3,7 @@
 # SafeSpark  
 *A Silent Shield, A Strong Voice — Built For Women To Give Them Support*
 
-[![Vercel Frontend](https://img.shields.io/badge/Vercel-Live%20Frontend-black?style=flat&logo=vercel)](https://safespark.vercel.app)
+[![Vercel Frontend](https://img.shields.io/badge/Vercel-Live%20Frontend-black?style=flat&logo=vercel)](https://with-you-puce.vercel.app)
 [![Render Backend](https://img.shields.io/badge/Render-Live%20Backend-46E3B7?style=flat&logo=render)](https://safespark.onrender.com)
 [![FastAPI Docs](https://img.shields.io/badge/FastAPI-Swagger%20Docs-009688?style=flat&logo=fastapi)](https://safespark.onrender.com/docs)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat&logo=next.js)](https://nextjs.org/)
@@ -19,7 +19,7 @@
 
 | Service | Status | Link |
 |:---|:---|:---|
-| **Next.js Web Application (Official)** | 🟢 **Live on Vercel** | [https://safespark.vercel.app](https://safespark.vercel.app) |
+| **Next.js Web Application (Official)** | 🟢 **Live on Vercel** | [https://with-you-puce.vercel.app](https://with-you-puce.vercel.app) |
 | **FastAPI Backend API** | 🟢 **Live on Render** | [https://safespark.onrender.com](https://safespark.onrender.com) |
 | **Interactive Swagger Docs** | 🟢 **Live** | [https://safespark.onrender.com/docs](https://safespark.onrender.com/docs) |
 | **GitHub Repository** | 🟢 **Main Branch** | [https://github.com/bishnu24ise-prog/WithYou](https://github.com/bishnu24ise-prog/WithYou) |
@@ -67,15 +67,16 @@ All statistics powering SafeSpark are verified against official global and natio
 │ Pillar                   │ Core Tech                     │ Safety / Capability               │
 ├──────────────────────────┼───────────────────────────────┼───────────────────────────────────┤
 │ 1. Steganographic SOS    │ LSB Pixel Encoding / OpenCV   │ Invisible photo embedding         │
-│ 2. 3D AI Therapy Avatar  │ Three.js / Native Embedded    │ Somatic de-escalation & voice     │
+│ 2. 3D AI Therapy Avatar  │ Three.js / Sarvam AI Bulbul v3│ Somatic de-escalation & voice     │
 │ 3. 13 Indian Languages   │ next-intl / Static JSON       │ 100% offline, zero-leak i18n      │
-│ 4. Gnani AI Voice Agent  │ Prisma v3.0 STT & Timbre v2.5 │ Hindi, Tamil, Telugu, Kannada, etc│
-│ 5. LawBot Live Research  │ TinyFish Search + Fetch       │ Real-time statutory citations     │
-│ 6. Help Directory        │ TinyFish Parallel Batch Fetch │ Self-healing verified shelter DB  │
-│ 7. Helpline Watch        │ Content Hash + LLM Diff       │ Live regulatory policy alerts     │
-│ 8. Complaint Assist      │ TinyFish Web Agent (SSE)      │ Pre-fill with mandatory safe halt │
-│ 9. Command Dashboard     │ Next.js App Router / MongoDB  │ Geocoded incident escalation      │
-│ 10. Privacy Shield       │ Bi-directional PII Scrubber   │ Zero survivor identity leakage    │
+│ 4. Sarvam Indic 105B AI  │ Sarvam 105B MoE / Bulbul v3   │ Native Kannada, Hindi, Tamil, etc │
+│ 5. Gnani AI Voice Agent  │ Prisma v3.0 STT & Timbre v2.5 │ Elevated non-overlapping voice UI │
+│ 6. LawBot Live Research  │ TinyFish Search + Fetch       │ Real-time statutory citations     │
+│ 7. Help Directory        │ TinyFish Parallel Batch Fetch │ Self-healing verified shelter DB  │
+│ 8. Helpline Watch        │ Content Hash + LLM Diff       │ Live regulatory policy alerts     │
+│ 9. Complaint Assist      │ TinyFish Web Agent (SSE)      │ Pre-fill with mandatory safe halt │
+│ 10. Command Dashboard    │ Next.js App Router / MongoDB  │ Geocoded incident escalation      │
+│ 11. Privacy Shield       │ Bi-directional PII Scrubber   │ Zero survivor identity leakage    │
 └──────────────────────────┴───────────────────────────────┴───────────────────────────────────┘
 ```
 
@@ -88,15 +89,17 @@ Survivors under domestic surveillance cannot safely dial 112 or send plain-text 
 ### 2. 3D AI Therapy Companion — "Maya" 💬 (`/therapybot`)
 Addresses the 85.2% mental health treatment gap with an interactive, confidential 3D avatar:
 - **Trauma-Informed Support:** Trained in somatic de-escalation, 4-7-8 calming breathwork, and 5-4-3-2-1 sensory grounding.
-- **Interactive 3D Avatar:** Built with Three.js and `@react-three/fiber` for expressive, soothing human connection.
-- **Voice Synthesis:** Integrated confidential text-to-speech powered by ElevenLabs.
+- **Resilient 3D Architecture:** Built with Three.js, `@react-three/fiber`, and an isolated `AvatarErrorBoundary` with safe animation mapping that prevents avatar disappearance or canvas crashes.
+- **Native 3D Geometry Aura:** Uses lightweight non-suspending Three.js geometry for loading indicators, eliminating external font dependencies and network delays.
+- **Indic Voice Synthesis:** Integrated high-fidelity speech synthesis via **Sarvam AI Bulbul v3** with gender selection (female Maya default or male voice) and fallback to ElevenLabs or native browser synthesis.
 
 ### 3. AI LawBot with Live Cited Research ⚖️ (`/lawbot`)
-Bridges the legal information deficit by turning legal jargon into accessible rights, powered by live **TinyFish Search & Parallel Batch Fetch**:
+Bridges the legal information deficit by turning legal jargon into accessible rights, powered by **Sarvam Indic 105B** and live **TinyFish Search & Parallel Batch Fetch**:
 - **Statutory Grounding:** Covers PWDVA 2005 (Protection Orders under Sec 18, Residence Rights under Sec 19, Monetary Relief under Sec 20) and Bharatiya Nyaya Sanhita (BNS).
+- **Multi-Lingual Script Fidelity:** Instant language selector pills (Kannada, Hindi, English, Tamil, Telugu, Bengali, Marathi, Gujarati) delivering accurate statutory guidance in native scripts without repetition.
 - **Live Search & Fetch Flow:** Queries trusted government and legal repositories (`nalsa.gov.in`, `ncw.nic.in`, `wcd.nic.in`) and fetches the top 3–5 pages in clean markdown.
 - **Cited Sources Panel:** Displays official domain tags, verified source badges, and clickable citations with non-legal-advice disclaimers.
-- **Zero Hallucination Guarantee:** Strict context injection and low temperature (`0.1`) ensure answers are drawn strictly from verified legal texts, with an automatic fallback to local statutes if rate limits occur.
+- **Zero Hallucination Guarantee:** Strict context injection and low temperature (`0.1`) ensure answers are drawn strictly from verified legal texts.
 
 ### 4. Self-Healing Crisis & Help Directory 🏥 (`/directory`)
 Maintains an accurate directory of One Stop Centres (OSCs), shelter homes, family counselling centres, and legal aid clinics across India:
@@ -132,6 +135,7 @@ Interactive data journalism bringing to light the hidden realities of gender-bas
 Ensures total accessibility for non-literate, distressed, or regional-language-speaking women across India:
 - **Prisma v3.0 Speech-to-Text (STT):** Voice commands and voice dictation in **Hindi, English, Tamil, Telugu, Kannada, Bengali, and Marathi**.
 - **Timbre v2.5 Text-to-Speech (TTS):** Expressive, natural voice synthesis dictating page directions and reading out legal guidance aloud.
+- **Elevated UI Layout:** Floating trigger pill and modal dialog elevated to sit cleanly above chat inputs and Send buttons with zero overlap across mobile and desktop.
 - **Voice Guide ("What should I do here?"):** Context-aware spoken instructions across SOS Reporting, LawBot, Directory, and Assist pages.
 - **Speech-to-Type (Voice Form Filling):** Directly transcribes spoken distress statements into incident and culprit descriptions without requiring typing.
 - **LawBot Voice Reader:** 1-click read-aloud button on every legal response in the user's chosen mother tongue.
@@ -187,10 +191,11 @@ SafeSpark adopts an Indian-inspired visual language celebrating agency, resilien
 
 ### Backend & AI Services
 - **API Engine:** Python 3.11, FastAPI, Uvicorn
-- **Speech & Voice AI (Primary Indic):** Gnani AI Vachana Platform (Prisma v3.0 STT & Timbre v2.5 TTS)
-- **Secondary Voice Engines:** Sarvam AI (Bulbul v3 TTS, Saaras STT), ElevenLabs (Multilingual v2)
+- **Primary Indic AI & Voice:** Sarvam AI (Indic 105B MoE Conversations, Bulbul v3 TTS, Saarika v2.5 STT)
+- **Multi-Lingual Voice Platform:** Gnani AI Vachana Platform (Prisma v3.0 STT & Timbre v2.5 TTS)
+- **Secondary Voice Engines:** ElevenLabs (Multilingual v2), Web Speech API
 - **Web Agent & Live Research:** TinyFish API (Search, Parallel Batch Fetch, Browser Automation SSE)
-- **AI Models:** Google Gemini 1.5 Flash, Groq Gemma, Amazon Bedrock
+- **AI Models:** Sarvam 105B Indic MoE, Google Gemini 2.5 Flash, Groq Gemma, Amazon Bedrock
 - **Data Persistence:** MongoDB with local JSON resilient fallbacks
 
 ---
@@ -214,6 +219,7 @@ Configure `frontend/.env.local` (see `frontend/.env.example`):
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
 NEXT_PUBLIC_BACKEND_URL=https://safespark.onrender.com
+SARVAM_API_KEY=your_sarvam_api_key
 GEMINI_API_KEY=your_gemini_api_key
 GNANI_API_KEY=vach_your_gnani_api_key
 ELEVEN_LABS_API_KEY=your_elevenlabs_api_key
@@ -243,10 +249,11 @@ Configure `backend/.env` (see `backend/.env.example`):
 ```env
 MONGO_URI=your_mongo_uri
 TINYFISH_API_KEY=your_tinyfish_api_key
+SARVAM_API_KEY=your_sarvam_api_key
 GEMINI_API_KEY=your_gemini_api_key
 GNANI_API_KEY=vach_your_gnani_api_key
-STT_PROVIDER=gnani   # Options: gnani (default), sarvam, google
-TTS_PROVIDER=gnani   # Options: gnani (default), sarvam, elevenlabs
+STT_PROVIDER=sarvam  # Options: sarvam (default), gnani, google
+TTS_PROVIDER=sarvam  # Options: sarvam (default), gnani, elevenlabs
 ```
 
 Start the FastAPI backend:

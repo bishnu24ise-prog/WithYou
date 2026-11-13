@@ -5,7 +5,7 @@ Welcome judges! Follow this exact 60-second demonstration flow to experience how
 ---
 
 ## 🎯 Step 1: LawBot Live Cited Research (0:00 – 0:15)
-1. Navigate to **[https://safespark.vercel.app/lawbot](https://safespark.vercel.app/lawbot)**.
+1. Navigate to **[https://with-you-puce.vercel.app/lawbot](https://with-you-puce.vercel.app/lawbot)**.
 2. Click any prompt suggestion (e.g. *"PWDVA 2005 & Protection Orders"* or type *"Can police refuse my FIR?"*).
 3. **What to Observe**:
    - TinyFish triggers live **Search** across Indian legal domains (`nalsa.gov.in`, `ncw.nic.in`, `wcd.nic.in`) and **Parallel Fetches** top statutory pages.
@@ -15,7 +15,7 @@ Welcome judges! Follow this exact 60-second demonstration flow to experience how
 ---
 
 ## 🏥 Step 2: Self-Healing Crisis Directory (0:15 – 0:30)
-1. Click **"Help Directory"** in the top navigation bar or visit **[https://safespark.vercel.app/directory](https://safespark.vercel.app/directory)**.
+1. Click **"Help Directory"** in the top navigation bar or visit **[https://with-you-puce.vercel.app/directory](https://with-you-puce.vercel.app/directory)**.
 2. Click the blue **"Self-Heal Directory (TinyFish Fetch)"** button.
 3. **What to Observe**:
    - The live status banner activates: *"Checking wcd.nic.in, ncw.nic.in, nalsa.gov.in... 2 of 6 fetched"*.
@@ -26,7 +26,7 @@ Welcome judges! Follow this exact 60-second demonstration flow to experience how
 ---
 
 ## 📡 Step 3: Law & Helpline Watch Feed (0:30 – 0:45)
-1. Click **"Dashboard"** in the navbar or visit **[https://safespark.vercel.app/dashboard](https://safespark.vercel.app/dashboard)**.
+1. Click **"Dashboard"** in the navbar or visit **[https://with-you-puce.vercel.app/dashboard](https://with-you-puce.vercel.app/dashboard)**.
 2. View the **"Law & Helpline Live Watch Feed"** at the top of the dashboard.
 3. Click **"Run Live Watch Check"**.
 4. **What to Observe**:
@@ -37,7 +37,7 @@ Welcome judges! Follow this exact 60-second demonstration flow to experience how
 ---
 
 ## 🚀 Step 4: Complaint Assist (The "Wow" Demo) (0:45 – 1:00)
-1. Click **"Complaint Assist"** in the navbar or visit **[https://safespark.vercel.app/assist](https://safespark.vercel.app/assist)**.
+1. Click **"Complaint Assist"** in the navbar or visit **[https://with-you-puce.vercel.app/assist](https://with-you-puce.vercel.app/assist)**.
 2. Click **"Launch Agent Pre-Fill"** (or click **"Demo Mode"** for instant fixture replay).
 3. **What to Observe**:
    - A simulated browser frame opens with URL bar (`cybercrime.gov.in/citizen-reporting-flow`) and progress ring.
