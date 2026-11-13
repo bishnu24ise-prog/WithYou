@@ -165,11 +165,47 @@ export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));
     const userMessage = body.message;
-    const language = body.language || 'en-IN';
+    const reqLanguage = body.language || 'en-IN';
+    const gender = (body.gender || 'female').toLowerCase();
+
+    // Auto-detect exact language from userMessage script or requested language
+    let langCode = 'en-IN';
+    let langName = 'English';
+
+    if (
+      /[\u0C80-\u0CFF]/.test(userMessage) ||
+      reqLanguage.startsWith('kn') ||
+      /\b(nanna|nanage|namage|neevu|beku|beda|madbeku|enu|yenu|hodithiddane|sahaya|nyaya|thondre|mane|ganda)\b/i.test(userMessage)
+    ) {
+      langCode = 'kn-IN';
+      langName = 'Kannada (ಕನ್ನಡ)';
+    } else if (
+      /[\u0900-\u097F]/.test(userMessage) ||
+      reqLanguage.startsWith('hi') ||
+      isIndicOrHinglish(userMessage)
+    ) {
+      langCode = 'hi-IN';
+      langName = 'Hindi (हिन्दी)';
+    } else if (/[\u0B80-\u0BFF]/.test(userMessage) || reqLanguage.startsWith('ta')) {
+      langCode = 'ta-IN';
+      langName = 'Tamil (தமிழ்)';
+    } else if (/[\u0C00-\u0C7F]/.test(userMessage) || reqLanguage.startsWith('te')) {
+      langCode = 'te-IN';
+      langName = 'Telugu (తెలుగు)';
+    } else if (/[\u0980-\u09FF]/.test(userMessage) || reqLanguage.startsWith('bn')) {
+      langCode = 'bn-IN';
+      langName = 'Bengali (বাংলা)';
+    } else if (reqLanguage.startsWith('mr')) {
+      langCode = 'mr-IN';
+      langName = 'Marathi (मराठी)';
+    } else if (/[\u0A80-\u0AFF]/.test(userMessage) || reqLanguage.startsWith('gu')) {
+      langCode = 'gu-IN';
+      langName = 'Gujarati (ગુજરાતી)';
+    }
 
     // Default greeting if no message is provided
     if (!userMessage || !userMessage.trim()) {
-      const defaultGreeting = localizedTherapyFallbacks[language]?.[0] || localizedTherapyFallbacks['en-IN'][0];
+      const defaultGreeting = localizedTherapyFallbacks[langCode]?.[0] || localizedTherapyFallbacks['en-IN'][0];
       return NextResponse.json(
         {
           messages: [
@@ -186,8 +222,7 @@ export async function POST(req: Request) {
     }
 
     // 1. Generate dynamic, empathetic response
-    // First, compute an intelligent contextual response based on user input
-    const dynamicResponse = getDynamicTherapyResponse(userMessage, language);
+    const dynamicResponse = getDynamicTherapyResponse(userMessage, langCode);
     let botReply = dynamicResponse.text;
     let expression = dynamicResponse.facialExpression;
     let animation = dynamicResponse.animation;
@@ -195,12 +230,14 @@ export async function POST(req: Request) {
     // 1A. Sarvam 105B MoE for ALL queries — primary brain for Maya
     if (isSarvamConfigured()) {
       try {
-        const sarvamSystemPrompt = `You are Maya, an empathetic, trauma-informed 3D therapy companion for SafeSpark supporting women in distress.
-Respond directly to the user in their language (${isIndicOrHinglish(userMessage) ? 'warm conversational Hindi/Hinglish' : 'warm empathetic English'}).
-Keep your response concise, compassionate, and validating (2-3 sentences max).
+        const sarvamSystemPrompt = `You are Maya, an empathetic, culturally attuned trauma-informed 3D therapy companion for SafeSpark supporting women and individuals in distress.
+MANDATORY LANGUAGE RULE:
+The user is speaking in ${langName}.
+You MUST respond strictly, compassionately, and fluently in ${langName}. Do NOT use English if the language is Hindi or Kannada.
+Keep your response concise, deeply comforting, validating, and grounding (2-3 sentences max).
 Format your response as valid JSON:
 {
-  "text": "your warm empathetic reply here",
+  "text": "your warm empathetic reply strictly in ${langName}",
   "facialExpression": "smile",
   "animation": "Talking_1"
 }`;
@@ -209,9 +246,9 @@ Format your response as valid JSON:
           messages: [{ role: 'user', content: userMessage }],
           systemPrompt: sarvamSystemPrompt,
           model: 'sarvam-105b-conversations',
-          temperature: 0.4,
+          temperature: 0.35,
           maxTokens: 250,
-          timeoutMs: 5000,
+          timeoutMs: 6500,
         });
 
         if (sarvamRes?.text) {
@@ -239,12 +276,12 @@ Format your response as valid JSON:
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
         const prompt = `You are Maya, a compassionate, trauma-informed 3D therapy avatar providing emotional support and safety guidance to women in distress. The user says: "${userMessage}".
 MANDATORY MULTILINGUAL INSTRUCTION:
-The user has chosen language/locale: "${language}".
-You MUST generate the therapeutic reply strictly and fluently in "${language}" (e.g. Hindi, Kannada, Tamil, Telugu, Bengali, Marathi, Gujarati, Punjabi, Odia, Assamese, Urdu, Malayalam, or English). Do NOT respond in English unless the requested language is "en-IN".
+The user is speaking in: "${langName}".
+You MUST generate the therapeutic reply strictly and fluently in "${langName}". Do NOT respond in English unless the requested language is English.
 Provide a concise, unique, and empathetic response (2 sentences max) directly responding to what they just said. Also choose an emotional facial expression from: [smile, sad, surprised, angry, default] and an animation from: [Talking_0, Talking_1, Talking_2, Idle].
 Return in JSON format:
 {
-  "text": "your response here in ${language}",
+  "text": "your response here in ${langName}",
   "facialExpression": "smile",
   "animation": "Talking_1"
 }`;
@@ -269,11 +306,72 @@ Return in JSON format:
       }
     }
 
-    // 2. Generate Voice with ElevenLabs
+    // 2. Select Speaker Voice according to Gender (Female Maya Sanctuary vs Male Voice)
+    // Sarvam Bulbul v3 Verified Speakers:
+    // Female: 'kavitha' (Kannada, Tamil, Telugu), 'priya' (Hindi, English, Bengali, Marathi)
+    // Male: 'aditya' (Kannada), 'shubh' / 'kabir' (Hindi, English), 'mani' (Tamil, Telugu)
+    let chosenSpeaker = 'priya';
+    if (gender === 'male') {
+      if (langCode === 'kn-IN') chosenSpeaker = 'aditya';
+      else if (langCode === 'ta-IN' || langCode === 'te-IN') chosenSpeaker = 'mani';
+      else chosenSpeaker = 'shubh';
+    } else {
+      // Female (Maya 3D Sanctuary default)
+      if (langCode === 'kn-IN' || langCode === 'ta-IN' || langCode === 'te-IN' || langCode === 'ml-IN') {
+        chosenSpeaker = 'kavitha';
+      } else {
+        chosenSpeaker = 'priya';
+      }
+    }
+
     let audioBase64 = '';
     let durationEstimate = Math.max(2.0, botReply.split(' ').length * 0.45);
 
-    if (ELEVEN_LABS_API_KEY) {
+    // 2A. Primary: Sarvam AI Bulbul v3 Voice Engine
+    const SARVAM_KEY = process.env.SARVAM_API_KEY;
+    const cleanSpeechText = botReply
+      .replace(/###\s*[^\n]+/g, '')
+      .replace(/\[Source:[^\]]+\]/gi, '')
+      .replace(/https?:\/\/\S+/g, '')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/[#*_~`>-]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 450);
+
+    if (SARVAM_KEY && cleanSpeechText) {
+      try {
+        const sarvamRes = await fetch('https://api.sarvam.ai/text-to-speech', {
+          method: 'POST',
+          headers: {
+            'api-subscription-key': SARVAM_KEY,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            text: cleanSpeechText,
+            language_code: langCode,
+            speaker: chosenSpeaker,
+            model: 'bulbul:v3',
+          }),
+        });
+
+        if (sarvamRes.ok) {
+          const sJson = await sarvamRes.json();
+          if (sJson?.audios?.[0]) {
+            audioBase64 = sJson.audios[0];
+            durationEstimate = Math.max(2.0, cleanSpeechText.split(' ').length * 0.4);
+          }
+        } else {
+          const errText = await sarvamRes.text().catch(() => '');
+          console.warn(`Sarvam TTS in /chat route status ${sarvamRes.status}: ${errText}`);
+        }
+      } catch (sarvamErr) {
+        console.warn('Sarvam TTS in /chat route notice:', sarvamErr);
+      }
+    }
+
+    // 2B. Secondary fallback: ElevenLabs (only if Sarvam was unavailable)
+    if (!audioBase64 && ELEVEN_LABS_API_KEY) {
       try {
         const voiceRes = await fetch(
           `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
@@ -297,36 +395,6 @@ Return in JSON format:
         }
       } catch (voiceErr) {
         console.warn('Avatar voice error:', voiceErr);
-      }
-    }
-
-    // 2b. Sarvam AI Text-to-Speech (Bulbul v3 for Indic Languages)
-    const SARVAM_KEY = process.env.SARVAM_API_KEY;
-    if (!audioBase64 && SARVAM_KEY) {
-      try {
-        const sarvamRes = await fetch('https://api.sarvam.ai/text-to-speech', {
-          method: 'POST',
-          headers: {
-            'api-subscription-key': SARVAM_KEY,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            text: botReply.slice(0, 500),
-            language_code: language || 'en-IN',
-            model: process.env.SARVAM_TTS_MODEL || 'bulbul:v3',
-            speaker: 'shubh',
-            audio_format: 'mp3',
-          }),
-        });
-        if (sarvamRes.ok) {
-          const sJson = await sarvamRes.json();
-          if (sJson?.audios?.[0]) {
-            audioBase64 = sJson.audios[0];
-            durationEstimate = Math.max(2.0, botReply.split(' ').length * 0.4);
-          }
-        }
-      } catch (sarvamErr) {
-        console.warn('Sarvam TTS in /chat route notice:', sarvamErr);
       }
     }
 
