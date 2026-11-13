@@ -140,12 +140,8 @@ def get_stt_service() -> BaseSTTService:
     provider = os.getenv("STT_PROVIDER", "").lower()
     if provider == "google":
         return GoogleCloudSTTService()
-    if provider == "gnani":
-        return GnaniSTTService()
     if provider == "sarvam":
         return SarvamSTTService()
-    # If no provider explicitly set, prefer Gnani if GNANI_API_KEY is present
-    if os.getenv("GNANI_API_KEY"):
-        return GnaniSTTService()
-    return SarvamSTTService()
+    # Default to Gnani AI (Prisma v3.0) using active credits
+    return GnaniSTTService()
 

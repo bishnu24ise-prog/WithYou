@@ -189,12 +189,8 @@ def get_tts_service() -> BaseTTSService:
     provider = os.getenv("TTS_PROVIDER", "").lower()
     if provider == "elevenlabs":
         return ElevenLabsTTSService()
-    if provider == "gnani":
-        return GnaniTTSService()
     if provider == "sarvam":
         return SarvamTTSService()
-    # If no provider explicitly set, prefer Gnani if GNANI_API_KEY is present
-    if os.getenv("GNANI_API_KEY"):
-        return GnaniTTSService()
-    return SarvamTTSService()
+    # Default to Gnani AI (Timbre v2.5) using active credits
+    return GnaniTTSService()
 
