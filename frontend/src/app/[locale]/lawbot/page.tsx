@@ -22,6 +22,7 @@ import {
   ChevronDown,
   ChevronUp,
   ShieldCheck,
+  Languages,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSafeClerk } from '@/lib/auth-context';
@@ -66,8 +67,24 @@ export default function LawBotPage() {
   const t = useTranslations('lawbot');
   const locale = useLocale();
 
+  // Active voice & statutory response language (Supports Kannada, Hindi, English, Tamil, Telugu, etc.)
+  const [selectedLanguage, setSelectedLanguage] = useState<string>(
+    locale.startsWith('kn') ? 'kn-IN' : locale.startsWith('hi') ? 'hi-IN' : 'kn-IN'
+  );
+
+  const SUPPORTED_LANGUAGES = [
+    { code: 'kn-IN', label: 'ಕನ್ನಡ (Kannada)', short: 'ಕನ್ನಡ' },
+    { code: 'hi-IN', label: 'हिन्दी (Hindi)', short: 'हिन्दी' },
+    { code: 'en-IN', label: 'English', short: 'English' },
+    { code: 'ta-IN', label: 'தமிழ் (Tamil)', short: 'தமிழ்' },
+    { code: 'te-IN', label: 'తెలుగు (Telugu)', short: 'తెలుగు' },
+    { code: 'bn-IN', label: 'বাংলা (Bengali)', short: 'বাংলা' },
+    { code: 'mr-IN', label: 'मराठी (Marathi)', short: 'मराठी' },
+    { code: 'gu-IN', label: 'ગુજરાતી (Gujarati)', short: 'ગુજરાતી' },
+  ];
+
   const { speak, stopAudio, startListening } = useVoiceAgent({
-    language: locale,
+    language: selectedLanguage,
   });
 
   const form = useForm<ChatFormValues>({
@@ -112,7 +129,7 @@ export default function LawBotPage() {
         body: JSON.stringify({
           message: userText,
           userInput: userText,
-          language: locale,
+          language: selectedLanguage,
           voice_enabled: handsFree,
         }),
       });
@@ -150,7 +167,7 @@ export default function LawBotPage() {
 
       if (handsFree) {
         setSpeakingMessageIndex(newMsgIndex);
-        speak(replyText, locale, () => {
+        speak(replyText, selectedLanguage, () => {
           setSpeakingMessageIndex(null);
           // Re-open mic for hands-free loop
           startListening();
@@ -159,10 +176,14 @@ export default function LawBotPage() {
     } catch (err: any) {
       console.warn('Lawbot request notice:', err);
       const fallback =
-        'Under the Protection of Women from Domestic Violence Act (PWDVA) 2005, you have the right to seek emergency protection orders, residence orders, and immediate assistance. For immediate emergency help in India, please contact the Women Helpline at 1091 or National Emergency at 112.';
+        selectedLanguage.startsWith('kn')
+          ? 'ಕೌಟುಂಬಿಕ ಹಿಂಸಾಚಾರದಿಂದ ಮಹಿಳೆಯರ ರಕ್ಷಣೆ ಕಾಯ್ದೆ (PWDVA) 2005 ರ ಅಡಿಯಲ್ಲಿ, ನೀವು ತುರ್ತು ರಕ್ಷಣಾ ಆದೇಶಗಳು, ವಾಸಸ್ಥಳದ ಹಕ್ಕುಗಳು ಮತ್ತು ಉಚಿತ ಕಾನೂನು ನೆರವನ್ನು ಪಡೆಯಲು ಅರ್ಹರಾಗಿದ್ದೀರಿ. ತುರ್ತು ಸಹಾಯಕ್ಕಾಗಿ ತಕ್ಷಣವೇ ಮಹಿಳಾ ಸಹಾಯವಾಣಿ 1091 ಅಥವಾ ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಸಂಖ್ಯೆ 112 ಗೆ ಕರೆ ಮಾಡಿ.'
+          : selectedLanguage.startsWith('hi')
+          ? 'घरेलू हिंसा से महिलाओं का संरक्षण अधिनियम (PWDVA) 2005 के तहत आपको सुरक्षा आदेश, निवास अधिकार और मुफ्त कानूनी सहायता पाने का पूरा अधिकार है। आपातकाल में तुरंत 1091 या 112 डायल करें।'
+          : 'Under the Protection of Women from Domestic Violence Act (PWDVA) 2005, you have the right to seek emergency protection orders, residence orders, and immediate assistance. For immediate emergency help in India, please contact the Women Helpline at 1091 or National Emergency at 112.';
       setMessages((prev) => [...prev, { text: fallback, isUser: false }]);
       if (handsFree) {
-        speak(fallback, locale);
+        speak(fallback, selectedLanguage);
       }
     } finally {
       setIsThinking(false);
@@ -180,7 +201,7 @@ export default function LawBotPage() {
       setSpeakingMessageIndex(null);
     } else {
       setSpeakingMessageIndex(index);
-      speak(text, locale, () => {
+      speak(text, selectedLanguage, () => {
         setSpeakingMessageIndex(null);
       });
     }
@@ -220,6 +241,26 @@ export default function LawBotPage() {
 
         {/* Action Controls */}
         <div className="flex items-center gap-2">
+          {/* Language Selector Dropdown */}
+          <div className="flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2 py-1 text-xs shadow-xs">
+            <Languages className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+            <select
+              value={selectedLanguage}
+              onChange={(e) => {
+                setSelectedLanguage(e.target.value);
+                stopAudio();
+              }}
+              className="bg-transparent text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none cursor-pointer pr-1"
+              title="Select Voice & Legal Response Language"
+            >
+              {SUPPORTED_LANGUAGES.map((lang) => (
+                <option key={lang.code} value={lang.code} className="dark:bg-slate-900 text-slate-800 dark:text-slate-100">
+                  {lang.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Hands-free mode toggle */}
           <button
             onClick={() => {
@@ -399,21 +440,52 @@ export default function LawBotPage() {
         <div ref={messagesEndRef} />
       </div>
 
+      {/* Quick Language Switcher Pills */}
+      <div className="flex items-center gap-1.5 pt-1.5 pb-1 overflow-x-auto scrollbar-none text-[11px] border-t border-slate-200/80 dark:border-slate-800">
+        <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1 text-[10px] font-semibold shrink-0">
+          <Languages className="w-3 h-3 text-blue-500" />
+          <span>Voice & Reply:</span>
+        </span>
+        {SUPPORTED_LANGUAGES.map((lang) => (
+          <button
+            key={lang.code}
+            type="button"
+            onClick={() => {
+              setSelectedLanguage(lang.code);
+              stopAudio();
+            }}
+            className={`px-2.5 py-0.5 rounded-full font-medium transition-all shrink-0 text-[11px] ${
+              selectedLanguage === lang.code
+                ? 'bg-blue-600 text-white shadow-xs font-bold ring-1 ring-blue-400'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+            }`}
+          >
+            {lang.short}
+          </button>
+        ))}
+      </div>
+
       {/* Input Form with Integrated Voice Dictation */}
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex items-center gap-2 pt-2 border-t border-slate-200 dark:border-slate-800"
+        className="flex items-center gap-2 pt-1 pb-1"
       >
         <div className="relative flex-1 flex items-center bg-slate-100 dark:bg-slate-800 rounded-2xl border border-slate-300 dark:border-slate-700 px-3 py-1.5 focus-within:ring-2 focus-within:ring-blue-500 shadow-sm">
           <Input
             {...form.register('message')}
-            placeholder={t('inputPlaceholder')}
+            placeholder={
+              selectedLanguage.startsWith('kn')
+                ? 'ನಿಮ್ಮ ಕಾನೂನು ಹಕ್ಕುಗಳು ಅಥವಾ ಕೌಟುಂಬಿಕ ಹಿಂಸಾಚಾರದ ಬಗ್ಗೆ ಪ್ರಶ್ನೆ ಕೇಳಿ...'
+                : selectedLanguage.startsWith('hi')
+                ? 'अपने कानूनी अधिकारों या सुरक्षा के बारे में पूछें...'
+                : t('inputPlaceholder')
+            }
             className="border-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-sm px-1 placeholder:text-slate-400"
             autoComplete="off"
           />
           <VoiceInput
             buttonSize="sm"
-            language={locale}
+            language={selectedLanguage}
             showWarning={true}
             onTranscript={(txt) => {
               // Replace the field value entirely with the final transcript — never append

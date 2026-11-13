@@ -4,6 +4,7 @@ import { synthesizeSpeechWithGnani } from '@/lib/gnani';
 const FALLBACK_GNANI_KEY =
   'vach_1ytE2CY5X2Ou0P0yPaoQaijATV9H6AC2vDsQtS8dgXk6mUiO7nosR3zooCkBJT8SN5B5fkX50nyMP5eYFaAnn4ot8qELeVUd_463065025f61f6385cdda8592c2c37b4';
 const GNANI_API_KEY = process.env.GNANI_API_KEY || process.env.NEXT_PUBLIC_GNANI_API_KEY || FALLBACK_GNANI_KEY;
+const SARVAM_API_KEY = process.env.SARVAM_API_KEY;
 const ELEVEN_LABS_API_KEY = process.env.ELEVEN_LABS_API_KEY;
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
 
@@ -16,7 +17,52 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Text cannot be empty' }, { status: 400 });
     }
 
-    // 1. Try Gnani AI Timbre v2.5 (Primary Indian Voice Engine)
+    // 1. Primary for Indic: Sarvam AI Bulbul v3 (Native Kannada, Hindi, Tamil, Telugu, etc.)
+    if (SARVAM_API_KEY) {
+      try {
+        let langCode = 'en-IN';
+        if (language.startsWith('kn') || /[\u0C80-\u0CFF]/.test(text)) langCode = 'kn-IN';
+        else if (language.startsWith('hi') || /[\u0900-\u097F]/.test(text)) langCode = 'hi-IN';
+        else if (language.startsWith('ta') || /[\u0B80-\u0BFF]/.test(text)) langCode = 'ta-IN';
+        else if (language.startsWith('te') || /[\u0C00-\u0C7F]/.test(text)) langCode = 'te-IN';
+        else if (language.startsWith('bn') || /[\u0980-\u09FF]/.test(text)) langCode = 'bn-IN';
+        else if (language.startsWith('mr')) langCode = 'mr-IN';
+        else if (language.startsWith('gu') || /[\u0A80-\u0AFF]/.test(text)) langCode = 'gu-IN';
+        else if (language.startsWith('ml') || /[\u0D00-\u0D7F]/.test(text)) langCode = 'ml-IN';
+        else if (language.startsWith('pa') || /[\u0A00-\u0A7F]/.test(text)) langCode = 'pa-IN';
+        else if (language.startsWith('od') || /[\u0B00-\u0B7F]/.test(text)) langCode = 'od-IN';
+
+        const sarvamRes = await fetch('https://api.sarvam.ai/text-to-speech', {
+          method: 'POST',
+          headers: {
+            'api-subscription-key': SARVAM_API_KEY,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            text: text.slice(0, 500).trim(),
+            language_code: langCode,
+            speaker: speaker || (langCode === 'kn-IN' ? 'meera' : 'shubh'),
+          }),
+        });
+
+        if (sarvamRes.ok) {
+          const sJson = await sarvamRes.json();
+          if (sJson?.audios?.[0]) {
+            return NextResponse.json({
+              audio_base64: sJson.audios[0],
+              format: 'wav',
+              language: langCode,
+              provider: 'sarvam-bulbul-v3',
+              supported: true,
+            });
+          }
+        }
+      } catch (sarvamTtsErr) {
+        console.warn('Sarvam TTS notice, falling back:', sarvamTtsErr);
+      }
+    }
+
+    // 2. Secondary: Gnani AI Timbre v2.5
     if (GNANI_API_KEY) {
       try {
         const cleanText = text.slice(0, 400).trim();

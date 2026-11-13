@@ -130,21 +130,86 @@ In freedom, dignity, and pride.`;
     let engineUsed = 'TinyFish Legal Knowledge Engine';
     const isIndic = isIndicOrHinglish(cleanInput, language);
 
-    // Detect exact script/language for native reply
-    const detectReplyLanguage = (text: string): string => {
-      if (/[\u0900-\u097F]/.test(text)) return 'Hindi (Devanagari script) — reply fully in Hindi';
-      if (/[\u0C80-\u0CFF]/.test(text)) return 'Kannada — reply fully in Kannada';
-      if (/[\u0B80-\u0BFF]/.test(text)) return 'Tamil — reply fully in Tamil';
-      if (/[\u0C00-\u0C7F]/.test(text)) return 'Telugu — reply fully in Telugu';
-      if (/[\u0980-\u09FF]/.test(text)) return 'Bengali — reply fully in Bengali';
-      if (/[\u0D00-\u0D7F]/.test(text)) return 'Malayalam — reply fully in Malayalam';
-      if (/[\u0A80-\u0AFF]/.test(text)) return 'Gujarati — reply fully in Gujarati';
-      if (/[\u0A00-\u0A7F]/.test(text)) return 'Punjabi (Gurmukhi) — reply fully in Punjabi';
-      if (/[\u0600-\u06FF]/.test(text)) return 'Urdu — reply fully in Urdu';
-      if (isIndic) return 'Hinglish (romanized Hindi/Indian English mix) — reply in natural Hinglish';
-      return 'English — reply in clear empathetic English';
+    // Detect exact script/language for native reply (supports native scripts, Romanized Indic, and explicit language selection)
+    const detectReplyLanguage = (text: string, requestedLang?: string): { name: string; instruction: string } => {
+      const q = text.toLowerCase();
+      const lang = (requestedLang || '').toLowerCase();
+
+      // 1. Kannada (Native script, Romanized Kanglish, or requested kn)
+      const hasKannadaUnicode = /[\u0C80-\u0CFF]/.test(text);
+      const hasKanglishWords = /\b(nanna|nanage|namage|neevu|beku|beda|madbeku|madabeku|enu|yenu|yellaru|hodithiddane|hodithare|sahaya|nyaya|thondre|mane|ganda|madadi|kodi|hege|kanoonu|dourjanya|rakshane|shikayathu)\b/i.test(q);
+      if (hasKannadaUnicode || hasKanglishWords || lang.startsWith('kn')) {
+        return {
+          name: 'Kannada (ಕನ್ನಡ)',
+          instruction: 'You MUST respond 100% in pure, respectful, and trauma-informed KANNADA SCRIPT (ಕನ್ನಡ ಲಿಪಿಯಲ್ಲಿ). Do NOT switch to English or Hindi. Use Kannada terms for legal concepts (ಉದಾಹರಣೆಗೆ: ಕೌಟುಂಬಿಕ ಹಿಂಸಾಚಾರ ಕಾಯ್ದೆ 2005, ಝೀರೋ ಎಫ್‌ಐಆರ್, ರಕ್ಷಣಾ ಆದೇಶ, ಉಚಿತ ಕಾನೂನು ನೆರವು).',
+        };
+      }
+
+      // 2. Hindi (Native script or requested hi)
+      const hasDevanagari = /[\u0900-\u097F]/.test(text);
+      if (hasDevanagari || lang.startsWith('hi')) {
+        return {
+          name: 'Hindi (हिन्दी)',
+          instruction: 'You MUST respond 100% in pure, trauma-informed HINDI (देवनागरी लिपि). Do NOT switch to English. Use authoritative statutory terms (घरेलू हिंसा अधिनियम 2005, जीरो एफआईआर, धारा 85/86 बीएनएस, मुफ्त कानूनी सहायता).',
+        };
+      }
+
+      // 3. Tamil
+      if (/[\u0B80-\u0BFF]/.test(text) || lang.startsWith('ta')) {
+        return {
+          name: 'Tamil (தமிழ்)',
+          instruction: 'You MUST respond 100% in pure TAMIL (தமிழ் எழுத்தில்). Do NOT switch to English.',
+        };
+      }
+
+      // 4. Telugu
+      if (/[\u0C00-\u0C7F]/.test(text) || lang.startsWith('te')) {
+        return {
+          name: 'Telugu (తెలుగు)',
+          instruction: 'You MUST respond 100% in pure TELUGU (తెలుగు లిపిలో). Do NOT switch to English.',
+        };
+      }
+
+      // 5. Bengali
+      if (/[\u0980-\u09FF]/.test(text) || lang.startsWith('bn')) {
+        return {
+          name: 'Bengali (বাংলা)',
+          instruction: 'You MUST respond 100% in pure BENGALI (বাংলা লিপিতে). Do NOT switch to English.',
+        };
+      }
+
+      // 6. Malayalam
+      if (/[\u0D00-\u0D7F]/.test(text) || lang.startsWith('ml')) {
+        return {
+          name: 'Malayalam (മലയാളം)',
+          instruction: 'You MUST respond 100% in pure MALAYALAM. Do NOT switch to English.',
+        };
+      }
+
+      // 7. Gujarati
+      if (/[\u0A80-\u0AFF]/.test(text) || lang.startsWith('gu')) {
+        return {
+          name: 'Gujarati (ગુજરાતી)',
+          instruction: 'You MUST respond 100% in pure GUJARATI. Do NOT switch to English.',
+        };
+      }
+
+      // 8. Hinglish (Colloquial Hindi in Roman letters)
+      if (isIndic) {
+        return {
+          name: 'Hinglish (Hindi in Roman script)',
+          instruction: 'The user spoke in Hinglish. You MUST respond in natural, compassionate Hinglish or Hindi so they feel deeply understood. Cite PWDVA 2005 and BNS clearly.',
+        };
+      }
+
+      // 9. Default English
+      return {
+        name: 'English',
+        instruction: 'Respond in clear, deeply empathetic, and authoritative English citing Indian statutory protections.',
+      };
     };
-    const replyLanguageInstruction = detectReplyLanguage(cleanInput);
+
+    const replyLang = detectReplyLanguage(cleanInput, language);
 
     // 3A. Prioritize Sarvam 105B MoE for ALL queries (Indic, Hinglish, and English)
     if (isSarvamConfigured()) {
@@ -152,35 +217,35 @@ In freedom, dignity, and pride.`;
         const sarvamSystemPrompt = `You are SafeSpark LawBot powered by Sarvam 105B Sovereign Indic Legal Intelligence and TinyFish Legal Web Research.
 You are an authoritative, deeply trauma-informed legal advocate specializing in Indian constitutional, statutory, and criminal law protecting women, survivors, and citizens in distress.
 
-CRITICAL LANGUAGE RULE (MUST FOLLOW — NO EXCEPTIONS):
-- The user wrote in: ${replyLanguageInstruction}
-- You MUST respond ENTIRELY in that same language. Do NOT switch to English under any circumstance.
-- If the user wrote in Hindi, your ENTIRE response must be in Hindi. Same for Kannada, Tamil, Telugu, Bengali, etc.
-- Provide an EXHAUSTIVE, DEEPLY DETAILED, LONG-FORM legal advisory. Do NOT give short summaries.
+CRITICAL LANGUAGE RULE (STRICT MANDATE — ZERO ENGLISH IF REGIONAL LANGUAGE DETECTED):
+- Detected User Language: ${replyLang.name}
+- ${replyLang.instruction}
+- Do NOT provide a short summary. Provide an EXHAUSTIVE, DEEPLY DETAILED, LONG-FORM legal advisory in ${replyLang.name}.
 - Cite exact Indian Statutory Provisions:
   1. Protection of Women from Domestic Violence Act (PWDVA) 2005 (Sections 12, 17, 18, 19, 20, 21, 22, 23, 31).
   2. Bharatiya Nyaya Sanhita (BNS) 2023 / IPC (Sections 85, 86, 74, 351, 352).
   3. Bharatiya Nagarik Suraksha Sanhita (BNSS) 2023 / CrPC (Section 173 Zero FIR, free copy of FIR).
   4. POSH Act 2013 (Internal Committee, 90 days inquiry, interim relief).
   5. Legal Services Authorities Act 1987 (Free legal aid for all women under Article 39A).
-- Structure with clear Markdown headers:
-  ### ⚖️ लागू कानूनी धाराएं एवं प्रावधान (Statutory Sections & Penalties)
-  ### 📋 तत्काल कानूनी प्रक्रिया (Step-by-Step Procedure: Hours 0-24, Zero FIR, Protection Officer DIR Form 1)
-  ### 🛡️ अदालती सुरक्षा आदेश (Protection, Residence & Maintenance Orders)
-  ### 🔍 साक्ष्य एवं डिजिटल फॉरेंसिक चेकलिस्ट (Evidence Checklist)
-  ### 🏛️ मुफ्त कानूनी सहायता एवं वन स्टॉप सेंटर (Free Legal Aid & Sakhi OSC 181, NALSA 15100)
-  ### 📞 आपातकालीन हेल्पलाइन (24/7 Helplines: 112, 1091, 181, 1930)
+- Structure with clear Markdown headers written in ${replyLang.name}:
+  ### ⚖️ Applicable Statutory Sections & Penalties
+  ### 📋 Step-by-Step Procedure (Hours 0-24, Zero FIR, Protection Officer DIR Form 1)
+  ### 🛡️ Court Protection, Residence & Maintenance Orders
+  ### 🔍 Evidence & Digital Forensics Checklist
+  ### 🏛️ Free Legal Aid & One Stop Centers (Sakhi OSC 181, NALSA 15100)
+  ### 📞 24/7 Verified Helplines (112, 1091, 181, 1930)
 - Explicitly cite official government sources in brackets [Source: nalsa.gov.in / ncw.nic.in]. Tone must be protective, respectful, and empowering.`;
 
         const sarvamUserPrompt = `User Query: "${cleanInput}"
-REPLY LANGUAGE: ${replyLanguageInstruction}
+REQUIRED OUTPUT LANGUAGE: ${replyLang.name}
+MANDATORY INSTRUCTION: You MUST write your entire reply in ${replyLang.name}. Do NOT default to English.
 ${
   extractedContext
     ? `Live Verified Statutory Sources from TinyFish Web Agent:\n${extractedContext}\n`
     : `Refer to official Indian statutory frameworks: PWDVA 2005, BNS 2023, BNSS 2023 Zero FIR, POSH 2013, NALSA Free Legal Aid.`
 }
 
-Please provide an exhaustive, compassionate, and deeply detailed Indian legal advisory in the SAME LANGUAGE as the user's query:`;
+Please provide an exhaustive, compassionate, and deeply detailed Indian legal advisory in ${replyLang.name}:`;
 
         const sarvamRes = await callSarvamChat({
           messages: [{ role: 'user', content: sarvamUserPrompt }],

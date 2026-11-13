@@ -46,10 +46,10 @@ export function isIndicOrHinglish(text: string, locale?: string): boolean {
     return true;
   }
 
-  // Common colloquial Hinglish distress & legal keywords
-  const hinglishWordsRegex =
-    /\b(kya|mujhe|mera|meri|mere|hai|hain|nahi|nhi|raha|rahi|police|shikayat|pati|saas|dahej|bachao|madad|peet|mara|marte|ghar|dhamki|batao|karna|chahiye|kanoon|dhara|hinsa|shoshan|darr|dar|bacha|madat)\b/i;
-  return hinglishWordsRegex.test(text);
+  // Common colloquial Hinglish, Kanglish (Kannada), and Indic distress & legal keywords
+  const indicWordsRegex =
+    /\b(kya|mujhe|mera|meri|mere|hai|hain|nahi|nhi|raha|rahi|police|shikayat|pati|saas|dahej|bachao|madad|peet|mara|marte|ghar|dhamki|batao|karna|chahiye|kanoon|dhara|hinsa|shoshan|darr|dar|bacha|madat|nanna|nanage|namage|neevu|beku|beda|madbeku|madabeku|enu|yenu|yellaru|hodithiddane|hodithare|sahaya|nyaya|thondre|mane|ganda|madadi|kodi|hege|kanoonu|dourjanya|rakshane|shikayathu)\b/i;
+  return indicWordsRegex.test(text);
 }
 
 /**
