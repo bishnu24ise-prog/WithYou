@@ -83,8 +83,8 @@ export function speakWithBrowserVoice(
         chosenVoice = voices.find((v) => v.lang.toLowerCase().startsWith('en')) || null;
       }
 
-      // 5. Default voice
-      if (!chosenVoice) {
+      // 5. Default voice only when language is English
+      if (!chosenVoice && prefix === 'en') {
         chosenVoice = voices.find((v) => v.default) || voices[0] || null;
       }
     }
@@ -408,7 +408,20 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
         return;
       }
 
-      const lang = customLang || activeLanguage;
+      // Auto-detect exact language from text content (Kannada script -> kn-IN, Devanagari -> hi-IN, etc.)
+      let lang = customLang || activeLanguage;
+      if (/[\u0C80-\u0CFF]/.test(textToSpeak)) {
+        lang = 'kn-IN';
+      } else if (/[\u0900-\u097F]/.test(textToSpeak)) {
+        lang = 'hi-IN';
+      } else if (/[\u0B80-\u0BFF]/.test(textToSpeak)) {
+        lang = 'ta-IN';
+      } else if (/[\u0C00-\u0C7F]/.test(textToSpeak)) {
+        lang = 'te-IN';
+      } else if (/[\u0980-\u09FF]/.test(textToSpeak)) {
+        lang = 'bn-IN';
+      }
+
       setIsSpeaking(true);
 
       // If audioUrl is already provided, play directly!
@@ -429,7 +442,6 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
           };
 
           audio.onerror = () => {
-            // Fallback to browser voice
             speakWithBrowserVoice(
               textToSpeak,
               lang,
@@ -448,19 +460,29 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
         }
       }
 
-      // Try backend TTS with 1.5s timeout
+      // Clean markdown tags for natural speech synthesis
+      const cleanForSpeech = textToSpeak
+        .replace(/###\s*[^\n]+/g, '')
+        .replace(/\[Source:[^\]]+\]/gi, '')
+        .replace(/https?:\/\/\S+/g, '')
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/[#*_~`>-]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      // Try backend Sarvam Bulbul v3 / Gnani TTS with 8s timeout
       try {
         const res = await fetch('/api/voice/speak', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: textToSpeak, language: lang }),
-          signal: AbortSignal.timeout(1500),
+          body: JSON.stringify({ text: cleanForSpeech || textToSpeak, language: lang }),
+          signal: AbortSignal.timeout(8000),
         });
 
         if (res.ok) {
           const data = await res.json();
           if (data.supported && data.audio_base64) {
-            const audioSrc = `data:audio/${data.format || 'mp3'};base64,${data.audio_base64}`;
+            const audioSrc = `data:audio/${data.format || 'wav'};base64,${data.audio_base64}`;
             const audio = new Audio(audioSrc);
             currentAudioRef.current = audio;
 
@@ -477,7 +499,7 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
 
             audio.onerror = () => {
               speakWithBrowserVoice(
-                textToSpeak,
+                cleanForSpeech || textToSpeak,
                 lang,
                 () => {
                   setIsSpeaking(false);
@@ -492,12 +514,12 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
           }
         }
       } catch (err) {
-        // Backend unavailable or timed out; proceed immediately to browser synthesis
+        // Backend unavailable or timed out; proceed to browser synthesis
       }
 
-      // Browser Web Speech fallback (instant, zero cost, works on every device)
+      // Browser Web Speech fallback
       speakWithBrowserVoice(
-        textToSpeak,
+        cleanForSpeech || textToSpeak,
         lang,
         () => {
           setIsSpeaking(false);

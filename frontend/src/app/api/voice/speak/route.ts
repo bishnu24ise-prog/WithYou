@@ -8,6 +8,20 @@ const SARVAM_API_KEY = process.env.SARVAM_API_KEY;
 const ELEVEN_LABS_API_KEY = process.env.ELEVEN_LABS_API_KEY;
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
 
+function cleanTextForSpeech(raw: string): string {
+  if (!raw) return '';
+  return raw
+    .replace(/###\s*[^\n]+/g, '') // remove markdown headings
+    .replace(/\[Source:[^\]]+\]/gi, '') // remove source tags
+    .replace(/https?:\/\/\S+/g, '') // remove URLs
+    .replace(/\*\*([^*]+)\*\*/g, '$1') // unbold
+    .replace(/\*([^*]+)\*/g, '$1') // unitalic
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // markdown links
+    .replace(/[#*_~`>-]/g, ' ') // markdown chars
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -17,20 +31,45 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Text cannot be empty' }, { status: 400 });
     }
 
+    const cleanedText = cleanTextForSpeech(text).slice(0, 450);
+
     // 1. Primary for Indic: Sarvam AI Bulbul v3 (Native Kannada, Hindi, Tamil, Telugu, etc.)
-    if (SARVAM_API_KEY) {
+    if (SARVAM_API_KEY && cleanedText) {
       try {
         let langCode = 'en-IN';
-        if (language.startsWith('kn') || /[\u0C80-\u0CFF]/.test(text)) langCode = 'kn-IN';
-        else if (language.startsWith('hi') || /[\u0900-\u097F]/.test(text)) langCode = 'hi-IN';
-        else if (language.startsWith('ta') || /[\u0B80-\u0BFF]/.test(text)) langCode = 'ta-IN';
-        else if (language.startsWith('te') || /[\u0C00-\u0C7F]/.test(text)) langCode = 'te-IN';
-        else if (language.startsWith('bn') || /[\u0980-\u09FF]/.test(text)) langCode = 'bn-IN';
-        else if (language.startsWith('mr')) langCode = 'mr-IN';
-        else if (language.startsWith('gu') || /[\u0A80-\u0AFF]/.test(text)) langCode = 'gu-IN';
-        else if (language.startsWith('ml') || /[\u0D00-\u0D7F]/.test(text)) langCode = 'ml-IN';
-        else if (language.startsWith('pa') || /[\u0A00-\u0A7F]/.test(text)) langCode = 'pa-IN';
-        else if (language.startsWith('od') || /[\u0B00-\u0B7F]/.test(text)) langCode = 'od-IN';
+        let defaultSpeaker = 'priya';
+
+        if (/[\u0C80-\u0CFF]/.test(text) || language.startsWith('kn')) {
+          langCode = 'kn-IN';
+          defaultSpeaker = 'kavitha';
+        } else if (/[\u0900-\u097F]/.test(text) || language.startsWith('hi')) {
+          langCode = 'hi-IN';
+          defaultSpeaker = 'priya';
+        } else if (/[\u0B80-\u0BFF]/.test(text) || language.startsWith('ta')) {
+          langCode = 'ta-IN';
+          defaultSpeaker = 'kavitha';
+        } else if (/[\u0C00-\u0C7F]/.test(text) || language.startsWith('te')) {
+          langCode = 'te-IN';
+          defaultSpeaker = 'kavitha';
+        } else if (/[\u0980-\u09FF]/.test(text) || language.startsWith('bn')) {
+          langCode = 'bn-IN';
+          defaultSpeaker = 'priya';
+        } else if (language.startsWith('mr')) {
+          langCode = 'mr-IN';
+          defaultSpeaker = 'priya';
+        } else if (/[\u0A80-\u0AFF]/.test(text) || language.startsWith('gu')) {
+          langCode = 'gu-IN';
+          defaultSpeaker = 'priya';
+        } else if (/[\u0D00-\u0D7F]/.test(text) || language.startsWith('ml')) {
+          langCode = 'ml-IN';
+          defaultSpeaker = 'kavitha';
+        } else if (/[\u0A00-\u0A7F]/.test(text) || language.startsWith('pa')) {
+          langCode = 'pa-IN';
+          defaultSpeaker = 'priya';
+        } else if (/[\u0B00-\u0B7F]/.test(text) || language.startsWith('od')) {
+          langCode = 'od-IN';
+          defaultSpeaker = 'priya';
+        }
 
         const sarvamRes = await fetch('https://api.sarvam.ai/text-to-speech', {
           method: 'POST',
@@ -39,9 +78,10 @@ export async function POST(req: NextRequest) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            text: text.slice(0, 500).trim(),
+            text: cleanedText,
             language_code: langCode,
-            speaker: speaker || (langCode === 'kn-IN' ? 'meera' : 'shubh'),
+            speaker: speaker || defaultSpeaker,
+            model: 'bulbul:v3',
           }),
         });
 
@@ -56,6 +96,9 @@ export async function POST(req: NextRequest) {
               supported: true,
             });
           }
+        } else {
+          const errText = await sarvamRes.text().catch(() => '');
+          console.warn(`Sarvam TTS status ${sarvamRes.status}: ${errText}`);
         }
       } catch (sarvamTtsErr) {
         console.warn('Sarvam TTS notice, falling back:', sarvamTtsErr);
