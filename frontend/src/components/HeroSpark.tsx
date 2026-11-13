@@ -129,15 +129,26 @@ export default function HeroSpark() {
 
   return (
     <section className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center overflow-hidden py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-cream/60 via-background to-background dark:from-aubergine/40 dark:via-background dark:to-background">
+      {/* Women Hero Background Image with Atmospheric Lighting */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
+        <img
+          src="/women-hero.webp"
+          alt="Women Empowerment Background"
+          className="w-full h-full object-cover object-center opacity-30 dark:opacity-20 transition-opacity duration-700 filter contrast-105"
+        />
+        {/* Soft gradient wash so typography & buttons stay 100% crisp and readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/80 to-background dark:from-slate-950/75 dark:via-slate-900/85 dark:to-slate-950" />
+      </div>
+
       {/* Background Interactive Firefly Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 pointer-events-none z-0"
+        className="absolute inset-0 pointer-events-none z-[1]"
       />
 
       {/* Subtle Aurora Ambient Radial Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-tr from-rani/20 via-saffron/15 to-marigold/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 left-1/4 w-[350px] h-[350px] bg-peacock/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-tr from-rani/20 via-saffron/15 to-marigold/10 rounded-full blur-3xl pointer-events-none z-[1]" />
+      <div className="absolute top-1/3 left-1/4 w-[350px] h-[350px] bg-peacock/10 rounded-full blur-3xl pointer-events-none z-[1]" />
 
       <div className="relative z-10 max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
         {/* Left Column: Staggered Blur-to-Sharp Text & Actions */}
