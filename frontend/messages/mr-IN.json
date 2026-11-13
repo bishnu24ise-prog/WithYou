@@ -1,0 +1,181 @@
+{
+  "_meta": {
+    "locale": "mr-IN",
+    "name": "Marathi (India)",
+    "nativeName": "मराठी",
+    "machineTranslated": true,
+    "needsNativeReview": true
+  },
+  "meta": {
+    "title": "SafeSpark - Confidential Support & Legal Protection Platform",
+    "description": "Discreet emergency distress reporting, 24/7 AI legal assistant, and empathetic therapy support."
+  },
+  "common": {
+    "appName": "SafeSpark",
+    "tagline": "Confidential Domestic Safety & Legal Aid",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "processing": "Processing...",
+    "error": "An error occurred",
+    "success": "Success",
+    "helpline": "Helpline",
+    "emergencyNotice": "If you are in immediate physical danger, please call 112 or 1091 directly."
+  },
+  "nav": {
+    "home": "मुख्यपृष्ठ",
+    "sos": "तक्रार (गुप्त SOS)",
+    "lawbot": "कायदेशीर मदत (LawBot)",
+    "therapy": "3D साथीदार",
+    "dashboard": "डॅशबोर्ड",
+    "signIn": "लॉग इन",
+    "signUp": "साइन अप",
+    "signOut": "लॉग आउट",
+    "roleAuthority": "अधिकारी",
+    "roleSurvivor": "नागरिक"
+  },
+  "quickExit": {
+    "label": "त्वरित बाहेर पडा",
+    "helplineTitle": "24/7 हेल्पलाइन:",
+    "womenHelpline": "महिला: 1091",
+    "emergencyHelpline": "पोलीस: 112",
+    "domesticAbuseHelpline": "NCW: 181",
+    "tripleEscTip": "त्वरित बंद करण्यासाठी Esc 3 वेळा दाबा",
+    "instantSafety": "त्वरित सुरक्षितता",
+    "wiping": "माहिती नष्ट केली जात आहे..."
+  },
+  "language": {
+    "select": "Language",
+    "chooseLanguage": "Choose your language",
+    "detectedLanguage": "Detected Language",
+    "persistedNotice": "Your language choice is stored securely on this device and cleared during Quick Exit."
+  },
+  "firstVisitModal": {
+    "title": "Welcome to SafeSpark",
+    "subtitle": "Please select your preferred language for safety guidance and voice support.",
+    "continue": "Continue to SafeSpark",
+    "note": "You can change your language anytime using the language selector at the top."
+  },
+  "sos": {
+    "title": "गोपनीय आणीबाणी SOS तक्रार",
+    "subtitle": "तुमची आणीबाणी तक्रार सुरक्षितपणे नोंदवा.",
+    "speakToFill": "फॉर्म भरण्यासाठी बोला",
+    "speakingNotice": "Listening... Speak naturally (e.g., 'My name is Sunita, I live in Pune...')",
+    "voiceWarning": "आवाज इतरांना ऐकू जाऊ शकतो. तुम्ही टाइप करू शकता.",
+    "nameLabel": "तुमचे नाव / टोपणनाव",
+    "namePlaceholder": "Enter your name or safe pseudonym",
+    "phoneLabel": "सुरक्षित संपर्क क्रमांक",
+    "phonePlaceholder": "Enter phone or leave confidential",
+    "locationLabel": "आणीबाणीचे ठिकाण",
+    "getLocation": "GPS स्थान वापरा",
+    "locationCoords": "Coordinates: {lat}, {lng}",
+    "durationLabel": "Duration of Abuse",
+    "frequencyLabel": "Frequency of Incidents",
+    "visibleInjuriesLabel": "Are there visible physical injuries?",
+    "yes": "Yes",
+    "no": "No",
+    "contactMethodsLabel": "Preferred Safe Contact Methods",
+    "situationLabel": "Describe the Current Situation",
+    "situationPlaceholder": "Describe what happened, any threats made, or immediate dangers...",
+    "culpritLabel": "Culprit / Perpetrator Details",
+    "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
+    "directSave": "तक्रार नोंदवा आणि डॅशबोर्डवर जा",
+    "stegoEncode": "Encode into Steganographic Photo",
+    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "submitting": "Encrypting & Submitting..."
+  },
+  "lawbot": {
+    "title": "Legal Protection Assistant (LawBot)",
+    "subtitle": "Confidential AI guidance on Indian domestic violence laws, PWDVA 2005, BNS, and your statutory rights.",
+    "inputPlaceholder": "Ask a question about your legal rights or protections...",
+    "send": "Ask LawBot",
+    "thinking": "Consulting legal statutes...",
+    "listen": "Listen",
+    "stopListening": "Stop",
+    "handsFree": "Hands-free Mode",
+    "disclaimer": "LawBot provides legal information, not formal attorney representation. In an emergency, dial 112 or 1091.",
+    "suggestionsTitle": "Frequently Asked Protections:",
+    "sugg1": "PWDVA 2005 & Protection Orders",
+    "sugg2": "Bharatiya Nyaya Sanhita (BNS Cruelty Provisions)",
+    "sugg3": "Residence, Shelter & Maintenance Rights",
+    "sugg4": "Emergency Helplines (112, 1091, 181)"
+  },
+  "therapy": {
+    "title": "Maya • SafeSpark Companion",
+    "subtitle": "A safe, trauma-informed sanctuary for emotional grounding, breathwork, and confidential listening.",
+    "view3D": "3D Avatar",
+    "viewSanctuary": "Sanctuary",
+    "voiceOn": "Voice On",
+    "muted": "Muted",
+    "inputPlaceholder": "Type how you are feeling or what you are experiencing...",
+    "listening": "Listening to your voice...",
+    "speaking": "Speaking...",
+    "comforting": "I am here with you.",
+    "handsFreeToggle": "Hands-free Conversation",
+    "quickBreath": "Calm Breathing",
+    "quickGrounding": "5-4-3-2-1 Grounding",
+    "quickUrgent": "Urgent Safety Steps",
+    "chatPlaceholder": "Type how you are feeling or what you are experiencing...",
+    "groundingExercise": "5-4-3-2-1 Grounding",
+    "send": "Send"
+  },
+  "dashboard": {
+    "title": "Confidential Case Dashboard",
+    "subtitle": "Monitor and review encrypted emergency reports and official dispatch updates.",
+    "totalCases": "Total Cases",
+    "highSeverity": "Critical / High Severity",
+    "resolved": "Protected / Resolved",
+    "pending": "Pending Action",
+    "originalLanguage": "Original Language",
+    "englishTranslation": "English Version (for Authorities)",
+    "viewOriginal": "View Original ({lang})",
+    "viewEnglish": "View English",
+    "caseTimeline": "Case Timeline",
+    "status": "Status",
+    "assignedOfficer": "Assigned Protection Officer"
+  },
+  "auth": {
+    "signInTitle": "Sign In to SafeSpark",
+    "signUpTitle": "Create Confidential Account",
+    "quickLoginSurvivor": "1-Click Survivor Demo Login",
+    "quickLoginAuthority": "1-Click Authority Demo Login",
+    "orUseClerk": "Or continue with standard login"
+  },
+  "voice": {
+    "micTooltip": "Click to speak in your language",
+    "listening": "Listening...",
+    "processing": "Transcribing speech...",
+    "voiceWarning": "Voice can be overheard. Ensure you are in a private space.",
+    "micPermissionDenied": "Microphone permission was denied. You can continue typing safely.",
+    "notSupported": "Voice recognition is not supported in this browser. Please use text input.",
+    "ttsUnsupported": "Spoken audio is not available for this language. Text reply is shown."
+  },
+  "toasts": {
+    "reportSubmitted": "Emergency report submitted securely.",
+    "languageChanged": "Language changed successfully.",
+    "copied": "Copied to clipboard.",
+    "sessionCleaned": "All session data and traces have been wiped."
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "Network connection unstable. Your data is preserved locally.",
+    "required": "This field is required."
+  },
+  "a11y": {
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "toggleTheme": "Toggle color theme",
+    "micButton": "Dictate with microphone",
+    "stopSpeaking": "Stop spoken playback"
+  },
+  "validation": {
+    "nameRequired": "Please enter a name or pseudonym (at least 2 characters).",
+    "situationRequired": "Please describe the situation (at least 5 characters).",
+    "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
+    "contactRequired": "Please select at least one contact method."
+  }
+}
