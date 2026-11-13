@@ -18,10 +18,10 @@ export default function DirectoryPage() {
           <span>Feature 2: TinyFish Self-Healing Directory (Batch Fetch)</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-          Live Verified Crisis & Legal Aid Directory
+          Live Verified Crisis, Police & Legal Aid Directory
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
-          Real-time institutional directory for survivors and citizens. Helplines, operating hours, and legal assistance are actively verified against official government portals using TinyFish Web Agent.
+          Location-aware emergency directory connecting survivors to their nearest One Stop Centres (Sakhi), All-Women Police Stations, and legal aid clinics with real-time GPS proximity, verified helplines, and direct navigation.
         </p>
         <div className="flex items-center justify-center gap-2 pt-1">
           <span className="text-xs text-slate-500 font-medium">Dictate in your language:</span>
