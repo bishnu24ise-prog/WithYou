@@ -19,7 +19,7 @@
 
 | Service | Status | Link |
 |:---|:---|:---|
-| **Next.js Web Application** | 🟢 **Live on Vercel** | [https://safespark.vercel.app](https://safespark.vercel.app) *(Mirror: [safespark-app.vercel.app](https://safespark-app.vercel.app))* |
+| **Next.js Web Application** | 🟢 **Live on Vercel** https://with-you-puce.vercel.app |
 | **FastAPI Backend API** | 🟢 **Live on Render** | [https://safespark.onrender.com](https://safespark.onrender.com) |
 | **Interactive Swagger Docs** | 🟢 **Live** | [https://safespark.onrender.com/docs](https://safespark.onrender.com/docs) |
 | **GitHub Repository** | 🟢 **Main Branch** | [https://github.com/bishnu24ise-prog/WithYou](https://github.com/bishnu24ise-prog/WithYou) |
