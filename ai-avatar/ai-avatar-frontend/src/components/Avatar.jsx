@@ -235,14 +235,27 @@ export function Avatar(props) {
   const dataArrayRef = useRef(null);
 
   useEffect(() => {
-    actions[animation]
-      .reset()
-      .fadeIn(mixer.stats.actions.inUse === 0 ? 0 : 0.5)
-      .play();
-    return () => actions[animation].fadeOut(0.5);
-  }, [animation]);
+    if (!actions) return;
+    const action = actions[animation] || actions['Idle'] || (Object.values(actions)[0]);
+    if (action) {
+      try {
+        action
+          .reset()
+          .fadeIn(mixer?.stats?.actions?.inUse === 0 ? 0 : 0.5)
+          .play();
+      } catch (err) {
+        console.warn('Animation action play notice:', err);
+      }
+      return () => {
+        try {
+          action.fadeOut(0.5);
+        } catch (err) {}
+      };
+    }
+  }, [animation, actions]);
 
   const lerpMorphTarget = (target, value, speed = 0.1) => {
+    if (typeof value !== 'number' || isNaN(value)) return;
     scene.traverse((child) => {
       if (child.isSkinnedMesh && child.morphTargetDictionary) {
         const index = child.morphTargetDictionary[target];
@@ -263,21 +276,29 @@ export function Avatar(props) {
 
   useEffect(() => {
     if (!audio) return;
+    let localCtx = null;
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (AudioCtx) {
-        const ctx = new AudioCtx();
-        const source = ctx.createMediaElementSource(audio);
-        const analyser = ctx.createAnalyser();
+        localCtx = new AudioCtx();
+        const source = localCtx.createMediaElementSource(audio);
+        const analyser = localCtx.createAnalyser();
         analyser.fftSize = 64;
         source.connect(analyser);
-        analyser.connect(ctx.destination);
+        analyser.connect(localCtx.destination);
         analyserRef.current = analyser;
         dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
       }
     } catch (e) {
       // AudioContext might already be attached or user gesture required
     }
+    return () => {
+      if (localCtx && localCtx.state !== 'closed') {
+        try {
+          localCtx.close();
+        } catch (e) {}
+      }
+    };
   }, [audio]);
 
   useEffect(() => {
@@ -301,9 +322,22 @@ export function Avatar(props) {
 
     // Set expressive talking animation and facial expression
     const talkingAnimations = ['Talking_0', 'Talking_1', 'Talking_2'];
-    const chosenAnim =
-      message.animation ||
-      talkingAnimations[Math.floor(Math.random() * talkingAnimations.length)];
+    const validAnimNames = animations ? animations.map((a) => a.name) : [];
+    let chosenAnim = message.animation;
+    if (!chosenAnim || !validAnimNames.includes(chosenAnim)) {
+      if (chosenAnim && typeof chosenAnim === 'string') {
+        const matched = validAnimNames.find((a) => a.toLowerCase() === chosenAnim.toLowerCase().trim());
+        if (matched) {
+          chosenAnim = matched;
+        } else if (/talk|speak/i.test(chosenAnim)) {
+          chosenAnim = 'Talking_0';
+        } else {
+          chosenAnim = talkingAnimations[Math.floor(Math.random() * talkingAnimations.length)];
+        }
+      } else {
+        chosenAnim = talkingAnimations[Math.floor(Math.random() * talkingAnimations.length)];
+      }
+    }
     setAnimation(chosenAnim);
     setFacialExpression(message.facialExpression || 'smile');
     setLipsync(message.lipsync);
@@ -396,18 +430,20 @@ export function Avatar(props) {
   }, [message]);
 
   useFrame((state) => {
-    !setupMode &&
-      Object.keys(nodes.EyeLeft.morphTargetDictionary).forEach((key) => {
-        const mapping = facialExpressions[facialExpression];
-        if (key === 'eyeBlinkLeft' || key === 'eyeBlinkRight') {
-          return; // eyes wink/blink are handled separately
-        }
-        if (mapping && mapping[key]) {
-          lerpMorphTarget(key, mapping[key], 0.1);
-        } else {
-          lerpMorphTarget(key, 0, 0.1);
-        }
-      });
+    try {
+      if (!setupMode && nodes?.EyeLeft?.morphTargetDictionary) {
+        const mapping = facialExpressions[facialExpression] || facialExpressions.smile || {};
+        Object.keys(nodes.EyeLeft.morphTargetDictionary).forEach((key) => {
+          if (key === 'eyeBlinkLeft' || key === 'eyeBlinkRight') {
+            return; // eyes wink/blink are handled separately
+          }
+          if (mapping && typeof mapping[key] === 'number') {
+            lerpMorphTarget(key, mapping[key], 0.1);
+          } else {
+            lerpMorphTarget(key, 0, 0.1);
+          }
+        });
+      }
 
     lerpMorphTarget('eyeBlinkLeft', blink || winkLeft ? 1 : 0, 0.5);
     lerpMorphTarget('eyeBlinkRight', blink || winkRight ? 1 : 0, 0.5);
@@ -478,6 +514,9 @@ export function Avatar(props) {
       }
       lerpMorphTarget(value, 0, 0.1);
     });
+  } catch (err) {
+    // Graceful frame guard to keep avatar visible under any circumstance
+  }
   });
 
   useControls('FacialExpressions', {

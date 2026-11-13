@@ -52,6 +52,54 @@ function generateLipSync(text: string, durationSeconds: number) {
   };
 }
 
+// Valid animations and facial expressions supported by Maya 3D Ready Player Me Avatar
+const VALID_ANIMATIONS = [
+  'Angry',
+  'Crying',
+  'Idle',
+  'Laughing',
+  'Rumba',
+  'Talking_0',
+  'Talking_1',
+  'Talking_2',
+  'Terrified',
+];
+
+const VALID_EXPRESSIONS = [
+  'smile',
+  'sad',
+  'surprised',
+  'angry',
+  'crazy',
+  'funnyFace',
+  'default',
+];
+
+function sanitizeAnimation(anim?: string): string {
+  if (!anim || typeof anim !== 'string') return 'Talking_1';
+  const trimmed = anim.trim();
+  const direct = VALID_ANIMATIONS.find((a) => a.toLowerCase() === trimmed.toLowerCase());
+  if (direct) return direct;
+  if (/talk|speak|chat/i.test(trimmed)) return 'Talking_1';
+  if (/laugh|happy/i.test(trimmed)) return 'Laughing';
+  if (/cry|sad/i.test(trimmed)) return 'Crying';
+  if (/angry|mad/i.test(trimmed)) return 'Angry';
+  if (/idle|stand|wait/i.test(trimmed)) return 'Idle';
+  return 'Talking_1';
+}
+
+function sanitizeExpression(expr?: string): string {
+  if (!expr || typeof expr !== 'string') return 'smile';
+  const trimmed = expr.trim();
+  const direct = VALID_EXPRESSIONS.find((e) => e.toLowerCase() === trimmed.toLowerCase());
+  if (direct) return direct;
+  if (/smile|happy|comfort|warm|kind|gentle/i.test(trimmed)) return 'smile';
+  if (/sad|grief|sorrow|unhappy/i.test(trimmed)) return 'sad';
+  if (/surprise|shock|wonder/i.test(trimmed)) return 'surprised';
+  if (/anger|frustrat|mad/i.test(trimmed)) return 'angry';
+  return 'smile';
+}
+
 // Localized therapeutic fallback messages for all 13 supported Indian languages
 const localizedTherapyFallbacks: Record<string, string[]> = {
   'en-IN': [
@@ -256,8 +304,8 @@ Format your response as valid JSON:
             const cleanJson = sarvamRes.text.replace(/```json/g, '').replace(/```/g, '').trim();
             const parsed = JSON.parse(cleanJson);
             if (parsed.text) botReply = parsed.text;
-            if (parsed.facialExpression) expression = parsed.facialExpression;
-            if (parsed.animation) animation = parsed.animation;
+            if (parsed.facialExpression) expression = sanitizeExpression(parsed.facialExpression);
+            if (parsed.animation) animation = sanitizeAnimation(parsed.animation);
           } catch {
             botReply = sarvamRes.text;
             expression = 'smile';
@@ -296,10 +344,10 @@ Return in JSON format:
           botReply = parsed.text;
         }
         if (parsed.facialExpression) {
-          expression = parsed.facialExpression;
+          expression = sanitizeExpression(parsed.facialExpression);
         }
         if (parsed.animation) {
-          animation = parsed.animation;
+          animation = sanitizeAnimation(parsed.animation);
         }
       } catch (geminiErr: any) {
         console.warn('Gemini chat note (using contextual dynamic response):', geminiErr?.message || geminiErr);
@@ -407,8 +455,8 @@ Return in JSON format:
             text: botReply,
             audio: audioBase64,
             lipsync,
-            facialExpression: expression,
-            animation,
+            facialExpression: sanitizeExpression(expression),
+            animation: sanitizeAnimation(animation),
           },
         ],
       },

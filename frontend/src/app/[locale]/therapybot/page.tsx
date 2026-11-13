@@ -67,6 +67,7 @@ export default function TherapyBotPage() {
   const [mounted, setMounted] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatScrollContainerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -138,7 +139,12 @@ export default function TherapyBotPage() {
   }, []);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatScrollContainerRef.current) {
+      chatScrollContainerRef.current.scrollTo({
+        top: chatScrollContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
   }, [messages, loading]);
 
   // Harmonic somatic breathing cycle (4-4-6 timing)
@@ -453,7 +459,7 @@ export default function TherapyBotPage() {
         </div>
 
         {/* Messages Feed */}
-        <div className="flex-1 overflow-y-auto space-y-3 pr-1 sm:pr-2 min-h-[260px] sm:min-h-[320px] lg:min-h-0 scrollbar-thin">
+        <div ref={chatScrollContainerRef} className="flex-1 overflow-y-auto space-y-3 pr-1 sm:pr-2 min-h-[260px] sm:min-h-[320px] lg:min-h-0 scrollbar-thin">
           {messages.map((msg, idx) => (
             <div key={idx} className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
               <div className="flex items-end gap-2 max-w-[92%] sm:max-w-[85%]">

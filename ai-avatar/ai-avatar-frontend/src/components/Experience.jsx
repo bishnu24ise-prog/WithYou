@@ -2,37 +2,38 @@ import {
   CameraControls,
   ContactShadows,
   Environment,
-  Text,
 } from "@react-three/drei";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { useFrame } from "@react-three/fiber";
+import { Suspense, useEffect, useRef } from "react";
 import { useChat } from "../hooks/useChat";
 import { Avatar } from "./Avatar";
 
 const Dots = (props) => {
   const { loading } = useChat();
-  const [loadingText, setLoadingText] = useState("");
-  useEffect(() => {
-    if (loading) {
-      const interval = setInterval(() => {
-        setLoadingText((loadingText) => {
-          if (loadingText.length > 2) {
-            return ".";
-          }
-          return loadingText + ".";
-        });
-      }, 800);
-      return () => clearInterval(interval);
-    } else {
-      setLoadingText("");
+  const groupRef = useRef();
+
+  useFrame((state) => {
+    if (loading && groupRef.current) {
+      const t = state.clock.getElapsedTime();
+      groupRef.current.position.y = 1.76 + Math.sin(t * 3.5) * 0.02;
     }
-  }, [loading]);
+  });
+
   if (!loading) return null;
   return (
-    <group {...props}>
-      <Text fontSize={0.14} anchorX={"left"} anchorY={"bottom"}>
-        {loadingText}
-        <meshBasicMaterial attach="material" color="black" />
-      </Text>
+    <group ref={groupRef} {...props}>
+      <mesh position={[-0.04, 0, 0]}>
+        <sphereGeometry args={[0.012, 16, 16]} />
+        <meshStandardMaterial color="#ec4899" emissive="#ec4899" emissiveIntensity={0.8} />
+      </mesh>
+      <mesh position={[0, 0, 0]}>
+        <sphereGeometry args={[0.015, 16, 16]} />
+        <meshStandardMaterial color="#f43f5e" emissive="#f43f5e" emissiveIntensity={0.8} />
+      </mesh>
+      <mesh position={[0.04, 0, 0]}>
+        <sphereGeometry args={[0.012, 16, 16]} />
+        <meshStandardMaterial color="#ec4899" emissive="#ec4899" emissiveIntensity={0.8} />
+      </mesh>
     </group>
   );
 };
