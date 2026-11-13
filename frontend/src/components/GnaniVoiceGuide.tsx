@@ -308,7 +308,7 @@ export function GnaniVoiceGuide() {
       />
 
       {/* Floating Trigger Button */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-2">
+      <div className="fixed bottom-20 right-4 sm:bottom-24 sm:right-6 z-50 flex items-center gap-2">
         <button
           onClick={() => {
             primeAudioContext();
@@ -333,7 +333,7 @@ export function GnaniVoiceGuide() {
 
       {/* Voice Guide Panel Modal */}
       {isOpen && (
-        <div className="fixed inset-x-3 bottom-18 sm:inset-auto sm:right-6 sm:bottom-24 sm:w-[430px] max-w-[calc(100vw-1.5rem)] max-h-[85vh] overflow-y-auto z-50 bg-[#1A0B2E]/95 backdrop-blur-xl border border-rani/40 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-rani/20 text-white animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <div className="fixed inset-x-3 bottom-32 sm:inset-auto sm:right-6 sm:bottom-36 sm:w-[430px] max-w-[calc(100vw-1.5rem)] max-h-[75vh] overflow-y-auto z-50 bg-[#1A0B2E]/95 backdrop-blur-xl border border-rani/40 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-rani/20 text-white animate-in fade-in slide-in-from-bottom-4 duration-300">
           {/* Header */}
           <div className="flex items-center justify-between pb-3 border-b border-white/10">
             <div className="flex items-center gap-2">
