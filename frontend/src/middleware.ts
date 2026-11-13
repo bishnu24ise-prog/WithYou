@@ -12,6 +12,19 @@ const isClerkConfigured =
   !publishableKey.includes('your_clerk');
 
 function middlewareHandler(req: NextRequest) {
+  const host = req.headers.get('host') || '';
+  // Canonical redirect: merge all old URLs into the single official project URL
+  if (
+    host.includes('safespark.vercel.app') ||
+    host.includes('safespark-app.vercel.app')
+  ) {
+    const targetUrl = new URL(
+      req.nextUrl.pathname + req.nextUrl.search,
+      'https://with-you-puce.vercel.app'
+    );
+    return NextResponse.redirect(targetUrl, 308);
+  }
+
   const { pathname } = req.nextUrl;
   if (
     pathname.startsWith('/api') ||
