@@ -118,7 +118,7 @@ export function GnaniAudioPlayerButton({
           </>
         ) : (
           <>
-            <Volume2 className="h-3 w-3 text-peacock" />
+            <Volume2 className="h-3 w-3 text-burgundy-300" />
             <span>Listen (Gnani AI)</span>
           </>
         )}

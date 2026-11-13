@@ -8,10 +8,31 @@ import { Toaster } from 'react-hot-toast';
 import ServiceWorkerCleaner from '@/components/ServiceWorkerCleaner';
 import FirstVisitLanguageModal from '@/components/FirstVisitLanguageModal';
 import { GnaniVoiceGuide } from '@/components/GnaniVoiceGuide';
+import WaterDropRipple from '@/components/WaterDropRipple';
+import StickyBottomHelplineBar from '@/components/StickyBottomHelplineBar';
+import MuiThemeProvider from '@/components/MuiThemeProvider';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
+
+const fontSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-sans',
+  display: 'swap',
+  fallback: ['system-ui', 'Segoe UI', 'Noto Sans', 'Noto Naskh Arabic', 'sans-serif'],
+});
+
+const fontDisplay = Fraunces({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-display',
+  display: 'swap',
+  fallback: ['Georgia', 'Noto Nastaliq Urdu', 'serif'],
+});
 
 export const metadata: Metadata = {
   title: 'SafeSpark - Confidential Support & Legal Protection Platform',
@@ -38,7 +59,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={isRTL ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <body
-        className="font-sans antialiased selection:bg-rani selection:text-white"
+        className={`${fontSans.variable} ${fontDisplay.variable} font-sans antialiased selection:bg-rani selection:text-white`}
         suppressHydrationWarning
       >
         <NextIntlClientProvider messages={messages} locale={locale}>
@@ -50,14 +71,18 @@ export default async function LocaleLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <div className="min-h-screen flex flex-col bg-background text-foreground">
-                <QuickExitBar />
-                <Navbar />
-                <main className="flex-1 flex flex-col">{children}</main>
-                <FirstVisitLanguageModal />
-                <GnaniVoiceGuide />
-              </div>
-              <Toaster position="top-right" />
+              <MuiThemeProvider>
+                <div className="min-h-screen flex flex-col bg-background text-foreground relative">
+                  <WaterDropRipple />
+                  <QuickExitBar />
+                  <Navbar />
+                  <main className="flex-1 flex flex-col">{children}</main>
+                  <StickyBottomHelplineBar />
+                  <FirstVisitLanguageModal />
+                  <GnaniVoiceGuide />
+                </div>
+                <Toaster position="top-right" />
+              </MuiThemeProvider>
             </ThemeProvider>
           </SafeAuthProvider>
         </NextIntlClientProvider>

@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "રિપોર્ટ સબમિટ કરો અને ડેશબોર્ડ પર જાઓ",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked with were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "એક શાંત ઢાલ | એક શક્તિશાળી અવાજ | ૧૦૦% એન્ક્રિપ્ટેડ",
+    "headlineLine1": "તમે એકલા નથી.",
+    "headlineLine2": "તમારી અંદર એક ચિનગારી છે.",
+    "subtitle": "સહાય મેળવો, તમારા અધિકારો જાણો અને શાંતિ અને સુરક્ષિત રીતે નિયંત્રણ લો.",
+    "ctaSupport": "શાંતિથી સહાય લો",
+    "ctaRights": "તમારા અધિકારો જાણો",
+    "badgeNoLogs": "કોઈ ફોન લૉગ નહીં",
+    "badgeNoTracking": "કોઈ જાહેરાત ટ્રૅકિંગ નહીં",
+    "badgeInstantExit": "તાત્કાલિક બહાર નીકળો",
+    "cardSilenceTag": "સંખ્યામાં મૌન",
+    "cardSilenceTitle": "ભારત ભરમાં એક છૂપો સંકટ.",
+    "cardSilenceBody": "ઘણી સ્ત્રીઓ ઉત્પીડન, દુર્વ્યવહાર અને હિંસાનો સામનો કરે છે — ઘણી વાર મૌનમાં.",
+    "cardSilenceCta": "ડેટા જુઓ",
+    "cardNightTitle": "રાત્રિ સુરક્ષા અંતર",
+    "cardNightBody": "રાત્રે સુરક્ષા નોંધપાત્ર રીતે ઘટે છે.",
+    "cardOneInThreeBig": "3 માંથી 1",
+    "cardOneInThreeBody": "ભારતમાં સ્ત્રીઓ કોઈ ને કોઈ સ્વરૂપે હિંસાનો અનુભવ કરે છે.",
+    "cardOneInThreeSource": "WHO અને NFHS-5 સર્વે રજિસ્ટ્રી",
+    "cardKnowTitle": "વધુ જાણો. સુરક્ષિત રહો.",
+    "cardKnowBody": "કાયદા, તમારા અધિકારો અને સહાય વિકલ્પો વિશે જાણો.",
+    "cardKnowCta": "વધુ વાંચો",
+    "quickHeader1": "તમારી સલામતી,",
+    "quickHeader2": "અમારી પ્રાથમિકતા",
+    "qaReportTitle": "દુર્વ્યવહારની જાણ કરો",
+    "qaReportBody": "ઘરેલું હિંસા અથવા ઉત્પીડનની સુરક્ષિત જાણ કરો.",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "સરળ ભાષામાં કાનૂની પ્રશ્નોના જવાબ મેળવો.",
+    "qaDirectoryTitle": "સહાય શોધો",
+    "qaDirectoryBody": "વિશ્વસ્ત હેલ્પલાઇન, આશ્રય અને સેવાઓ શોધો.",
+    "qaTherapyTitle": "તમારો સાથી",
+    "qaTherapyBody": "જ્યારે પણ જરૂર હોય, વાત કરવા માટે સલામત જગ્યા."
   }
 }

@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "Submit Emergency Report & Go to Dashboard",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked with were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "ଏକ ନୀରବ ଢାଲ | ଏକ ଶକ୍ତିଶାଳୀ ଶବ୍ଦ | ୧୦୦% ଏନ୍‌କ୍ରିପ୍ଟଡ",
+    "headlineLine1": "ଆପଣ ଏକୁଟିଆ ନୁହଁନ୍ତି।",
+    "headlineLine2": "ଆପଣଙ୍କ ଭିତରେ ଏକ ଦ୍ୟୁତି ଅଛି।",
+    "subtitle": "ସାହାଯ୍ୟ ପାଆନ୍ତୁ, ଆପଣଙ୍କ ଅଧିକାର ଜାଣନ୍ତୁ ଏବଂ ଚୁପ୍ ଚାପ୍ ଓ ସୁରକ୍ଷିତ ଭାବରେ ନିୟନ୍ତ୍ରଣ ନିଅନ୍ତୁ।",
+    "ctaSupport": "ଚୁପ୍ ଚାପ୍ ସାହାଯ୍ୟ ନିଅନ୍ତୁ",
+    "ctaRights": "ଆପଣଙ୍କ ଅଧିକାର ଜାଣନ୍ତୁ",
+    "badgeNoLogs": "କୌଣସି ଫୋନ୍ ଲଗ୍ ନାହିଁ",
+    "badgeNoTracking": "କୌଣସି ବିଜ୍ଞାପନ ଟ୍ରାକିଂ ନାହିଁ",
+    "badgeInstantExit": "ତୁରନ୍ତ ବାହାରୁ ଯାଆନ୍ତୁ",
+    "cardSilenceTag": "ସଂଖ୍ୟାରେ ନୀରବତା",
+    "cardSilenceTitle": "ସାରା ଭାରତରେ ଏକ ଲୁଚ୍ ଥ‌ିବା ସଂକଟ।",
+    "cardSilenceBody": "ଅନେକ ମହିଳା ହଇରାଣ, ଦୁର୍ବ୍ୟବହାର ଓ ହିଂସାର ସମ୍ମୁଖୀନ ହୁଅନ୍ତି — ଅଧିକାଂଶ ସମୟ ନୀରବରେ।",
+    "cardSilenceCta": "ତଥ୍ୟ ଅନ୍ୱେଷଣ କରନ୍ତୁ",
+    "cardNightTitle": "ରାତ୍ରି ସୁରକ୍ଷା ଫାଟ",
+    "cardNightBody": "ରାତ୍ରିରେ ସୁରକ୍ଷା ଉଲ୍ଲେଖନୀୟ ଭାବରେ ହ୍ରାସ ପାଏ।",
+    "cardOneInThreeBig": "3 ରେ 1",
+    "cardOneInThreeBody": "ଭାରତରେ ମହିଳାମାନେ କୌଣସି ନ କୌଣସି ରୂପରେ ହିଂସାର ଅନୁଭବ କରନ୍ତି।",
+    "cardOneInThreeSource": "WHO ଓ NFHS-5 ସର୍ଭେ ରେଜିଷ୍ଟ୍ରି",
+    "cardKnowTitle": "ଅଧିକ ଜାଣନ୍ତୁ। ସୁରକ୍ଷିତ ରୁହନ୍ତୁ।",
+    "cardKnowBody": "ଆଇନ, ଆପଣଙ୍କ ଅଧିକାର ଓ ସହାୟତା ବିକଳ୍ପ ବିଷୟରେ ଜାଣନ୍ତୁ।",
+    "cardKnowCta": "ଅଧିକ ପଢ଼ନ୍ତୁ",
+    "quickHeader1": "ଆପଣଙ୍କ ସୁରକ୍ଷା,",
+    "quickHeader2": "ଆମର ଅଗ୍ରାଧିକାର",
+    "qaReportTitle": "ଦୁର୍ବ୍ୟବହାର ରିପୋର୍ଟ କରନ୍ତୁ",
+    "qaReportBody": "ଘରୋଇ ହିଂସା ବା ହଇରାଣ ସୁରକ୍ଷିତ ଭାବରେ ରିପୋର୍ଟ କରନ୍ତୁ।",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "ସରଳ ଭାଷାରେ ଆଇନ ପ୍ରଶ୍ନର ଉତ୍ତର ପାଆନ୍ତୁ।",
+    "qaDirectoryTitle": "ସହାୟତା ଖୋଜନ୍ତୁ",
+    "qaDirectoryBody": "ବିଶ୍ୱସ୍ତ ହେଲ୍ପଲାଇନ, ଆଶ୍ରୟ ଓ ସେବା ଖୋଜନ୍ତୁ।",
+    "qaTherapyTitle": "ଆପଣଙ୍କ ସଙ୍ଗୀ",
+    "qaTherapyBody": "ଯେଉଁ ସମୟ ଦରକାର, କଥା ହେବାଲ୍ ଏକ ସୁରକ୍ଷିତ ସ୍ଥାନ।"
   }
 }

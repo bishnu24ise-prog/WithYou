@@ -128,7 +128,7 @@ export function AgentLivePanel({
       { delay: 600, percent: 20, type: 'INITIALIZED', message: `Connecting to ${portalUrl} via secure proxy sandbox...` },
       { delay: 900, percent: 45, type: 'STEP', message: 'Analyzing portal DOM: Women & Children Grievance reporting form found.' },
       { delay: 1100, percent: 70, type: 'STEP', message: 'Pre-filling incident draft from LawBot summary (PII scrubbed)...' },
-      { delay: 1200, percent: 90, type: 'SAFETY_HALT', message: '🛡️ SAFETY HALT ACTIVATED: Agent paused before final submission / CAPTCHA. Never submits.' },
+      { delay: 1200, percent: 90, type: 'SAFETY_HALT', message: '[SAFETY HALT ACTIVATED] Agent paused before final submission / CAPTCHA. Never submits.' },
       { delay: 800, percent: 100, type: 'COMPLETE', message: 'Draft pre-filled successfully! Handing over full control to human complainant.' },
     ];
 
@@ -146,7 +146,7 @@ export function AgentLivePanel({
     }
     setIsCompleted(true);
     setIsRunning(false);
-    toast.success('Complaint Assist draft ready for your review! 🛡️');
+    toast.success('Complaint Assist draft ready for your review!');
   };
 
   const stopAgent = () => {
@@ -162,7 +162,7 @@ export function AgentLivePanel({
         message: 'Agent stopped by user command.',
       },
     ]);
-    toast('Agent automation halted.', { icon: '🛑' });
+    toast('Agent automation halted.');
   };
 
   return (

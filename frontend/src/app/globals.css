@@ -4,56 +4,56 @@
 
 @layer base {
   :root {
-    --background: 30 33% 98%;
-    --foreground: 275 60% 12%;
-    --card: 0 0% 100%;
-    --card-foreground: 275 60% 12%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 275 60% 12%;
-    --primary: 338 78% 48%; /* Rani Rose #D81B60 */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 35 100% 96%;
-    --secondary-foreground: 275 60% 12%;
-    --muted: 335 40% 96%;
-    --muted-foreground: 280 15% 45%;
-    --accent: 180 100% 33%; /* Peacock #00A6A6 */
-    --accent-foreground: 0 0% 100%;
+    --background: 340 45% 97%; /* Warm soft champagne ivory */
+    --foreground: 345 65% 12%; /* Deep burgundy ink */
+    --card: 30 30% 98%;
+    --card-foreground: 345 65% 12%;
+    --popover: 30 30% 98%;
+    --popover-foreground: 345 65% 12%;
+    --primary: 338 78% 42%; /* Rich Burgundy Rose #C0265D */
+    --primary-foreground: 35 100% 98%;
+    --secondary: 35 40% 93%; /* Warm Beige */
+    --secondary-foreground: 345 65% 14%;
+    --muted: 340 30% 94%;
+    --muted-foreground: 345 25% 42%;
+    --accent: 335 70% 32%; /* Deep wine */
+    --accent-foreground: 35 100% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 335 25% 90%;
-    --input: 335 25% 90%;
-    --ring: 338 78% 48%;
+    --border: 340 30% 88%;
+    --input: 340 30% 88%;
+    --ring: 338 78% 42%;
     --radius: 1rem;
-    --chart-1: 338 78% 48%;
-    --chart-2: 42 100% 50%;
+    --chart-1: 338 78% 45%;
+    --chart-2: 35 75% 55%;
     --chart-3: 25 100% 55%;
-    --chart-4: 180 100% 33%;
+    --chart-4: 345 65% 30%;
     --chart-5: 256 100% 80%;
   }
 
   .dark {
-    --background: 270 60% 8%; /* Deep Aubergine #11061F */
-    --foreground: 330 30% 96%;
-    --card: 275 45% 12%;
-    --card-foreground: 330 30% 96%;
-    --popover: 275 45% 12%;
-    --popover-foreground: 330 30% 96%;
-    --primary: 338 78% 54%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 275 35% 18%;
-    --secondary-foreground: 330 30% 96%;
-    --muted: 275 30% 18%;
-    --muted-foreground: 275 15% 70%;
-    --accent: 180 80% 45%;
-    --accent-foreground: 270 60% 8%;
+    --background: 342 68% 6%; /* Deep Burgundy Velvet #1A040D */
+    --foreground: 35 45% 94%; /* Warm Champagne Beige #F5EBE1 */
+    --card: 343 55% 9%; /* Dark Wine Glass #240613 */
+    --card-foreground: 35 45% 94%;
+    --popover: 343 55% 9%;
+    --popover-foreground: 35 45% 94%;
+    --primary: 338 78% 50%; /* Radiant Berry Rose #D81B60 */
+    --primary-foreground: 35 100% 98%;
+    --secondary: 342 40% 14%;
+    --secondary-foreground: 35 45% 94%;
+    --muted: 342 35% 14%;
+    --muted-foreground: 340 20% 70%;
+    --accent: 35 60% 70%; /* Soft warm champagne glow */
+    --accent-foreground: 342 68% 6%;
     --destructive: 0 62.8% 45%;
     --destructive-foreground: 210 40% 98%;
-    --border: 275 30% 22%;
-    --input: 275 30% 22%;
-    --ring: 338 78% 54%;
+    --border: 342 30% 20%;
+    --input: 342 30% 20%;
+    --ring: 338 78% 50%;
     --chart-1: 338 78% 54%;
-    --chart-2: 42 100% 55%;
-    --chart-3: 25 100% 60%;
+    --chart-2: 35 65% 65%;
+    --chart-3: 345 70% 40%;
     --chart-4: 180 80% 45%;
     --chart-5: 256 100% 80%;
   }
@@ -72,43 +72,74 @@
 
 /* Glassmorphism Styles */
 .glass-card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(216, 27, 96, 0.12);
+  background: rgba(253, 242, 246, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(195, 47, 110, 0.16);
 }
 
 .dark .glass-card {
-  background: rgba(26, 11, 46, 0.65);
+  background: rgba(38, 7, 21, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(245, 235, 225, 0.14);
+}
+
+/* Burgundy Velvet Glassmorphism */
+.burgundy-glass {
+  background: linear-gradient(135deg, rgba(58, 11, 31, 0.78) 0%, rgba(33, 5, 17, 0.85) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(245, 235, 225, 0.15);
+  box-shadow: 0 25px 50px -12px rgba(21, 3, 10, 0.5), inset 0 1px 1px rgba(255, 240, 230, 0.15);
+}
+
+.burgundy-glass-subtle {
+  background: rgba(45, 8, 24, 0.55);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(183, 156, 255, 0.15);
+  border: 1px solid rgba(245, 235, 225, 0.1);
 }
 
 .glass-card-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 35px -10px rgba(216, 27, 96, 0.15),
-              0 0 15px 0 rgba(255, 179, 0, 0.1);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 24px 45px -10px rgba(195, 47, 110, 0.25),
+              0 0 25px 0 rgba(245, 235, 225, 0.1);
 }
 
 .dark .glass-card-hover:hover {
-  box-shadow: 0 20px 35px -10px rgba(183, 156, 255, 0.2),
-              0 0 20px 0 rgba(0, 166, 166, 0.15);
+  border-color: rgba(245, 235, 225, 0.28);
+  box-shadow: 0 25px 50px -10px rgba(195, 47, 110, 0.32),
+              0 0 30px 0 rgba(245, 235, 225, 0.14);
 }
+
+/* Water Droplet Ripple Effect Classes - REMOVED (canvas replaced with SVG waves) */
 
 /* Shimmer Gradient Text */
 .text-gradient-aurora {
-  background: linear-gradient(135deg, #D81B60 0%, #FF7A1A 50%, #FFB300 100%);
+  background: linear-gradient(135deg, #E0538D 0%, #C0A284 50%, #F5EBE1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.text-gradient-peacock {
-  background: linear-gradient(135deg, #00A6A6 0%, #B79CFF 50%, #D81B60 100%);
+.text-gradient-sparkle {
+  background: linear-gradient(135deg, #E0538D 0%, #C32F6E 50%, #F5EBE1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-beige {
+  background: linear-gradient(135deg, #FFFDF9 0%, #F5EBE1 50%, #E8D7C3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-burgundy {
+  background: linear-gradient(135deg, #D81B60 0%, #9C1F52 50%, #54102C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

@@ -164,7 +164,7 @@ function Share({ imageURL, resText, setShared, formData }: ShareProps) {
       <div className="w-full flex flex-col items-center gap-3">
         <Button
           size="lg"
-          className="w-full max-w-md bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-6 text-base shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 rounded-xl"
+          className="w-full max-w-md bg-burgundy-600 hover:bg-burgundy-500 text-beige-50 font-semibold py-6 text-base shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 rounded-xl"
           disabled={submitting || saveSuccess}
           onClick={async () => {
             await handleCommonFunction();
@@ -190,14 +190,14 @@ function Share({ imageURL, resText, setShared, formData }: ShareProps) {
         </Button>
 
         {saveSuccess && (
-          <div className="flex flex-col items-center gap-2 mt-2 p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl w-full max-w-md text-center animate-in fade-in duration-300">
-            <p className="text-sm text-emerald-800 dark:text-emerald-200 font-medium">
+          <div className="flex flex-col items-center gap-2 mt-2 p-4 bg-burgundy-900/40 dark:bg-burgundy-950/40 border border-burgundy-600 dark:border-burgundy-800 rounded-xl w-full max-w-md text-center animate-in fade-in duration-300">
+            <p className="text-sm text-beige-200 dark:text-beige-200 font-medium">
               Incident filed under <strong>{savedPost?.Name || 'your report'}</strong>
             </p>
             <Link
               href="/dashboard"
               prefetch={false}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold shadow transition-all duration-150"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-burgundy-600 hover:bg-burgundy-500 text-beige-50 rounded-lg text-sm font-semibold shadow transition-all duration-150"
             >
               View on Live Dashboard
               <ArrowRight className="h-4 w-4" />
@@ -218,7 +218,7 @@ function Share({ imageURL, resText, setShared, formData }: ShareProps) {
             onClick={handleShareTelegram}
             disabled={submitting}
           >
-            <ShareIcon className="h-4 w-4 text-blue-500" />
+            <ShareIcon className="h-4 w-4 text-burgundy-300" />
             Telegram
           </Button>
 

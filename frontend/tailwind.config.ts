@@ -11,6 +11,11 @@ const config = {
   prefix: '',
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'Noto Naskh Arabic', 'sans-serif'],
+        display: ['var(--font-display)', 'Georgia', 'serif'],
+        serif: ['var(--font-display)', 'Georgia', 'serif'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -157,6 +162,36 @@ const config = {
           800: '#230F4C',
           900: '#1A0B2E',
         },
+        // Rich Burgundy Palette (SafeSpark Redesign)
+        burgundy: {
+          DEFAULT: '#3B0B1E',
+          50: '#FDF2F6',
+          100: '#F8C8DC',
+          200: '#F08CB5',
+          300: '#E0538D',
+          400: '#C32F6E',
+          500: '#9C1F52',
+          600: '#74173D',
+          700: '#54102C',
+          800: '#3D0B20',
+          850: '#2C0716',
+          900: '#220510',
+          950: '#15030A',
+        },
+        // Warm Champagne Beige Palette
+        beige: {
+          DEFAULT: '#F5EBE1',
+          50: '#FFFDF9',
+          100: '#FAF4EC',
+          200: '#F5EBE1',
+          300: '#E8D7C3',
+          400: '#D6BEA3',
+          500: '#C0A284',
+          600: '#A18265',
+          700: '#7E634A',
+          800: '#5C4633',
+          900: '#3D2D20',
+        },
         blush: '#FFE4EC',
         cream: '#FFF8F2',
       },
@@ -205,6 +240,10 @@ const config = {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
         },
+        'slow-drift': {
+          '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+          '50%': { transform: 'translate(6px, -12px) scale(1.02)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -216,12 +255,7 @@ const config = {
         'marquee-right': 'marquee-right 35s linear infinite',
         float: 'float 6s ease-in-out infinite',
         shimmer: 'shimmer 4s ease-in-out infinite',
-      },
-      backgroundImage: {
-        'gradient-aurora': 'linear-gradient(135deg, #D81B60 0%, #FF7A1A 50%, #FFB300 100%)',
-        'gradient-peacock': 'linear-gradient(135deg, #00A6A6 0%, #B79CFF 50%, #D81B60 100%)',
-        'gradient-night': 'linear-gradient(180deg, #1A0B2E 0%, #3B0A45 50%, #120520 100%)',
-        'radial-spark': 'radial-gradient(circle at center, rgba(255,179,0,0.6) 0%, rgba(255,122,26,0.2) 40%, rgba(216,27,96,0) 70%)',
+        'slow-drift': 'slow-drift 12s ease-in-out infinite',
       },
     },
   },

@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "ਰਿਪੋਰਟ ਜਮ੍ਹਾਂ ਕਰੋ ਅਤੇ ਡੈਸ਼ਬੋਰਡ ਤੇ ਜਾਓ",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked with were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "ਇੱਕ ਚੁੱਪ ਢਾਲ | ਇੱਕ ਮਜ਼ਬੂਤ ਆਵਾਜ਼ | 100% ਐਨਕ੍ਰਿਪਟਡ",
+    "headlineLine1": "ਤੁਸੀਂ ਇਕੱਲੇ ਨਹੀਂ ਹੋ।",
+    "headlineLine2": "ਤੁਹਾਡੇ ਅੰਦਰ ਇੱਕ ਚੰਗਿਆੜੀ ਹੈ।",
+    "subtitle": "ਮਦਦ ਪ੍ਰਾਪਤ ਕਰੋ, ਆਪਣੇ ਅਧਿਕਾਰ ਜਾਣੋ ਅਤੇ ਚੁੱਪਚਾਪ ਅਤੇ ਸੁਰੱਖਿਅਤ ਤਰੀਕੇ ਨਾਲ ਨਿਯੰਤਰਣ ਲਓ।",
+    "ctaSupport": "ਚੁੱਪਚਾਪ ਮਦਦ ਲਓ",
+    "ctaRights": "ਆਪਣੇ ਅਧਿਕਾਰ ਜਾਣੋ",
+    "badgeNoLogs": "ਕੋਈ ਫ਼ੋਨ ਲੌਗ ਨਹੀਂ",
+    "badgeNoTracking": "ਕੋਈ ਇਸ਼ਤਿਹਾਰ ਟਰੈਕਿੰਗ ਨਹੀਂ",
+    "badgeInstantExit": "ਤੁਰੰਤ ਬਾਹਰ ਨਿਕਲੋ",
+    "cardSilenceTag": "ਅੰਕੜਿਆਂ ਵਿੱਚ ਚੁੱਪ",
+    "cardSilenceTitle": "ਭਾਰਤ ਭਰ ਵਿੱਚ ਇੱਕ ਲੁਕਿਆ ਸੰਕਟ।",
+    "cardSilenceBody": "ਬਹੁਤ ਸਾਰੀਆਂ ਔਰਤਾਂ ਪਰੇਸ਼ਾਨੀ, ਦੁਰਵਿਵਹਾਰ ਅਤੇ ਹਿੰਸਾ ਦਾ ਸਾਹਮਣਾ ਕਰਦੀਆਂ ਹਨ — ਅਕਸਰ ਚੁੱਪ ਵਿੱਚ।",
+    "cardSilenceCta": "ਡੇਟਾ ਦੇਖੋ",
+    "cardNightTitle": "ਰਾਤ ਦੀ ਸੁਰੱਖਿਆ ਦਾ ਫ਼ਰਕ",
+    "cardNightBody": "ਰਾਤ ਨੂੰ ਸੁਰੱਖਿਆ ਕਾਫ਼ੀ ਘੱਟ ਜਾਂਦੀ ਹੈ।",
+    "cardOneInThreeBig": "3 ਵਿੱਚੋਂ 1",
+    "cardOneInThreeBody": "ਭਾਰਤ ਵਿੱਚ ਔਰਤਾਂ ਕਿਸੇ ਨਾ ਕਿਸੇ ਰੂਪ ਵਿੱਚ ਹਿੰਸਾ ਦਾ ਅਨੁਭਵ ਕਰਦੀਆਂ ਹਨ।",
+    "cardOneInThreeSource": "WHO ਅਤੇ NFHS-5 ਸਰਵੇ ਰਜਿਸਟ੍ਰੀ",
+    "cardKnowTitle": "ਹੋਰ ਜਾਣੋ। ਸੁਰੱਖਿਅਤ ਰਹੋ।",
+    "cardKnowBody": "ਕਾਨੂੰਨਾਂ, ਆਪਣੇ ਅਧਿਕਾਰਾਂ ਅਤੇ ਸਹਾਇਤਾ ਵਿਕਲਪਾਂ ਬਾਰੇ ਜਾਣੋ।",
+    "cardKnowCta": "ਹੋਰ ਪੜ੍ਹੋ",
+    "quickHeader1": "ਤੁਹਾਡੀ ਸੁਰੱਖਿਆ,",
+    "quickHeader2": "ਸਾਡੀ ਪਹਿਲ",
+    "qaReportTitle": "ਦੁਰਵਿਵਹਾਰ ਦੀ ਰਿਪੋਰਟ ਕਰੋ",
+    "qaReportBody": "ਘਰੇਲੂ ਹਿੰਸਾ ਜਾਂ ਪਰੇਸ਼ਾਨੀ ਦੀ ਸੁਰੱਖਿਅਤ ਰਿਪੋਰਟ ਕਰੋ।",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "ਸਰਲ ਭਾਸ਼ਾ ਵਿੱਚ ਕਾਨੂੰਨੀ ਸਵਾਲਾਂ ਦੇ ਜਵਾਬ ਪਾਓ।",
+    "qaDirectoryTitle": "ਮਦਦ ਲੱਭੋ",
+    "qaDirectoryBody": "ਭਰੋਸੇਯੋਗ ਹੈਲਪਲਾਈਨ, ਸ਼ਰਣ ਅਤੇ ਸੇਵਾਵਾਂ ਲੱਭੋ।",
+    "qaTherapyTitle": "ਤੁਹਾਡਾ ਸਾਥੀ",
+    "qaTherapyBody": "ਜਦੋਂ ਵੀ ਲੋੜ ਹੋਵੇ, ਗੱਲ ਕਰਨ ਲਈ ਇੱਕ ਸੁਰੱਖਿਅਤ ਜਗ੍ਹਾ।"
   }
 }

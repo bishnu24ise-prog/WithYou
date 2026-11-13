@@ -125,7 +125,7 @@ function PostDetail({ id }: { id: string }) {
         <Link
           href="/dashboard"
           prefetch={false}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold"
+          className="px-4 py-2 bg-burgundy-600 hover:bg-burgundy-500 text-beige-50 rounded-lg text-sm font-semibold"
         >
           Return to Dashboard
         </Link>
@@ -136,7 +136,7 @@ function PostDetail({ id }: { id: string }) {
   if (!post) {
     return (
       <div className="h-screen flex flex-col items-center justify-center gap-3">
-        <Loader2 size={32} className="animate-spin text-blue-600" />
+        <Loader2 size={32} className="animate-spin text-primary" />
         <span className="text-sm text-slate-500">Loading incident dossier...</span>
       </div>
     );
@@ -224,7 +224,7 @@ function PostDetail({ id }: { id: string }) {
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <User className="h-6 w-6 text-blue-600" />
+              <User className="h-6 w-6 text-primary" />
               <h1 className="text-3xl font-extrabold capitalize text-slate-900 dark:text-slate-100">
                 {survivorName}
               </h1>
@@ -260,7 +260,7 @@ function PostDetail({ id }: { id: string }) {
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between w-full mb-3">
             <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">Preferred way of contact</h2>
-            <div className="p-2 bg-blue-50 dark:bg-blue-950 rounded-lg text-blue-600">
+            <div className="p-2 bg-burgundy-50 dark:bg-burgundy-950 rounded-lg text-primary">
               <PhoneCall className="h-4 w-4" />
             </div>
           </div>
@@ -271,7 +271,7 @@ function PostDetail({ id }: { id: string }) {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xs text-slate-500 font-medium">Contact:</span>
-              <span className="font-mono font-semibold text-blue-600 dark:text-blue-400">{contactNumber}</span>
+              <span className="font-mono font-semibold text-primary dark:text-primary">{contactNumber}</span>
             </div>
           </div>
         </div>
@@ -380,7 +380,7 @@ function PostDetail({ id }: { id: string }) {
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between w-full mb-3">
             <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">Current Status</h2>
-            <div className="p-2 bg-blue-50 dark:bg-blue-950 rounded-lg text-blue-600">
+            <div className="p-2 bg-burgundy-50 dark:bg-burgundy-950 rounded-lg text-primary">
               <TrendingUp className="h-4 w-4" />
             </div>
           </div>
@@ -408,7 +408,7 @@ function PostDetail({ id }: { id: string }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
         <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900 p-2">
           <div className="flex items-center gap-2 px-2 py-1 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wide">
-            <MapPin className="h-3.5 w-3.5 text-blue-500" />
+            <MapPin className="h-3.5 w-3.5 text-primary" />
             Emergency SOS Geolocation Map
           </div>
           <iframe
@@ -425,7 +425,7 @@ function PostDetail({ id }: { id: string }) {
 
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900 p-4">
           <div className="flex items-center gap-2 mb-4 pb-2 border-b border-slate-100 dark:border-slate-800">
-            <Clock className="h-4 w-4 text-blue-500" />
+            <Clock className="h-4 w-4 text-primary" />
             <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">
               Recent Case Activities & Timeline
             </h2>

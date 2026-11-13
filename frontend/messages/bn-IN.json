@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "জরুরি রিপোর্ট জমা দিন ও ড্যাশবোর্ডে যান",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked with were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "একটি নীরব ঢাল | একটি শক্তিশালী কণ্ঠস্বর | ১০০% এনক্রিপ্টেড",
+    "headlineLine1": "আপনি একা নন।",
+    "headlineLine2": "আপনার মধ্যে একটি আলো আছে।",
+    "subtitle": "সহায়তা পান, আপনার অধিকার জানুন এবং চুপচাপ ও নিরাপদে নিয়ন্ত্রণ নিন।",
+    "ctaSupport": "চুপচাপ সহায়তা নিন",
+    "ctaRights": "আপনার অধিকার জানুন",
+    "badgeNoLogs": "কোনো ফোন লগ নেই",
+    "badgeNoTracking": "কোনো বিজ্ঞাপন ট্র্যাকিং নেই",
+    "badgeInstantExit": "তাৎক্ষণিক বের হন",
+    "cardSilenceTag": "সংখ্যায় নীরবতা",
+    "cardSilenceTitle": "ভারত জুড়ে একটি লুকানো সংকট।",
+    "cardSilenceBody": "অনেক নারী হয়রানি, নির্যাতন এবং সহিংসতার শিকার হন — প্রায়ই নীরবে।",
+    "cardSilenceCta": "ডেটা অন্বেষণ করুন",
+    "cardNightTitle": "রাতের নিরাপত্তার ঘাটতি",
+    "cardNightBody": "রাতে নিরাপত্তা উল্লেখযোগ্যভাবে কমে যায়।",
+    "cardOneInThreeBig": "৩ জনে ১ জন",
+    "cardOneInThreeBody": "ভারতে নারীরা কোনো না কোনো রূপে সহিংসতার অভিজ্ঞতা পান।",
+    "cardOneInThreeSource": "WHO এবং NFHS-5 জরিপ রেজিস্ট্রি",
+    "cardKnowTitle": "বেশি জানুন। নিরাপদ থাকুন।",
+    "cardKnowBody": "আইন, আপনার অধিকার এবং সহায়তার বিকল্পগুলি সম্পর্কে জানুন।",
+    "cardKnowCta": "আরো পড়ুন",
+    "quickHeader1": "আপনার নিরাপত্তা,",
+    "quickHeader2": "আমাদের অগ্রাধিকার",
+    "qaReportTitle": "নির্যাতন রিপোর্ট করুন",
+    "qaReportBody": "নিরাপদে গার্হস্থ্য সহিংসতা বা হয়রানি রিপোর্ট করুন।",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "সহজ ভাষায় আইনি প্রশ্নের উত্তর পান।",
+    "qaDirectoryTitle": "সহায়তা খুঁজুন",
+    "qaDirectoryBody": "বিশ্বস্ত হেল্পলাইন, আশ্রয় ও সেবা খুঁজুন।",
+    "qaTherapyTitle": "আপনার সঙ্গী",
+    "qaTherapyBody": "যখনই প্রয়োজন, কথা বলার জন্য একটি নিরাপদ জায়গা।"
   }
 }

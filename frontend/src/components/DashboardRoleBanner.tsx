@@ -19,21 +19,21 @@ export function DashboardRoleBanner() {
   // 1. Logged in as Authority
   if (role === 'authority' && user) {
     return (
-      <div className="mb-5 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 dark:from-blue-950/60 dark:via-indigo-950/50 dark:to-blue-950/60 border border-blue-200 dark:border-blue-800 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="mb-5 bg-gradient-to-r from-burgundy-50/50 via-beige-100 to-burgundy-50/50 dark:from-burgundy-900/60 dark:via-burgundy-950/50 dark:to-burgundy-900/60 border border-burgundy-200 dark:border-burgundy-700 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-blue-600 text-white rounded-xl shadow-xs shrink-0">
+          <div className="p-2.5 bg-burgundy-500 text-white rounded-xl shadow-xs shrink-0">
             <ShieldCheck className="h-5 w-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-black text-sm text-blue-950 dark:text-blue-100">
+              <span className="font-black text-sm text-foreground">
                 {user.name}
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-200 dark:bg-blue-900 text-blue-900 dark:text-blue-200 uppercase tracking-wide flex items-center gap-1">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-burgundy-200 dark:bg-burgundy-800 text-burgundy-900 dark:text-beige-200 uppercase tracking-wide flex items-center gap-1">
                 <Shield className="w-3 h-3" /> Verified Official
               </span>
             </div>
-            <p className="text-xs text-blue-700 dark:text-blue-300 mt-0.5">
+            <p className="text-xs text-muted-foreground mt-0.5">
               {user.department || 'Special Police Unit for Women & Children (SPUWAC)'} • Full case dossier resolution privileges active.
             </p>
           </div>
@@ -44,7 +44,7 @@ export function DashboardRoleBanner() {
             size="sm"
             variant="outline"
             onClick={() => loginAs('victim')}
-            className="text-xs h-8 border-blue-300 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900 text-blue-900 dark:text-blue-200"
+            className="text-xs h-8 border-burgundy-300 dark:border-burgundy-700 hover:bg-burgundy-100 dark:hover:bg-burgundy-900 text-foreground"
           >
             Switch to Citizen Mode
           </Button>
@@ -66,7 +66,7 @@ export function DashboardRoleBanner() {
     return (
       <div className="mb-5 bg-gradient-to-r from-rose-50 via-purple-50 to-rose-50 dark:from-rose-950/50 dark:via-purple-950/40 dark:to-rose-950/50 border border-rose-200 dark:border-rose-800 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-gradient-to-tr from-rani to-saffron text-white rounded-xl shadow-xs shrink-0">
+          <div className="p-2.5 bg-gradient-to-tr from-rani to-burgundy-400 text-white rounded-xl shadow-xs shrink-0">
             <User className="h-5 w-5" />
           </div>
           <div>
@@ -88,9 +88,9 @@ export function DashboardRoleBanner() {
           <Button
             size="sm"
             onClick={() => loginAs('authority')}
-            className="text-xs h-8 bg-blue-600 hover:bg-blue-700 text-white font-bold"
+            className="text-xs h-8 bg-gradient-to-r from-burgundy-500 to-burgundy-400 hover:brightness-110 text-beige-50 font-bold flex items-center gap-1.5"
           >
-            Switch to Authority Mode →
+            Switch to Authority Mode <ArrowRight className="w-3.5 h-3.5" />
           </Button>
           <Button
             size="sm"
@@ -138,7 +138,7 @@ export function DashboardRoleBanner() {
               badge: 'Law Enforcement / Official',
             });
           }}
-          className="text-xs h-8 bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1 shadow-xs"
+          className="text-xs h-8 bg-gradient-to-r from-burgundy-500 to-burgundy-400 hover:brightness-110 text-beige-50 font-bold flex items-center gap-1 shadow-xs"
         >
           <Shield className="w-3.5 h-3.5" />
           <span>Login as Authority</span>
@@ -154,7 +154,7 @@ export function DashboardRoleBanner() {
               badge: 'Protected Citizen',
             });
           }}
-          className="text-xs h-8 bg-gradient-to-r from-rani to-saffron hover:opacity-95 text-white font-bold flex items-center gap-1 shadow-xs"
+          className="text-xs h-8 bg-gradient-to-r from-rani to-burgundy-400 hover:opacity-95 text-white font-bold flex items-center gap-1 shadow-xs"
         >
           <User className="w-3.5 h-3.5" />
           <span>Login as Citizen</span>
@@ -162,9 +162,9 @@ export function DashboardRoleBanner() {
 
         <Link
           href="/sign-in"
-          className="text-xs text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 underline underline-offset-2 ml-1"
+          className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 ml-1 flex items-center gap-1"
         >
-          Custom Login →
+          Custom Login <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
     </div>

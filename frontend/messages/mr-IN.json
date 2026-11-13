@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "तक्रार नोंदवा आणि डॅशबोर्डवर जा",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked with were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "एक शांत ढाल | एक बलशाली आवाज | 100% एन्क्रिप्टेड",
+    "headlineLine1": "तुम्ही एकट्या नाहीत.",
+    "headlineLine2": "तुमच्यात एक ठिणगी आहे.",
+    "subtitle": "मदत मिळवा, तुमचे हक्क जाणा आणि शांतपणे व सुरक्षितपणे नियंत्रण घ्या.",
+    "ctaSupport": "शांतपणे मदत मिळवा",
+    "ctaRights": "तुमचे हक्क जाणा",
+    "badgeNoLogs": "फोन लॉग नाहीत",
+    "badgeNoTracking": "जाहिरात ट्रॅकिंग नाही",
+    "badgeInstantExit": "त्वरित बाहेर पडा",
+    "cardSilenceTag": "आकडेवारीतील शांतता",
+    "cardSilenceTitle": "भारतभर एक लपलेले संकट.",
+    "cardSilenceBody": "अनेक महिलांना छळ, अत्याचार आणि हिंसाचाराला सामोरे जावे लागते — बहुधा शांतपणे.",
+    "cardSilenceCta": "डेटा पहा",
+    "cardNightTitle": "रात्रीचे सुरक्षा अंतर",
+    "cardNightBody": "रात्री सुरक्षितता लक्षणीयरीत्या कमी होते.",
+    "cardOneInThreeBig": "3 पैकी 1",
+    "cardOneInThreeBody": "भारतातील महिला कोणत्या ना कोणत्या स्वरूपात हिंसाचाराचा अनुभव घेतात.",
+    "cardOneInThreeSource": "WHO आणि NFHS-5 सर्व्हे रजिस्ट्री",
+    "cardKnowTitle": "अधिक जाणा. सुरक्षित राहा.",
+    "cardKnowBody": "कायदे, तुमचे हक्क आणि मदतीचे पर्याय जाणा.",
+    "cardKnowCta": "अधिक वाचा",
+    "quickHeader1": "तुमची सुरक्षा,",
+    "quickHeader2": "आमची प्राथमिकता",
+    "qaReportTitle": "अत्याचाराची तक्रार करा",
+    "qaReportBody": "घरगुती हिंसा किंवा छळाची सुरक्षितपणे तक्रार करा.",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "सोप्या भाषेत कायदेशीर प्रश्नांची उत्तरे मिळवा.",
+    "qaDirectoryTitle": "मदत शोधा",
+    "qaDirectoryBody": "विश्वासू हेल्पलाइन, आश्रय आणि सेवा शोधा.",
+    "qaTherapyTitle": "तुमचा सोबती",
+    "qaTherapyBody": "जेव्हा आवश्यक असेल, बोलण्यासाठी एक सुरक्षित जागा."
   }
 }

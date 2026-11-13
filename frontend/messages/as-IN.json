@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "Submit Emergency Report & Go to Dashboard",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked with were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "এক নীৰৱ ঢাল | এক শক্তিশালী কণ্ঠ | ১০০% এনক্ৰিপ্টেড",
+    "headlineLine1": "আপুনি অকলশৰীয়া নহয়।",
+    "headlineLine2": "আপোনাৰ ভিতৰত এটা জিলিকনি আছে।",
+    "subtitle": "সহায় লওক, আপোনাৰ অধিকাৰ জানক আৰু নীৰৱে আৰু সুৰক্ষিতভাৱে নিয়ন্ত্ৰণ লওক।",
+    "ctaSupport": "নীৰৱে সহায় লওক",
+    "ctaRights": "আপোনাৰ অধিকাৰ জানক",
+    "badgeNoLogs": "কোনো ফোন লগ নাই",
+    "badgeNoTracking": "কোনো বিজ্ঞাপন ট্ৰেকিং নাই",
+    "badgeInstantExit": "তাৎক্ষণিক বাহিৰ যাওক",
+    "cardSilenceTag": "সংখ্যাত নীৰৱতা",
+    "cardSilenceTitle": "ভাৰত জুৰি এক লুকাই থকা সংকট।",
+    "cardSilenceBody": "বহু মহিলাই হাৰাশাস্তি, অত্যাচাৰ আৰু হিংসাৰ সম্মুখীন হয় — প্ৰায়ে নীৰৱে।",
+    "cardSilenceCta": "তথ্য অন্বেষণ কৰক",
+    "cardNightTitle": "ৰাতিৰ সুৰক্ষা ব্যৱধান",
+    "cardNightBody": "ৰাতি সুৰক্ষা উল্লেখযোগ্যভাৱে হ্ৰাস পায়।",
+    "cardOneInThreeBig": "৩ৰ ভিতৰত ১",
+    "cardOneInThreeBody": "ভাৰতত মহিলাসকলে কোনো না কোনো ৰূপত হিংসাৰ অভিজ্ঞতা লাভ কৰে।",
+    "cardOneInThreeSource": "WHO আৰু NFHS-5 জৰীপ ৰেজিষ্ট্ৰি",
+    "cardKnowTitle": "বেছিকৈ জানক। সুৰক্ষিত থাকক।",
+    "cardKnowBody": "আইন, আপোনাৰ অধিকাৰ আৰু সহায় বিকল্পৰ বিষয়ে জানক।",
+    "cardKnowCta": "আৰু পঢ়ক",
+    "quickHeader1": "আপোনাৰ সুৰক্ষা,",
+    "quickHeader2": "আমাৰ অগ্ৰাধিকাৰ",
+    "qaReportTitle": "অত্যাচাৰ প্ৰতিবেদন কৰক",
+    "qaReportBody": "গাৰ্হস্থ্য হিংসা বা হাৰাশাস্তি সুৰক্ষিতভাৱে প্ৰতিবেদন কৰক।",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "সহজ ভাষাত আইনী প্ৰশ্নৰ উত্তৰ লওক।",
+    "qaDirectoryTitle": "সহায় বিচাৰক",
+    "qaDirectoryBody": "বিশ্বাসযোগ্য হেল্পলাইন, আশ্ৰয় আৰু সেৱা বিচাৰক।",
+    "qaTherapyTitle": "আপোনাৰ সংগী",
+    "qaTherapyBody": "যেতিয়াই প্ৰয়োজন, কথা পাতিবলৈ এটা সুৰক্ষিত ঠাই।"
   }
 }

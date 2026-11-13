@@ -25,7 +25,7 @@ export function LoginDropdown() {
 
   if (!mounted) {
     return (
-      <Button variant="default" size="sm" className="bg-rani hover:bg-rani-600 text-white font-medium">
+      <Button variant="default" size="sm" className="bg-[#C0265D] hover:bg-[#9C1F52] text-[#FAF4EC] font-semibold rounded-full px-4">
         Login
       </Button>
     );
@@ -75,21 +75,21 @@ export function LoginDropdown() {
         <Button
           variant="default"
           size="sm"
-          className="bg-gradient-to-r from-rani to-saffron hover:opacity-95 text-white font-semibold flex items-center gap-1.5 shadow-sm px-3.5 py-1.5 rounded-lg transition-all"
+          className="bg-gradient-to-r from-[#B0164E] via-[#C0265D] to-[#E04D7A] hover:brightness-110 text-[#FAF4EC] font-bold flex items-center gap-1.5 shadow-md shadow-[#C0265D]/30 px-4 py-1.5 rounded-full transition-all border border-[#F5EBE1]/20 hover:scale-105 active:scale-95"
         >
-          <LogIn className="h-4 w-4" />
+          <LogIn className="h-3.5 w-3.5" />
           <span>Login</span>
-          <ChevronDown className="h-3.5 w-3.5 opacity-70" />
+          <ChevronDown className="h-3 w-3 opacity-70" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-72 p-2 shadow-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl z-50" align="end">
-        <DropdownMenuLabel className="font-semibold text-xs text-slate-500 uppercase tracking-wider px-2 py-1 flex items-center justify-between">
+      <DropdownMenuContent className="w-72 p-2 shadow-2xl border border-[#F5EBE1]/15 bg-[#250714] text-[#FAF4EC] rounded-2xl z-50 backdrop-blur-xl" align="end">
+        <DropdownMenuLabel className="font-semibold text-xs text-[#E8D7C3]/70 uppercase tracking-wider px-2 py-1 flex items-center justify-between">
           <span>Choose Your Role</span>
-          <span className="text-[10px] text-rani font-bold flex items-center gap-1">
+          <span className="text-[10px] text-[#FFA8B8] font-bold flex items-center gap-1">
             <Sparkles className="w-3 h-3" /> Quick Access
           </span>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator className="my-1" />
+        <DropdownMenuSeparator className="my-1 bg-[#F5EBE1]/10" />
 
         {/* 1. Law Enforcement & Govt Officials */}
         <DropdownMenuItem

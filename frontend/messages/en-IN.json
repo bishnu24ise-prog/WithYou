@@ -83,7 +83,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "Submit Emergency Report & Go to Dashboard",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked as voice-filled were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -175,5 +175,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "SUPPORT | SAFETY | DIGNITY",
+    "headlineLine1": "The world can be uncertain.",
+    "headlineLine2": "Your next step does not have to be.",
+    "subtitle": "A space built to help you find support, understand your options, and take action when it matters. You deserve to feel safe. You deserve to be heard.",
+    "ctaSupport": "Find Support",
+    "ctaRights": "Know Your Rights",
+    "badgeNoLogs": "No phone logs",
+    "badgeNoTracking": "Zero ad tracking",
+    "badgeInstantExit": "Instant exit",
+    "cardSilenceTag": "The Silence in Numbers",
+    "cardSilenceTitle": "A hidden crisis, across India.",
+    "cardSilenceBody": "Many women face harassment, abuse and violence, often in silence.",
+    "cardSilenceCta": "Explore the data",
+    "cardNightTitle": "Nighttime Safety Gap",
+    "cardNightBody": "Safety drops significantly at night.",
+    "cardOneInThreeBig": "1 in 3",
+    "cardOneInThreeBody": "women in India experience some form of violence.",
+    "cardOneInThreeSource": "WHO & NFHS-5 Survey Registry",
+    "cardKnowTitle": "Know more. Stay safe.",
+    "cardKnowBody": "Learn about the laws, your rights and support options.",
+    "cardKnowCta": "Read more",
+    "quickHeader1": "Your Safety,",
+    "quickHeader2": "Our Priority",
+    "qaReportTitle": "Report Abuse",
+    "qaReportBody": "Safely report domestic violence or harassment.",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "Get answers to legal questions in simple language.",
+    "qaDirectoryTitle": "Find Support",
+    "qaDirectoryBody": "Locate trusted helplines, shelters and services.",
+    "qaTherapyTitle": "Your Companion",
+    "qaTherapyBody": "A safe space to talk, whenever you need."
   }
 }

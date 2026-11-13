@@ -1,12 +1,10 @@
 'use client';
 
 import React, { useEffect, useCallback, useRef } from 'react';
-import { PhoneCall, ShieldAlert } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { PhoneCall } from 'lucide-react';
 
 export default function QuickExitBar() {
   const escCountRef = useRef(0);
-  const t = useTranslations('quickExit');
 
   const performQuickExit = useCallback(() => {
     // Clear cookies immediately
@@ -52,55 +50,37 @@ export default function QuickExitBar() {
   }, [performQuickExit]);
 
   return (
-    <>
-      {/* Desktop & Tablet Top Safety Banner */}
-      <div className="w-full bg-gradient-to-r from-plum via-aubergine to-plum text-white border-b border-rani/20 py-1.5 px-3 sm:px-6 relative z-50 shadow-md">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs">
-          {/* Quick Helplines */}
-          <div className="flex items-center gap-1.5 sm:gap-3 flex-wrap">
-            <span className="inline-flex items-center gap-1 text-marigold font-semibold tracking-wide uppercase text-[10px] sm:text-xs">
-              <PhoneCall className="w-3.5 h-3.5 animate-pulse text-marigold" />
-              {t('helplineTitle')}
-            </span>
-            <a
-              href="tel:1091"
-              className="bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded text-[11px] font-mono tracking-tight transition"
-              title="National Women Helpline (1091)"
-            >
-              {t('womenHelpline')}
-            </a>
-            <a
-              href="tel:112"
-              className="bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded text-[11px] font-mono tracking-tight transition"
-              title="National Emergency Police (112)"
-            >
-              {t('emergencyHelpline')}
-            </a>
-            <a
-              href="tel:181"
-              className="bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded text-[11px] font-mono tracking-tight transition"
-              title="Domestic Abuse Helpline (181)"
-            >
-              {t('domesticAbuseHelpline')}
-            </a>
-          </div>
+    <div className="w-full bg-[#15030A] text-[#FAF4EC] border-b border-[#F5EBE1]/10 py-1.5 px-4 sm:px-6 relative z-50 shadow-sm text-xs">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+        {/* Quick Helplines */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap text-[11px] sm:text-xs">
+          <span className="inline-flex items-center gap-1.5 text-[#FFA8B8] font-medium">
+            <PhoneCall className="w-3 h-3 text-[#FFA8B8]" />
+            <a href="tel:112" className="hover:text-white transition font-mono font-bold">112</a>
+            <span className="opacity-40">|</span>
+            <a href="tel:1091" className="hover:text-white transition font-mono font-bold">1091</a>
+            <span className="opacity-40">|</span>
+            <a href="tel:181" className="hover:text-white transition font-mono font-bold">181</a>
+            <span className="opacity-40">|</span>
+            <a href="tel:14416" className="hover:text-white transition font-mono font-bold" title="Tele-MANAS Mental Health">14416</a>
+          </span>
+        </div>
 
-          {/* Quick Exit Action */}
-          <div className="flex items-center gap-2">
-            <span className="hidden lg:inline text-white/70 text-[11px]">
-              {t('tripleEscTip')}
-            </span>
-            <button
-              onClick={performQuickExit}
-              className="bg-rose-600 hover:bg-rose-700 text-white font-bold px-3 py-1 rounded-md transition-colors flex items-center gap-1 shadow-sm uppercase tracking-wider text-[11px]"
-              title="Click or press Esc 3 times to immediately navigate to Google News and wipe session history"
-            >
-              <ShieldAlert className="w-3.5 h-3.5" />
-              <span>{t('label')}</span>
-            </button>
-          </div>
+        {/* Quick Exit Action Pill */}
+        <div className="flex items-center gap-2">
+          <span className="hidden sm:inline text-[#E8D7C3]/60 text-[10px] font-mono">
+            Press Esc
+          </span>
+          <button
+            onClick={performQuickExit}
+            className="bg-gradient-to-r from-[#B0164E] to-[#C32F6E] hover:brightness-110 text-[#FAF4EC] font-bold px-3 py-0.5 rounded-full transition-all flex items-center gap-1.5 shadow-sm text-[11px] tracking-wide border border-[#F5EBE1]/20 active:scale-95"
+            title="Click or press Esc 3 times to immediately navigate to Google News and wipe session history"
+          >
+            <span>QUICK EXIT</span>
+            <span className="text-[10px] opacity-80">➔</span>
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

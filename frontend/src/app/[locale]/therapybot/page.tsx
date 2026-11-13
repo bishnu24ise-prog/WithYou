@@ -375,7 +375,7 @@ export default function TherapyBotPage() {
               onClick={() => handleSend('I feel in danger right now. What safety steps should I follow immediately?')}
               className="text-xs bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900 rounded-lg px-2.5 py-1.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 transition shadow-xs font-medium text-left truncate"
             >
-              🚨 {t('quickUrgent')}
+              {t('quickUrgent')}
             </button>
           </div>
         </div>

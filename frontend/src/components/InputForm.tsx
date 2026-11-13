@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -328,8 +328,8 @@ export function InputForm({
           )}
 
           {aiFilledFields.size > 0 && (
-            <div className="mt-2 text-[11px] text-jade font-semibold flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5 text-jade" />
+            <div className="mt-2 text-[11px] text-burgundy-300 font-semibold flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-burgundy-300" />
               <span>{t('aiFilledNotice')}</span>
             </div>
           )}
@@ -346,7 +346,7 @@ export function InputForm({
                   <span>{t('nameLabel')}</span>
                   {aiFilledFields.has('name') && (
                     <span className="text-[10px] text-rani bg-rose-50 dark:bg-rose-950 px-1.5 py-0.5 rounded-md font-bold">
-                      ✨ Voice Filled
+                      Voice Filled
                     </span>
                   )}
                 </FormLabel>
@@ -412,7 +412,7 @@ export function InputForm({
                     <span>{t('phoneLabel')}</span>
                     {aiFilledFields.has('phone') && (
                       <span className="text-[10px] text-rani bg-rose-50 px-1.5 py-0.5 rounded-md font-bold">
-                        ✨ Voice Filled
+                        Voice Filled
                       </span>
                     )}
                   </FormLabel>
@@ -470,7 +470,7 @@ export function InputForm({
                   <span>{t('situationLabel')}</span>
                   {aiFilledFields.has('currentSituation') && (
                     <span className="text-[10px] text-rani bg-rose-50 dark:bg-rose-950 px-1.5 py-0.5 rounded-md font-bold">
-                      ✨ Voice Filled
+                      Voice Filled
                     </span>
                   )}
                 </FormLabel>
@@ -515,7 +515,7 @@ export function InputForm({
                   <span>{t('culpritLabel')}</span>
                   {aiFilledFields.has('culprit') && (
                     <span className="text-[10px] text-rani bg-rose-50 dark:bg-rose-950 px-1.5 py-0.5 rounded-md font-bold">
-                      ✨ Voice Filled
+                      Voice Filled
                     </span>
                   )}
                 </FormLabel>
@@ -619,3 +619,4 @@ export function InputForm({
     </Form>
   );
 }
+

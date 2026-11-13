@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "Submit Emergency Report & Go to Dashboard",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked with were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "ಒಂದು ಮೌನ ರಕ್ಷಣೆ | ಒಂದು ಬಲಶಾಲಿ ಧ್ವನಿ | 100% ಎನ್‌ಕ್ರಿಪ್ಟೆಡ್",
+    "headlineLine1": "ನೀವು ಒಂಟಿಯಲ್ಲ.",
+    "headlineLine2": "ನಿಮ್ಮೊಳಗೆ ಒಂದು ಹೊಳಪಿದೆ.",
+    "subtitle": "ಸಹಾಯ ಪಡೆಯಿರಿ, ನಿಮ್ಮ ಹಕ್ಕುಗಳನ್ನು ತಿಳಿಯಿರಿ ಮತ್ತು ಮೌನವಾಗಿ ಮತ್ತು ಸುರಕ್ಷಿತವಾಗಿ ನಿಯಂತ್ರಣ ತೆಗೆದುಕೊಳ್ಳಿ.",
+    "ctaSupport": "ಮೌನವಾಗಿ ಸಹಾಯ ಪಡೆಯಿರಿ",
+    "ctaRights": "ನಿಮ್ಮ ಹಕ್ಕುಗಳನ್ನು ತಿಳಿಯಿರಿ",
+    "badgeNoLogs": "ಫೋನ್ ಲಾಗ್‌ಗಳಿಲ್ಲ",
+    "badgeNoTracking": "ಜಾಹೀರಾತು ಟ್ರ್ಯಾಕಿಂಗ್ ಇಲ್ಲ",
+    "badgeInstantExit": "ತಕ್ಷಣ ನಿರ್ಗಮನ",
+    "cardSilenceTag": "ಸಂಖ್ಯೆಗಳಲ್ಲಿ ಮೌನ",
+    "cardSilenceTitle": "ಭಾರತದಾದ್ಯಂತ ಒಂದು ಅಡಗಿದ ಬಿಕ್ಕಟ್ಟು.",
+    "cardSilenceBody": "ಅನೇಕ ಮಹಿಳೆಯರು ಕಿರುಕುಳ, ದೌರ್ಜನ್ಯ ಮತ್ತು ಹಿಂಸಾಚಾರವನ್ನು ಎದುರಿಸುತ್ತಾರೆ — ಹೆಚ್ಚಾಗಿ ಮೌನದಲ್ಲಿ.",
+    "cardSilenceCta": "ಡೇಟಾ ಅನ್ವೇಷಿಸಿ",
+    "cardNightTitle": "ರಾತ್ರಿ ಸುರಕ್ಷತಾ ಅಂತರ",
+    "cardNightBody": "ರಾತ್ರಿ ಸಮಯದಲ್ಲಿ ಸುರಕ್ಷತೆ ಗಮನಾರ್ಹವಾಗಿ ಕಡಿಮೆಯಾಗುತ್ತದೆ.",
+    "cardOneInThreeBig": "3 ರಲ್ಲಿ 1",
+    "cardOneInThreeBody": "ಭಾರತದಲ್ಲಿ ಮಹಿಳೆಯರು ಯಾವುದಾದರೂ ರೀತಿಯ ಹಿಂಸಾಚಾರವನ್ನು ಅನುಭವಿಸುತ್ತಾರೆ.",
+    "cardOneInThreeSource": "WHO ಮತ್ತು NFHS-5 ಸಮೀಕ್ಷೆ ರಿಜಿಸ್ಟ್ರಿ",
+    "cardKnowTitle": "ಹೆಚ್ಚು ತಿಳಿಯಿರಿ. ಸುರಕ್ಷಿತರಾಗಿರಿ.",
+    "cardKnowBody": "ಕಾನೂನುಗಳು, ನಿಮ್ಮ ಹಕ್ಕುಗಳು ಮತ್ತು ಬೆಂಬಲ ಆಯ್ಕೆಗಳ ಬಗ್ಗೆ ತಿಳಿಯಿರಿ.",
+    "cardKnowCta": "ಇನ್ನಷ್ಟು ಓದಿ",
+    "quickHeader1": "ನಿಮ್ಮ ಸುರಕ್ಷತೆ,",
+    "quickHeader2": "ನಮ್ಮ ಆದ್ಯತೆ",
+    "qaReportTitle": "ದೌರ್ಜನ್ಯ ವರದಿ ಮಾಡಿ",
+    "qaReportBody": "ಗೃಹ ಹಿಂಸಾಚಾರ ಅಥವಾ ಕಿರುಕುಳವನ್ನು ಸುರಕ್ಷಿತವಾಗಿ ವರದಿ ಮಾಡಿ.",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "ಸರಳ ಭಾಷೆಯಲ್ಲಿ ಕಾನೂನು ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರ ಪಡೆಯಿರಿ.",
+    "qaDirectoryTitle": "ಬೆಂಬಲ ಹುಡುಕಿ",
+    "qaDirectoryBody": "ವಿಶ್ವಾಸಾರ್ಹ ಸಹಾಯವಾಣಿಗಳು, ಆಶ್ರಯಗಳು ಮತ್ತು ಸೇವೆಗಳನ್ನು ಹುಡುಕಿ.",
+    "qaTherapyTitle": "ನಿಮ್ಮ ಸಂಗಾತಿ",
+    "qaTherapyBody": "ಯಾವಾಗ ಬೇಕಾದರೂ ಮಾತನಾಡಲು ಸುರಕ್ಷಿತ ಸ್ಥಳ."
   }
 }

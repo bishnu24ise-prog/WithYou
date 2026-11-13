@@ -85,7 +85,7 @@ export const SILENCE_CHAPTERS: StatStory[] = [
     year: '2024',
     sourceUrl: 'https://journals.plos.org/mentalhealth/',
     visualType: 'ring',
-    accentColor: '#B79CFF', // Lavender
+    accentColor: '#E0538D', // burgundy-300
     badge: 'Silent Burden',
   },
   {
@@ -101,7 +101,7 @@ export const SILENCE_CHAPTERS: StatStory[] = [
     year: '2021-2024',
     sourceUrl: 'https://dhsprogram.com/pubs/pdf/FR375/FR375.pdf',
     visualType: 'dotgrid',
-    accentColor: '#FF7A1A', // Saffron
+    accentColor: '#C32F6E', // burgundy-400
     badge: 'Justice Barrier',
   },
   {
@@ -117,7 +117,7 @@ export const SILENCE_CHAPTERS: StatStory[] = [
     year: '2022',
     sourceUrl: 'https://theleaflet.in/',
     visualType: 'dotgrid',
-    accentColor: '#00A6A6', // Peacock Teal
+    accentColor: '#74173D', // burgundy-600
     badge: 'Isolation Gap',
   },
   {
@@ -133,7 +133,7 @@ export const SILENCE_CHAPTERS: StatStory[] = [
     year: '2024-2025',
     sourceUrl: 'https://www.unwomen.org/',
     visualType: 'bars',
-    accentColor: '#FFB300', // Marigold
+    accentColor: '#E8D7C3', // beige-300
     badge: 'Resource Deficit',
   },
 ];
@@ -336,7 +336,7 @@ export const SOLUTION_BRIDGES: SolutionBridge[] = [
     solutionDesc: 'A comforting, private 3D avatar offering trauma-informed support, deep listening, and soothing presence at any hour.',
     iconName: 'HeartHandshake',
     routeHref: '/therapybot',
-    color: '#B79CFF',
+    color: '#E0538D',
   },
   {
     problemId: 'lawbot',
@@ -347,7 +347,7 @@ export const SOLUTION_BRIDGES: SolutionBridge[] = [
     solutionDesc: 'Explains rights under Bharatiya Nyaya Sanhita and domestic violence laws in plain, accessible language.',
     iconName: 'Scale',
     routeHref: '/lawbot',
-    color: '#FF7A1A',
+    color: '#C32F6E',
   },
   {
     problemId: 'response',
@@ -358,7 +358,7 @@ export const SOLUTION_BRIDGES: SolutionBridge[] = [
     solutionDesc: 'Streamlines incident records and location telemetry for verified NGOs and emergency responders.',
     iconName: 'Activity',
     routeHref: '/dashboard',
-    color: '#00A6A6',
+    color: '#74173D',
   },
 ];
 

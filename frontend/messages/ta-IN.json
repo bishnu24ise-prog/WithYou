@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "அவசர அறிக்கையை சமர்ப்பித்து டாஷ்போர்டுக்குச் செல்லவும்",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked with were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "ஒரு அமைதியான கேடயம் | ஒரு வலிமையான குரல் | 100% குறியாக்கம்",
+    "headlineLine1": "நீங்கள் தனியாக இல்லை.",
+    "headlineLine2": "உங்களில் ஒரு ஒளி இருக்கிறது.",
+    "subtitle": "உதவி பெறுங்கள், உங்கள் உரிமைகளை அறியுங்கள், அமைதியாகவும் பாதுகாப்பாகவும் கட்டுப்பாட்டை எடுங்கள்.",
+    "ctaSupport": "அமைதியாக உதவி பெறுங்கள்",
+    "ctaRights": "உங்கள் உரிமைகளை அறியுங்கள்",
+    "badgeNoLogs": "தொலைபேசி பதிவுகள் இல்லை",
+    "badgeNoTracking": "விளம்பர கண்காணிப்பு இல்லை",
+    "badgeInstantExit": "உடனடி வெளியேறு",
+    "cardSilenceTag": "எண்களில் மவுனம்",
+    "cardSilenceTitle": "இந்தியா முழுவதும் ஒரு மறைக்கப்பட்ட நெருக்கடி.",
+    "cardSilenceBody": "பல பெண்கள் துன்புறுத்தல், துஷ்பிரயோகம் மற்றும் வன்முறையை எதிர்கொள்கின்றனர் — பெரும்பாலும் மவுனமாக.",
+    "cardSilenceCta": "தரவை ஆராயுங்கள்",
+    "cardNightTitle": "இரவு பாதுகாப்பு இடைவெளி",
+    "cardNightBody": "இரவில் பாதுகாப்பு கணிசமாக குறைகிறது.",
+    "cardOneInThreeBig": "3 இல் 1",
+    "cardOneInThreeBody": "இந்தியாவில் பெண்கள் எந்தவொரு வடிவத்திலும் வன்முறையை அனுபவிக்கின்றனர்.",
+    "cardOneInThreeSource": "WHO மற்றும் NFHS-5 கணக்கெடுப்பு பதிவேடு",
+    "cardKnowTitle": "அதிகம் அறியுங்கள். பாதுகாப்பாக இருங்கள்.",
+    "cardKnowBody": "சட்டங்கள், உங்கள் உரிமைகள் மற்றும் ஆதரவு விருப்பங்களைப் பற்றி அறியுங்கள்.",
+    "cardKnowCta": "மேலும் படிக்கவும்",
+    "quickHeader1": "உங்கள் பாதுகாப்பு,",
+    "quickHeader2": "எங்கள் முன்னுரிமை",
+    "qaReportTitle": "துஷ்பிரயோகத்தை புகாரளிக்கவும்",
+    "qaReportBody": "குடும்ப வன்முறை அல்லது துன்புறுத்தலை பாதுகாப்பாக புகாரளிக்கவும்.",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "எளிய மொழியில் சட்ட கேள்விகளுக்கு பதில்கள் பெறுங்கள்.",
+    "qaDirectoryTitle": "ஆதரவு கண்டறியுங்கள்",
+    "qaDirectoryBody": "நம்பகமான உதவி எண்கள், தங்குமிடங்கள் மற்றும் சேவைகளைக் கண்டறியுங்கள்.",
+    "qaTherapyTitle": "உங்கள் தோழர்",
+    "qaTherapyBody": "எப்போது வேண்டுமானாலும் பேசுவதற்கு ஒரு பாதுகாப்பான இடம்."
   }
 }

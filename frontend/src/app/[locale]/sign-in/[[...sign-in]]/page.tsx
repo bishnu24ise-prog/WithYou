@@ -281,9 +281,9 @@ export default function SignInPage() {
                 <button
                   type="button"
                   onClick={() => executeQuickLogin('police')}
-                  className="text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-blue-50/50 transition-colors"
+                  className="text-left p-2.5 rounded-xl border border-burgundy-200 dark:border-burgundy-800 hover:border-burgundy-400 bg-white dark:bg-burgundy-950 text-xs text-foreground hover:bg-burgundy-50/50 transition-colors"
                 >
-                  <div className="font-bold text-blue-600 dark:text-blue-400">🛡️ Police Duty Officer</div>
+                  <div className="font-bold text-primary dark:text-primary">Police Duty Officer</div>
                   <div className="text-[10px] text-slate-400">Insp. Sharma • SPUWAC Command</div>
                 </button>
                 <button

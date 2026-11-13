@@ -104,7 +104,7 @@ function MockAuthProvider({ children }: { children: React.ReactNode }) {
         (role === 'authority'
           ? 'Special Police Unit for Women & Children (SPUWAC)'
           : 'Confidential Case Reporting'),
-      avatar: details?.avatar || (role === 'authority' ? '🛡️' : '🌸'),
+      avatar: details?.avatar || (role === 'authority' ? '[AUTH]' : '[USER]'),
     };
 
     try {
@@ -118,8 +118,8 @@ function MockAuthProvider({ children }: { children: React.ReactNode }) {
     setUser(newUser);
     toast.success(
       role === 'authority'
-        ? `Authenticated as Official: ${displayName} 🛡️`
-        : `Authenticated as Protected Citizen: ${displayName} 🌸`
+        ? `Authenticated as Official: ${displayName}`
+        : `Authenticated as Protected Citizen: ${displayName}`
     );
   };
 
@@ -185,7 +185,7 @@ function RealClerkBridge({ children }: { children: React.ReactNode }) {
       role,
       badge: details?.badge || (role === 'authority' ? 'Law Enforcement / Official' : 'Protected Citizen'),
       department: details?.department || (role === 'authority' ? 'SPUWAC Police Unit' : 'Confidential'),
-      avatar: role === 'authority' ? '🛡️' : '🌸',
+      avatar: role === 'authority' ? '[AUTH]' : '[USER]',
     };
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newUser));
@@ -282,12 +282,12 @@ export function SafeUserButton() {
       <div
         className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold shadow-xs transition-all ${
           role === 'authority'
-            ? 'bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-950/80 dark:text-blue-200 dark:border-blue-800'
+            ? 'bg-burgundy-100 text-burgundy-900 border border-burgundy-300 dark:bg-burgundy-900/80 dark:text-beige-200 dark:border-burgundy-700'
             : 'bg-rose-100 text-rose-900 border border-rose-300 dark:bg-rose-950/80 dark:text-rose-200 dark:border-rose-800'
         }`}
         title={`${user.name} (${user.department || role})`}
       >
-        <span>{user.avatar || (role === 'authority' ? '🛡️' : '🌸')}</span>
+        <span>{user.avatar || (role === 'authority' ? '[A]' : '[U]')}</span>
         <span className="truncate max-w-[120px]">{user.name?.split(' ')[0]}</span>
         <span className="text-[10px] uppercase font-bold tracking-wider opacity-80">
           [{role === 'authority' ? 'Official' : 'Citizen'}]

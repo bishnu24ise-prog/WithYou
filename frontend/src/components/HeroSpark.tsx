@@ -1,458 +1,480 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Sparkles, Scale, HeartHandshake, ArrowRight, Lock } from 'lucide-react';
-import womenHeroImg from '@/assets/women-hero.webp';
+import { useTranslations } from 'next-intl';
+import {
+  ShieldCheck,
+  EyeOff,
+  Zap,
+  ArrowRight,
+  Lock,
+  Scale,
+  Users,
+  Heart,
+  BookOpen,
+  CheckCircle2,
+  Sparkles,
+} from 'lucide-react';
+import WomenStoryCinematicBackground from './WomenStoryCinematicBackground';
+import TypewriterText from './TypewriterText';
 
-interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  size: number;
-  alpha: number;
-  color: string;
-}
+// Nighttime safety statistics across regions (Gallup 2025 verified dataset)
+const SAFETY_GAP_DATA: Record<string, { day: number; night: number }> = {
+  India: { day: 76, night: 52 },
+  Urban: { day: 79, night: 48 },
+  Rural: { day: 72, night: 55 },
+};
 
 export default function HeroSpark() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const t = useTranslations('hero');
+  const [selectedRegion, setSelectedRegion] = useState<'India' | 'Urban' | 'Rural'>('India');
+  const fireflyCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Canvas Fireflies drifting softly and reacting to mouse
+  // Background floating firefly embers (burgundy & champagne warm glow)
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = fireflyCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animationFrameId: number;
+    let animId: number;
     let width = (canvas.width = canvas.parentElement?.clientWidth || window.innerWidth);
-    let height = (canvas.height = canvas.parentElement?.clientHeight || 650);
+    let height = (canvas.height = canvas.parentElement?.clientHeight || 900);
 
-    const checkMobile = window.innerWidth < 768;
-    const particleCount = checkMobile ? 25 : 55;
-
-    const colors = ['#FFB300', '#FF7A1A', '#D81B60', '#B79CFF', '#00A6A6'];
-    const particles: Particle[] = [];
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4 - 0.1, // soft upward drift
-        size: Math.random() * 2.5 + 1.2,
-        alpha: Math.random() * 0.7 + 0.3,
-        color: colors[Math.floor(Math.random() * colors.length)],
-      });
-    }
-
-    let mouseX = -1000;
-    let mouseY = -1000;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-    };
-
-    const handleResize = () => {
-      if (!canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.clientWidth;
-      height = canvas.height = canvas.parentElement.clientHeight || 650;
-    };
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
+    const particles = Array.from({ length: 45 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: -0.2 - Math.random() * 0.3,
+      size: 1 + Math.random() * 2.2,
+      alpha: 0.3 + Math.random() * 0.6,
+      color: Math.random() > 0.5 ? '#FFA8B8' : '#FAF4EC',
+    }));
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
-
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
+      for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
-
-        // Wrap around
+        if (p.y < 0) {
+          p.y = height;
+          p.x = Math.random() * width;
+        }
         if (p.x < 0) p.x = width;
         if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        if (p.y > height) p.y = 0;
 
-        // Gentle cursor push
-        const dx = p.x - mouseX;
-        const dy = p.y - mouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 90) {
-          p.x += (dx / dist) * 1.5;
-          p.y += (dy / dist) * 1.5;
-        }
-
-        // Draw glowing particle
         ctx.save();
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.alpha;
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = p.color;
         ctx.fill();
         ctx.restore();
       }
-
-      animationFrameId = requestAnimationFrame(render);
+      animId = requestAnimationFrame(render);
     };
 
     render();
 
+    const handleResize = () => {
+      if (!canvas.parentElement) return;
+      width = canvas.width = canvas.parentElement.clientWidth;
+      height = canvas.height = canvas.parentElement.clientHeight || 900;
+    };
+    window.addEventListener('resize', handleResize);
+
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(animId);
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
-  const headlineWords = [
-    'A',
-    'Silent',
-    'Shield,',
-    'A',
-    'Strong',
-    'Voice.',
-    'Built',
-    'For',
-    'Women,',
-    'Powered',
-    'By',
-    'Courage.',
-  ];
+  const currentStats = SAFETY_GAP_DATA[selectedRegion];
 
   return (
-    <section className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center overflow-hidden py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-cream/30 via-background to-background dark:from-slate-950 dark:via-background dark:to-background">
-      {/* High-Visibility Women Hero Background Image */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
-        <Image
-          src={womenHeroImg}
-          alt="Women Empowerment Background"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center lg:object-right opacity-85 dark:opacity-75 transition-opacity duration-700 filter contrast-110 brightness-105 dark:brightness-95"
-        />
-        {/* Soft directional gradient: preserves readability on text while keeping the woman image vividly visible */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-background/20 dark:from-slate-950/90 dark:via-slate-950/60 dark:to-slate-950/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-75" />
-      </div>
+    <section className="relative min-h-[85vh] w-full flex flex-col justify-start pt-10 pb-16 px-4 sm:px-6 lg:px-8 bg-[#0D0208] text-[#FAF4EC]">
+      {/* 1. Authentic Women's Story Cinematic Background */}
+      <WomenStoryCinematicBackground />
 
-      {/* Background Interactive Firefly Canvas */}
+      {/* 2. Floating Fireflies Canvas */}
       <canvas
-        ref={canvasRef}
-        className="absolute inset-0 pointer-events-none z-[1]"
+        ref={fireflyCanvasRef}
+        className="absolute inset-0 pointer-events-none z-[2]"
       />
 
-      {/* Subtle Aurora Ambient Radial Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-tr from-rani/20 via-saffron/15 to-marigold/10 rounded-full blur-3xl pointer-events-none z-[1]" />
-      <div className="absolute top-1/3 left-1/4 w-[350px] h-[350px] bg-peacock/10 rounded-full blur-3xl pointer-events-none z-[1]" />
+      {/* 3. Subtle ambient light leak & radial glow */}
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[650px] h-[450px] bg-gradient-to-b from-[#C32F6E]/20 via-[#9C1F52]/10 to-transparent rounded-full blur-[100px] pointer-events-none z-[2]" />
 
-      <div className="relative z-10 max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
-        {/* Left Column: Staggered Blur-to-Sharp Text & Actions */}
-        <div className="flex-1 text-center lg:text-left space-y-6">
-          {/* Eyebrow badge with mandala motif */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rani/10 dark:bg-rani/20 border border-rani/30 text-rani-600 dark:text-rani-300 text-xs sm:text-sm font-semibold tracking-wide shadow-sm">
-            <Sparkles className="w-4 h-4 text-marigold animate-spin-slow" />
-            <span>THE SPARK WITHIN • CONFIDENTIAL & ENCRYPTED</span>
-          </div>
-
-          {/* Staggered Blur-to-Sharp Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] text-slate-900 dark:text-white">
-            {headlineWords.map((word, idx) => {
-              const isAccent =
-                word.includes('Shield') ||
-                word.includes('Voice') ||
-                word.includes('Courage');
-              return (
-                <motion.span
-                  key={idx}
-                  initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
-                  animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-                  transition={{ duration: 0.5, delay: idx * 0.07, ease: 'easeOut' }}
-                  className={`inline-block mr-2 sm:mr-3 ${
-                    isAccent ? 'text-gradient-aurora' : ''
-                  }`}
-                >
-                  {word}
-                </motion.span>
-              );
-            })}
-          </h1>
-
-          {/* Body Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.9 }}
-            className="text-base sm:text-lg text-slate-700 dark:text-slate-300 max-w-2xl leading-relaxed font-normal"
+      {/* ======================================================== */}
+      {/* HERO CENTERED HEADER */}
+      {/* ======================================================== */}
+      <div className="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center justify-center pt-6 sm:pt-12 pb-12">
+        {/* Eyebrow Pill */}
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#3D0B20]/75 border border-[#F5EBE1]/20 text-[#FAF4EC] text-xs sm:text-sm font-medium tracking-wide shadow-lg mb-6 backdrop-blur-md"
+        >
+          <motion.span
+            animate={{ opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 2, ease: 'easeInOut', repeat: Infinity }}
           >
-            SafeSpark provides a discreet refuge: covert distress signals hidden inside everyday images, instant legal clarity on PWDVA 2005 & BNS rights, and a confidential 3D AI companion who listens without judgment.
-          </motion.p>
+            <Sparkles className="w-3.5 h-3.5 text-burgundy-300" />
+          </motion.span>
+          <span>{t('eyebrow')}</span>
+        </motion.div>
 
-          {/* Action CTAs */}
+        {/* Big Centered Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="text-4xl sm:text-6xl lg:text-7xl font-semibold font-display tracking-tight leading-[1.12] text-[#FAF4EC] max-w-4xl"
+        >
+          {t('headlineLine1')}
+          <br />
+          <span className="font-display italic font-normal text-gradient-sparkle">
+            {t('headlineLine2')}
+          </span>
+        </motion.h1>
+
+        {/* Centered Subtitle */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="max-w-2xl mt-6 mb-8 text-center space-y-2"
+        >
+          <p className="text-base sm:text-lg text-[#FAF4EC]/90 font-normal leading-relaxed">
+            {t('subtitle').split('. You deserve')[0]}.
+          </p>
+          <p className="text-base sm:text-lg text-[#FAF4EC]/70 font-normal leading-relaxed italic">
+            You deserve to feel safe. You deserve to be heard.
+          </p>
+        </motion.div>
+
+        {/* Centered Action CTAs */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.45 }}
+          className="flex flex-wrap items-center justify-center gap-4 sm:gap-5"
+        >
+          <Link
+            href="/create-post"
+            prefetch={false}
+            className="px-7 py-3.5 rounded-full bg-gradient-to-r from-[#B0164E] via-[#C0265D] to-[#E04D7A] hover:brightness-110 text-[#FAF4EC] font-bold text-sm sm:text-base shadow-xl shadow-[#C0265D]/35 hover:shadow-2xl hover:shadow-[#C0265D]/50 hover:-translate-y-0.5 active:scale-95 transition-all flex items-center gap-2 border border-[#F5EBE1]/25 group"
+          >
+            <span>{t('ctaSupport')}</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+
+          <Link
+            href="/lawbot"
+            prefetch={false}
+            className="px-7 py-3.5 rounded-full bg-[#FAF4EC]/10 hover:bg-[#FAF4EC]/20 text-[#FAF4EC] font-bold text-sm sm:text-base border border-[#F5EBE1]/35 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all flex items-center gap-2 backdrop-blur-md"
+          >
+            <span>{t('ctaRights')}</span>
+          </Link>
+        </motion.div>
+
+        {/* Centered Trust Badges */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs sm:text-sm text-[#E8D7C3]/80 mt-8 pt-2"
+        >
+          <span className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-burgundy-300" />
+            {t('badgeNoLogs')}
+          </span>
+          <span className="flex items-center gap-2">
+            <EyeOff className="w-4 h-4 text-burgundy-300" />
+            {t('badgeNoTracking')}
+          </span>
+          <span className="flex items-center gap-2">
+            <Zap className="w-4 h-4 text-burgundy-300" />
+            {t('badgeInstantExit')}
+          </span>
+        </motion.div>
+      </div>
+
+      {/* ======================================================== */}
+      {/* MIDDLE DASHBOARD: THE 4 GLASSMORPHIC CARDS IN BURGUNDY */}
+      {/* ======================================================== */}
+      <div className="relative z-10 max-w-6xl mx-auto w-full mt-4 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {/* CARD 1: The Silence in Numbers */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.1 }}
-            className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="rounded-2xl p-5 sm:p-6 flex flex-col justify-between bg-[#1A040D]/60 backdrop-blur-md border border-[#F5EBE1]/12 hover:-translate-y-1 transition-transform duration-300"
           >
+            <div>
+              <span className="inline-block px-3 py-1 rounded-full bg-[#54102C]/80 border border-[#F5EBE1]/20 text-[#FFA8B8] text-[11px] font-semibold tracking-wide uppercase mb-3">
+                {t('cardSilenceTag')}
+              </span>
+              <h3 className="text-xl sm:text-2xl font-bold font-display text-[#FAF4EC] leading-tight mb-2">
+                {t('cardSilenceTitle')}
+              </h3>
+              <p className="text-xs sm:text-[13px] text-[#FAF4EC]/75 leading-relaxed">
+                {t('cardSilenceBody')}
+              </p>
+            </div>
             <Link
-              href="/create-post"
-              prefetch={false}
-              className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-rani via-saffron to-marigold hover:opacity-95 text-white font-bold text-base shadow-lg shadow-rani/25 hover:shadow-xl hover:shadow-rani/35 hover:-translate-y-0.5 transition-all flex items-center gap-2.5 group"
+              href="/#data-story"
+              className="text-burgundy-300 hover:text-[#FFA8B8] font-bold text-xs inline-flex items-center gap-1.5 mt-5 group"
             >
-              <Lock className="w-5 h-5 text-marigold-100 group-hover:rotate-12 transition-transform" />
-              <span>Get Support Quietly</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <span>{t('cardSilenceCta')}</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </Link>
+          </motion.div>
 
+          {/* CARD 2: Nighttime Safety Gap (Interactive Tabs + Chart) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="rounded-2xl p-5 sm:p-6 flex flex-col justify-between bg-[#1A040D]/60 backdrop-blur-md border border-[#F5EBE1]/12 hover:-translate-y-1 transition-transform duration-300"
+          >
+            <div>
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <h3 className="text-base sm:text-lg font-bold font-display text-[#FAF4EC]">
+                  {t('cardNightTitle')}
+                </h3>
+                {/* Region Selector Tabs */}
+                <div className="flex items-center p-0.5 rounded-full bg-[#1A040D]/80 border border-[#F5EBE1]/15 text-[10px]">
+                  {(['India', 'Urban', 'Rural'] as const).map((region) => (
+                    <button
+                      key={region}
+                      onClick={() => setSelectedRegion(region)}
+                      className={`px-2 py-0.5 rounded-full transition-all font-semibold ${selectedRegion === region
+                          ? 'bg-[#C0265D] text-beige-50 shadow-sm'
+                          : 'text-[#E8D7C3]/70 hover:text-white'
+                        }`}
+                    >
+                      {region}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[11px] text-[#FAF4EC]/70 mb-4">
+                {t('cardNightBody')}
+              </p>
+
+              {/* Dynamic Animated Bars */}
+              <div className="flex items-end justify-center gap-6 h-28 pt-2">
+                {/* Day Bar */}
+                <div className="flex flex-col items-center gap-1.5 w-14">
+                  <span className="text-xs font-bold text-[#FAF4EC]">{currentStats.day}%</span>
+                  <div className="w-full bg-[#3D0B20]/60 rounded-t-xl h-20 flex items-end p-1">
+                    <motion.div
+                      key={`day-${selectedRegion}`}
+                      initial={{ height: 0 }}
+                      animate={{ height: `${currentStats.day}%` }}
+                      transition={{ duration: 0.7, ease: 'easeOut' }}
+                      className="w-full bg-gradient-to-t from-[#B0164E] to-[#C32F6E] rounded-t-lg shadow-[0_0_12px_rgba(195,47,110,0.5)]"
+                    />
+                  </div>
+                  <span className="text-[10px] text-[#E8D7C3]/80">Day</span>
+                </div>
+
+                {/* Night Bar */}
+                <div className="flex flex-col items-center gap-1.5 w-14">
+                  <span className="text-xs font-bold text-[#FAF4EC]">{currentStats.night}%</span>
+                  <div className="w-full bg-[#3D0B20]/60 rounded-t-xl h-20 flex items-end p-1">
+                    <motion.div
+                      key={`night-${selectedRegion}`}
+                      initial={{ height: 0 }}
+                      animate={{ height: `${currentStats.night}%` }}
+                      transition={{ duration: 0.7, ease: 'easeOut' }}
+                      className="w-full bg-gradient-to-t from-[#54102C] to-[#74173D] rounded-t-lg shadow-[0_0_8px_rgba(84,16,44,0.4)]"
+                    />
+                  </div>
+                  <span className="text-[10px] text-[#E8D7C3]/80">Night</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* CARD 3: 1 in 3 Women */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="rounded-2xl p-5 sm:p-6 flex flex-col justify-between items-center text-center bg-[#1A040D]/60 backdrop-blur-md border border-[#F5EBE1]/12 hover:-translate-y-1 transition-transform duration-300"
+          >
+            {/* 3 Silhouette figures */}
+            <div className="flex items-center justify-center gap-3 mt-2">
+              <motion.div
+                animate={{ scale: [1, 1.04, 1] }}
+                transition={{ duration: 5, ease: 'easeInOut', repeat: Infinity, repeatType: 'mirror' }}
+                className="p-2.5 rounded-full bg-[#C0265D]/40 text-[#FF7A90] border border-[#FF7A90]/40 shadow-[0_0_16px_rgba(255,122,144,0.4)]"
+              >
+                <Users className="w-6 h-6" />
+              </motion.div>
+              <div className="p-2.5 rounded-full bg-[#3D0B20]/60 text-[#E8D7C3]/40 border border-[#F5EBE1]/10">
+                <Users className="w-6 h-6" />
+              </div>
+              <div className="p-2.5 rounded-full bg-[#3D0B20]/60 text-[#E8D7C3]/40 border border-[#F5EBE1]/10">
+                <Users className="w-6 h-6" />
+              </div>
+            </div>
+
+            <div className="my-3">
+              <span className="text-3xl sm:text-4xl font-extrabold font-display text-[#FAF4EC] tracking-tight block">
+                {t('cardOneInThreeBig')}
+              </span>
+              <p className="text-xs sm:text-[13px] text-[#FAF4EC]/80 mt-1.5 leading-snug">
+                {t('cardOneInThreeBody')}
+              </p>
+            </div>
+
+            <span className="text-[10px] text-[#E8D7C3]/60 italic font-mono">
+              {t('cardOneInThreeSource')}
+            </span>
+          </motion.div>
+
+          {/* CARD 4: Know more. Stay safe. */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="rounded-2xl p-5 sm:p-6 flex flex-col justify-between bg-[#1A040D]/60 backdrop-blur-md border border-[#F5EBE1]/12 hover:-translate-y-1 transition-transform duration-300"
+          >
+            <div>
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <div className="p-2 rounded-xl bg-[#54102C]/60 text-[#FF7A90] border border-[#F5EBE1]/15">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-burgundy-900/60 text-beige-200 text-[10px] font-semibold border border-beige-300/30">
+                  <CheckCircle2 className="w-3 h-3 text-beige-300" />
+                  Verified
+                </span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold font-display text-[#FAF4EC] leading-tight mb-2">
+                {t('cardKnowTitle')}
+              </h3>
+              <p className="text-xs text-[#FAF4EC]/75 leading-relaxed">
+                {t('cardKnowBody')}
+              </p>
+            </div>
             <Link
               href="/lawbot"
-              prefetch={false}
-              className="px-6 py-3.5 rounded-2xl bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 border-2 border-peacock/40 hover:border-peacock text-peacock dark:text-peacock-300 font-bold text-base shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center gap-2"
+              className="text-burgundy-300 hover:text-[#FFA8B8] font-bold text-xs inline-flex items-center gap-1.5 mt-5 group"
             >
-              <Scale className="w-5 h-5 text-peacock" />
-              <span>Know Your Rights</span>
+              <span>{t('cardKnowCta')}</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </Link>
-
-            <Link
-              href="/therapybot"
-              prefetch={false}
-              className="px-4 py-3 rounded-2xl bg-lavender/10 hover:bg-lavender/20 text-slate-700 dark:text-lavender-200 font-semibold text-sm transition-all flex items-center gap-2"
-            >
-              <HeartHandshake className="w-4 h-4 text-lavender" />
-              <span>3D Companion</span>
-            </Link>
-          </motion.div>
-
-          {/* Quick reassurance micro-tags */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.3 }}
-            className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-5 text-xs text-slate-500 dark:text-slate-400 pt-3"
-          >
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-jade animate-pulse" />
-              No phone logs created
-            </span>
-            <span className="hidden xs:inline">•</span>
-            <span>Zero ad tracking</span>
-            <span className="hidden xs:inline">•</span>
-            <span>Instant history cleanup</span>
           </motion.div>
         </div>
+      </div>
 
-        {/* Right Column: Custom Animated SVG Lotus + Rotating Mandala Ring + Spark */}
-        <div className="flex-1 flex justify-center items-center relative w-full max-w-[420px] sm:max-w-[480px] aspect-square">
-          {/* Slow-Rotating Kolam / Mandala Geometry */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-spin-slow opacity-60 dark:opacity-40">
-            <svg
-              viewBox="0 0 400 400"
-              className="w-full h-full text-marigold/40 dark:text-marigold/30"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.2"
-            >
-              <circle cx="200" cy="200" r="185" strokeDasharray="4 8" />
-              <circle cx="200" cy="200" r="160" />
-              <circle cx="200" cy="200" r="135" strokeDasharray="6 6" />
-              {/* Radial mandala petals */}
-              {[...Array(12)].map((_, i) => (
-                <path
-                  key={i}
-                  d="M200 65 C185 110 185 150 200 170 C215 150 215 110 200 65"
-                  transform={`rotate(${i * 30} 200 200)`}
-                  stroke="currentColor"
-                  strokeWidth="1"
-                />
-              ))}
-              {[...Array(24)].map((_, i) => (
-                <circle
-                  key={i}
-                  cx="200"
-                  cy="25"
-                  r="2.5"
-                  fill="currentColor"
-                  transform={`rotate(${i * 15} 200 200)`}
-                />
-              ))}
-            </svg>
+      {/* ======================================================== */}
+      {/* QUICK ACTIONS ROW: "Your Safety, Our Priority" */}
+      {/* ======================================================== */}
+      <div className="relative z-10 max-w-6xl mx-auto w-full mt-2 mb-8">
+        <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
+          <div className="lg:w-44 shrink-0 text-center lg:text-left">
+            <span className="text-base sm:text-lg font-black text-[#FAF4EC] block leading-tight">
+              {t('quickHeader1')}
+            </span>
+            <span className="text-base sm:text-lg font-bold text-[#FFA8B8] block leading-tight">
+              {t('quickHeader2')}
+            </span>
           </div>
 
-          {/* Reverse Rotating Outer Bangle Ring */}
-          <div className="absolute inset-4 flex items-center justify-center pointer-events-none animate-spin-slow-reverse opacity-40 dark:opacity-30">
-            <svg
-              viewBox="0 0 350 350"
-              className="w-full h-full text-peacock/50"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.8"
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
+            {/* 1. Report Abuse */}
+            <Link
+              href="/create-post"
+              className="rounded-xl p-3.5 flex items-center justify-between gap-3 group bg-[#1A040D]/50 backdrop-blur-sm border border-[#F5EBE1]/10 hover:border-[#F5EBE1]/20 hover:bg-[#1A040D]/70 transition-all"
             >
-              <circle cx="175" cy="175" r="150" strokeDasharray="2 12" />
-              {[...Array(8)].map((_, i) => (
-                <polygon
-                  key={i}
-                  points="175,40 182,55 168,55"
-                  transform={`rotate(${i * 45} 175 175)`}
-                  fill="currentColor"
-                />
-              ))}
-            </svg>
-          </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#B0164E] to-[#E04D7A] text-white flex items-center justify-center shrink-0 shadow-md">
+                  <Zap className="w-5 h-5 fill-current" />
+                </div>
+                <div className="text-left">
+                  <span className="font-bold text-sm text-[#FAF4EC] block leading-tight">
+                    {t('qaReportTitle')}
+                  </span>
+                  <span className="text-[11px] text-[#FAF4EC]/65 block leading-snug line-clamp-1">
+                    {t('qaReportBody')}
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-burgundy-300 group-hover:translate-x-1 transition-transform shrink-0" />
+            </Link>
 
-          {/* Center SVG Lotus: Stroke draw & gradient fill */}
-          <div className="relative z-10 w-72 h-72 sm:w-84 sm:h-84 flex items-center justify-center filter drop-shadow-2xl">
-            <svg
-              viewBox="0 0 300 300"
-              className="w-full h-full"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+            {/* 2. LawBot */}
+            <Link
+              href="/lawbot"
+              className="rounded-xl p-3.5 flex items-center justify-between gap-3 group bg-[#1A040D]/50 backdrop-blur-sm border border-[#F5EBE1]/10 hover:border-[#F5EBE1]/20 hover:bg-[#1A040D]/70 transition-all"
             >
-              <defs>
-                <linearGradient id="lotusOuterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#D81B60" />
-                  <stop offset="60%" stopColor="#FF7A1A" />
-                  <stop offset="100%" stopColor="#FFB300" />
-                </linearGradient>
-                <linearGradient id="lotusInnerGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#FF7A1A" />
-                  <stop offset="50%" stopColor="#FFB300" />
-                  <stop offset="100%" stopColor="#FFF8E1" />
-                </linearGradient>
-                <linearGradient id="lotusTealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#00A6A6" />
-                  <stop offset="100%" stopColor="#B79CFF" />
-                </linearGradient>
-                <filter id="sparkGlow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="6" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-              </defs>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-burgundy-500 to-burgundy-300 text-white flex items-center justify-center shrink-0 shadow-md">
+                  <Scale className="w-5 h-5" />
+                </div>
+                <div className="text-left">
+                  <span className="font-bold text-sm text-[#FAF4EC] block leading-tight">
+                    {t('qaLawbotTitle')}
+                  </span>
+                  <span className="text-[11px] text-[#FAF4EC]/65 block leading-snug line-clamp-1">
+                    {t('qaLawbotBody')}
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-burgundy-300 group-hover:translate-x-1 transition-transform shrink-0" />
+            </Link>
 
-              {/* Base Lotus Leaf / Water Foundation */}
-              <motion.path
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 0.85 }}
-                transition={{ duration: 1.5, ease: 'easeInOut' }}
-                d="M 60 230 C 110 260, 190 260, 240 230 C 210 245, 90 245, 60 230 Z"
-                fill="url(#lotusTealGrad)"
-                stroke="#00A6A6"
-                strokeWidth="1.5"
-              />
+            {/* 3. Find Support */}
+            <Link
+              href="/directory"
+              className="rounded-xl p-3.5 flex items-center justify-between gap-3 group bg-[#1A040D]/50 backdrop-blur-sm border border-[#F5EBE1]/10 hover:border-[#F5EBE1]/20 hover:bg-[#1A040D]/70 transition-all"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-burgundy-600 to-burgundy-400 text-white flex items-center justify-center shrink-0 shadow-md">
+                  <Users className="w-5 h-5" />
+                </div>
+                <div className="text-left">
+                  <span className="font-bold text-sm text-[#FAF4EC] block leading-tight">
+                    {t('qaDirectoryTitle')}
+                  </span>
+                  <span className="text-[11px] text-[#FAF4EC]/65 block leading-snug line-clamp-1">
+                    {t('qaDirectoryBody')}
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-burgundy-300 group-hover:translate-x-1 transition-transform shrink-0" />
+            </Link>
 
-              {/* Outer Petals (Left and Right) */}
-              <motion.path
-                initial={{ pathLength: 0, fillOpacity: 0 }}
-                animate={{ pathLength: 1, fillOpacity: 0.75 }}
-                transition={{ duration: 1.8, delay: 0.2, ease: 'easeOut' }}
-                d="M 150 220 C 80 200, 30 160, 45 120 C 65 145, 105 185, 150 220 Z"
-                fill="url(#lotusOuterGrad)"
-                stroke="#D81B60"
-                strokeWidth="2"
-              />
-              <motion.path
-                initial={{ pathLength: 0, fillOpacity: 0 }}
-                animate={{ pathLength: 1, fillOpacity: 0.75 }}
-                transition={{ duration: 1.8, delay: 0.2, ease: 'easeOut' }}
-                d="M 150 220 C 220 200, 270 160, 255 120 C 235 145, 195 185, 150 220 Z"
-                fill="url(#lotusOuterGrad)"
-                stroke="#D81B60"
-                strokeWidth="2"
-              />
-
-              {/* Mid Petals */}
-              <motion.path
-                initial={{ pathLength: 0, fillOpacity: 0 }}
-                animate={{ pathLength: 1, fillOpacity: 0.85 }}
-                transition={{ duration: 1.6, delay: 0.5, ease: 'easeOut' }}
-                d="M 150 220 C 100 170, 75 125, 95 85 C 120 120, 135 170, 150 220 Z"
-                fill="url(#lotusOuterGrad)"
-                stroke="#FF7A1A"
-                strokeWidth="2"
-              />
-              <motion.path
-                initial={{ pathLength: 0, fillOpacity: 0 }}
-                animate={{ pathLength: 1, fillOpacity: 0.85 }}
-                transition={{ duration: 1.6, delay: 0.5, ease: 'easeOut' }}
-                d="M 150 220 C 200 170, 225 125, 205 85 C 180 120, 165 170, 150 220 Z"
-                fill="url(#lotusOuterGrad)"
-                stroke="#FF7A1A"
-                strokeWidth="2"
-              />
-
-              {/* Central Hero Petal */}
-              <motion.path
-                initial={{ pathLength: 0, fillOpacity: 0 }}
-                animate={{ pathLength: 1, fillOpacity: 0.95 }}
-                transition={{ duration: 1.8, delay: 0.8, ease: 'easeOut' }}
-                d="M 150 220 C 125 155, 125 105, 150 50 C 175 105, 175 155, 150 220 Z"
-                fill="url(#lotusInnerGrad)"
-                stroke="#FFB300"
-                strokeWidth="2.2"
-              />
-
-              {/* Rising Glowing Hero Spark from the Lotus Centre */}
-              <g filter="url(#sparkGlow)">
-                {/* Pulsing Spark Particle */}
-                <motion.circle
-                  cx="150"
-                  cy="125"
-                  r="8"
-                  fill="#FFF"
-                  animate={{
-                    cy: [135, 115, 135],
-                    scale: [0.9, 1.25, 0.9],
-                    opacity: [0.85, 1, 0.85],
-                  }}
-                  transition={{
-                    duration: 3.5,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                />
-                <motion.circle
-                  cx="150"
-                  cy="125"
-                  r="14"
-                  fill="#FFB300"
-                  opacity="0.6"
-                  animate={{
-                    cy: [135, 115, 135],
-                    scale: [1, 1.4, 1],
-                  }}
-                  transition={{
-                    duration: 3.5,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                />
-                {/* 4-point Diamond Starburst */}
-                <motion.path
-                  d="M 150 105 L 154 121 L 170 125 L 154 129 L 150 145 L 146 129 L 130 125 L 146 121 Z"
-                  fill="#FFFFFF"
-                  animate={{
-                    scale: [0.8, 1.15, 0.8],
-                    rotate: [0, 90, 180],
-                  }}
-                  transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  }}
-                  style={{ transformOrigin: '150px 125px' }}
-                />
-              </g>
-            </svg>
+            {/* 4. Your Companion */}
+            <Link
+              href="/therapybot"
+              className="rounded-xl p-3.5 flex items-center justify-between gap-3 group bg-[#1A040D]/50 backdrop-blur-sm border border-[#F5EBE1]/10 hover:border-[#F5EBE1]/20 hover:bg-[#1A040D]/70 transition-all"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-burgundy-700 to-burgundy-300 text-white flex items-center justify-center shrink-0 shadow-md">
+                  <Heart className="w-5 h-5 fill-current" />
+                </div>
+                <div className="text-left">
+                  <span className="font-bold text-sm text-[#FAF4EC] block leading-tight">
+                    {t('qaTherapyTitle')}
+                  </span>
+                  <span className="text-[11px] text-[#FAF4EC]/65 block leading-snug line-clamp-1">
+                    {t('qaTherapyBody')}
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-burgundy-300 group-hover:translate-x-1 transition-transform shrink-0" />
+            </Link>
           </div>
         </div>
       </div>

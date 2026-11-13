@@ -16,17 +16,17 @@ export default function SafetyGapChart() {
     <section id="safety-gap" className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="glass-card rounded-3xl p-6 sm:p-10 border border-slate-200 dark:border-slate-800 shadow-xl relative overflow-hidden">
         {/* Background Aura */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-peacock/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-burgundy-400/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Section Header */}
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-peacock/10 text-peacock font-semibold text-xs tracking-wider uppercase mb-2">
-              <Moon className="w-3.5 h-3.5 text-peacock" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-burgundy-500/10 text-burgundy-300 font-semibold text-xs tracking-wider uppercase mb-2">
+              <Moon className="w-3.5 h-3.5 text-burgundy-300" />
               Gallup 2025 Global Safety Report
             </div>
             <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              The Nighttime <span className="text-gradient-peacock">Safety Divide</span>
+              The Nighttime <span className="text-gradient-aurora">Safety Divide</span>
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-2xl">
               Survey question: <em>&quot;Do you feel safe walking alone at night in the city or area where you live?&quot;</em> In over 100 countries, women maintain a double-digit safety deficit compared to men.
@@ -37,7 +37,7 @@ export default function SafetyGapChart() {
             href="https://www.gallup.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-peacock font-medium transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-burgundy-300 font-medium transition-colors"
           >
             <span>Gallup World Poll (144 nations)</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -54,7 +54,7 @@ export default function SafetyGapChart() {
                 onClick={() => setSelectedCountryCode(item.code)}
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 border ${
                   isSelected
-                    ? 'bg-peacock text-white border-peacock shadow-md shadow-peacock/25'
+                    ? 'bg-burgundy-500 text-beige-50 border-burgundy-500 shadow-md shadow-burgundy-500/25'
                     : 'bg-white/60 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800'
                 }`}
               >
@@ -90,7 +90,7 @@ export default function SafetyGapChart() {
                   initial={{ width: 0 }}
                   animate={{ width: `${activeMetric.womenSafe}%` }}
                   transition={{ duration: 1, ease: 'easeOut' }}
-                  className="h-full rounded-full bg-gradient-to-r from-rani to-saffron"
+                  className="h-full rounded-full bg-gradient-to-r from-rani to-burgundy-300"
                 />
               </div>
             </div>
@@ -98,11 +98,11 @@ export default function SafetyGapChart() {
             {/* Men Metric Bar */}
             <div className="space-y-2">
               <div className="flex justify-between items-center text-sm font-semibold">
-                <span className="flex items-center gap-2 text-peacock">
-                  <span className="w-2.5 h-2.5 rounded-full bg-peacock" />
+                <span className="flex items-center gap-2 text-burgundy-300">
+                  <span className="w-2.5 h-2.5 rounded-full bg-burgundy-300" />
                   Men Feel Safe:
                 </span>
-                <span className="text-xl font-bold text-peacock">{activeMetric.menSafe}%</span>
+                <span className="text-xl font-bold text-burgundy-300">{activeMetric.menSafe}%</span>
               </div>
               <div className="w-full h-5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden p-0.5">
                 <motion.div
@@ -110,7 +110,7 @@ export default function SafetyGapChart() {
                   initial={{ width: 0 }}
                   animate={{ width: `${activeMetric.menSafe}%` }}
                   transition={{ duration: 1, ease: 'easeOut' }}
-                  className="h-full rounded-full bg-gradient-to-r from-peacock to-lavender"
+                  className="h-full rounded-full bg-gradient-to-r from-burgundy-400 to-beige-300"
                 />
               </div>
             </div>
@@ -129,7 +129,7 @@ export default function SafetyGapChart() {
           {/* Right Insights Card */}
           <div className="lg:col-span-5 p-6 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
             <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
-              <Globe className="w-4 h-4 text-peacock" />
+              <Globe className="w-4 h-4 text-burgundy-300" />
               <span>{activeMetric.region} Context</span>
             </div>
 

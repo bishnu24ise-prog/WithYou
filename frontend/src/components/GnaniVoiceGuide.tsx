@@ -18,6 +18,10 @@ import {
   AlertCircle,
   Activity,
   ShieldAlert,
+  BookOpen,
+  AlertTriangle,
+  ImageOff,
+  MapPin,
 } from 'lucide-react';
 import { GNANI_LANGUAGES, GnaniLanguage } from '@/lib/gnani';
 import { Button } from '@/components/ui/button';
@@ -308,7 +312,7 @@ export function GnaniVoiceGuide() {
               handleAskGuidance();
             }
           }}
-          className="group relative flex items-center gap-2 px-3.5 py-2.5 sm:px-4 sm:py-3 bg-gradient-to-r from-rani via-saffron to-peacock text-white font-semibold rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 border border-white/20"
+          className="group relative flex items-center gap-2 px-3.5 py-2.5 sm:px-4 sm:py-3 bg-gradient-to-r from-rani via-burgundy-400 to-burgundy-300 text-white font-semibold rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 border border-white/20"
           title="Gnani AI Multi-lingual Voice Guide"
         >
           <span className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3">
@@ -324,7 +328,7 @@ export function GnaniVoiceGuide() {
 
       {/* Voice Guide Panel Modal */}
       {isOpen && (
-        <div className="fixed inset-x-3 bottom-18 sm:inset-auto sm:right-6 sm:bottom-24 sm:w-[430px] max-w-[calc(100vw-1.5rem)] max-h-[85vh] overflow-y-auto z-50 bg-[#1A0B2E]/95 backdrop-blur-xl border border-rani/40 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-rani/20 text-white animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <div className="fixed inset-x-3 bottom-18 sm:inset-auto sm:right-6 sm:bottom-24 sm:w-[430px] max-w-[calc(100vw-1.5rem)] max-h-[85vh] overflow-y-auto z-50 bg-burgundy-900/95 backdrop-blur-xl border border-rani/40 rounded-3xl p-4 sm:p-5 shadow-2xl shadow-rani/20 text-white animate-in fade-in slide-in-from-bottom-4 duration-300">
           {/* Header */}
           <div className="flex items-center justify-between pb-3 border-b border-white/10">
             <div className="flex items-center gap-2">
@@ -357,7 +361,7 @@ export function GnaniVoiceGuide() {
           {/* Language Selector */}
           <div className="mt-3 flex items-center justify-between gap-2 bg-white/5 p-2 rounded-2xl border border-white/10">
             <div className="flex items-center gap-1.5 text-xs text-zinc-300 pl-1">
-              <Languages className="h-4 w-4 text-saffron" />
+              <Languages className="h-4 w-4 text-burgundy-300" />
               <span>Spoken Language:</span>
             </div>
             <select
@@ -380,15 +384,15 @@ export function GnaniVoiceGuide() {
 
           {/* Active Audio Playback Equalizer Banner */}
           {isPlaying && (
-            <div className="mt-3 flex items-center justify-between px-3 py-2 rounded-xl bg-peacock/20 border border-peacock/40 text-peacock-100 text-xs animate-in fade-in">
+            <div className="mt-3 flex items-center justify-between px-3 py-2 rounded-xl bg-burgundy-500/20 border border-burgundy-400/40 text-beige-100 text-xs animate-in fade-in">
               <div className="flex items-center gap-2">
                 <span className="flex gap-1 items-end h-3.5">
-                  <span className="w-1 bg-peacock animate-[pulse_0.6s_ease-in-out_infinite] rounded-full h-3"></span>
-                  <span className="w-1 bg-saffron animate-[pulse_0.8s_ease-in-out_infinite_150ms] rounded-full h-4"></span>
+                  <span className="w-1 bg-burgundy-400 animate-[pulse_0.6s_ease-in-out_infinite] rounded-full h-3"></span>
+                  <span className="w-1 bg-beige-300 animate-[pulse_0.8s_ease-in-out_infinite_150ms] rounded-full h-4"></span>
                   <span className="w-1 bg-rani animate-[pulse_0.5s_ease-in-out_infinite_300ms] rounded-full h-2"></span>
-                  <span className="w-1 bg-peacock animate-[pulse_0.7s_ease-in-out_infinite_200ms] rounded-full h-3.5"></span>
+                  <span className="w-1 bg-burgundy-300 animate-[pulse_0.7s_ease-in-out_infinite_200ms] rounded-full h-3.5"></span>
                 </span>
-                <span className="text-xs font-semibold text-peacock">
+                <span className="text-xs font-semibold text-beige-200">
                   Reading aloud in {currentLangObj.nativeName}...
                 </span>
               </div>
@@ -411,7 +415,7 @@ export function GnaniVoiceGuide() {
             ) : guidance ? (
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-saffron flex items-center gap-1">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-burgundy-300 flex items-center gap-1">
                     <Volume2 className="h-3.5 w-3.5" />
                     Spoken Guide ({currentLangObj.nativeName})
                   </span>
@@ -426,14 +430,14 @@ export function GnaniVoiceGuide() {
                     ) : audioUrl ? (
                       <button
                         onClick={() => playAudio(audioUrl)}
-                        className="flex items-center gap-1 text-[11px] bg-peacock/40 text-white px-2.5 py-1 rounded-full border border-peacock/60 hover:bg-peacock/60 transition"
+                        className="flex items-center gap-1 text-[11px] bg-burgundy-400/40 text-white px-2.5 py-1 rounded-full border border-burgundy-300/60 hover:bg-burgundy-400/60 transition"
                       >
                         <Play className="h-3.5 w-3.5" /> Play Aloud
                       </button>
                     ) : (
                       <button
                         onClick={() => speakWithBrowserVoice(guidance, selectedLang)}
-                        className="flex items-center gap-1 text-[11px] bg-peacock/40 text-white px-2.5 py-1 rounded-full border border-peacock/60 hover:bg-peacock/60 transition"
+                        className="flex items-center gap-1 text-[11px] bg-burgundy-400/40 text-white px-2.5 py-1 rounded-full border border-burgundy-300/60 hover:bg-burgundy-400/60 transition"
                       >
                         <Volume2 className="h-3.5 w-3.5" /> Read Aloud
                       </button>
@@ -448,7 +452,7 @@ export function GnaniVoiceGuide() {
 
                 {transcript && (
                   <p className="mt-2 text-[10px] text-zinc-400 italic flex items-center gap-1">
-                    <span className="text-saffron font-bold">Query:</span> "{transcript}"
+                    <span className="text-burgundy-300 font-bold">Query:</span> "{transcript}"
                   </p>
                 )}
               </div>
@@ -470,10 +474,10 @@ export function GnaniVoiceGuide() {
                   }).catch(console.error);
                 }
               }}
-              className="mt-3 w-full py-3 px-4 bg-gradient-to-r from-emerald-500 via-peacock to-rani text-white font-bold rounded-2xl shadow-xl flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all animate-pulse text-xs sm:text-sm border border-emerald-400/40"
+              className="mt-3 w-full py-3 px-4 bg-gradient-to-r from-burgundy-500 via-burgundy-400 to-rani text-white font-bold rounded-2xl shadow-xl flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all text-xs sm:text-sm border border-burgundy-300/40"
             >
               <Volume2 className="h-4 w-4" />
-              <span>🔊 Tap Here to Listen Aloud in {currentLangObj.nativeName}</span>
+              <span>Tap Here to Listen Aloud in {currentLangObj.nativeName}</span>
             </button>
           )}
 
@@ -482,30 +486,30 @@ export function GnaniVoiceGuide() {
             <button
               onClick={() => handleAskGuidance('How do I use this page?')}
               disabled={isLoading || isRecording}
-              className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition"
+              className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition flex items-center gap-1.5"
             >
-              📖 How to use this page?
+              <BookOpen className="h-3.5 w-3.5 shrink-0" /> How to use this page?
             </button>
             <button
               onClick={() => handleAskGuidance('Call emergency police 112')}
               disabled={isLoading || isRecording}
-              className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition"
+              className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition flex items-center gap-1.5"
             >
-              🚨 Emergency & 112 Help
+              <AlertTriangle className="h-3.5 w-3.5 shrink-0" /> Emergency & 112 Help
             </button>
             <button
               onClick={() => handleAskGuidance('How to hide photo steganography?')}
               disabled={isLoading || isRecording}
-              className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition"
+              className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition flex items-center gap-1.5"
             >
-              🖼️ Hide Secret Message
+              <ImageOff className="h-3.5 w-3.5 shrink-0" /> Hide Secret Message
             </button>
             <button
               onClick={() => handleAskGuidance('Find nearest crisis centres and shelter')}
               disabled={isLoading || isRecording}
-              className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition"
+              className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition flex items-center gap-1.5"
             >
-              📍 Nearby Help Centres
+              <MapPin className="h-3.5 w-3.5 shrink-0" /> Nearby Help Centres
             </button>
           </div>
 
@@ -517,7 +521,7 @@ export function GnaniVoiceGuide() {
               className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-300 transition"
             >
               <div className="flex items-center gap-1.5">
-                <Activity className="h-3.5 w-3.5 text-peacock" />
+                <Activity className="h-3.5 w-3.5 text-burgundy-300" />
                 <span>Gnani AI Live Diagnostic Test (STT + TTS)</span>
               </div>
               <span className="font-semibold text-rani">
@@ -527,7 +531,7 @@ export function GnaniVoiceGuide() {
 
             {testResult?.running && (
               <div className="mt-2 p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-center gap-2 text-xs text-zinc-300">
-                <Loader2 className="h-3.5 w-3.5 animate-spin text-peacock" />
+                <Loader2 className="h-3.5 w-3.5 animate-spin text-burgundy-300" />
                 <span>Verifying api.vachana.ai Timbre v2.5 voice synthesis...</span>
               </div>
             )}

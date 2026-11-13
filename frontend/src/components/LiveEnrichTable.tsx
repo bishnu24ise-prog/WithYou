@@ -73,7 +73,7 @@ export function LiveEnrichTable() {
         });
 
         setDetectedLocationName(`${closestCity} (${latitude.toFixed(2)}°N, ${longitude.toFixed(2)}°E)`);
-        toast.success(`📍 Located near ${closestCity}! Sorted emergency centres by distance.`);
+        toast.success(`Located near ${closestCity}! Sorted emergency centres by distance.`);
       },
       (error) => {
         console.warn('Geolocation denied or unavailable:', error.message);
@@ -198,7 +198,7 @@ export function LiveEnrichTable() {
         const data = await res.json();
         if (data.records && Array.isArray(data.records)) {
           setRecords(data.records);
-          toast.success(`Successfully verified and updated ${data.records.length} centres with TinyFish! 🛡️`);
+          toast.success(`Successfully verified and updated ${data.records.length} centres with TinyFish!`);
         }
       } else {
         toast.error('Failed to complete directory enrichment.');
@@ -217,7 +217,7 @@ export function LiveEnrichTable() {
   return (
     <div className="w-full space-y-6">
       {/* 1. MANDATORY LOCATION DETECTION & SPOTLIGHT BANNER */}
-      <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-slate-900 via-[#1A0B2E] to-slate-900 border border-rani/30 shadow-xl text-white space-y-4">
+      <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-burgundy-950 via-burgundy-900 to-burgundy-950 border border-rani/30 shadow-xl text-white space-y-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <div className="p-2.5 rounded-2xl bg-rani/20 text-rani border border-rani/40">
@@ -228,7 +228,7 @@ export function LiveEnrichTable() {
                 <h2 className="text-base sm:text-lg font-black tracking-tight text-white">
                   Location-Wise Nearby Emergency Centres
                 </h2>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-peacock/20 text-peacock border border-peacock/40">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-burgundy-500/20 text-burgundy-300 border border-burgundy-400/40">
                   Compulsory Auto-Locate
                 </span>
               </div>
@@ -258,7 +258,7 @@ export function LiveEnrichTable() {
               onChange={(e) => handleCityChange(e.target.value)}
               className="bg-black/60 border border-white/20 text-white text-xs rounded-xl px-3 h-9 focus:outline-none focus:border-rani flex-1 sm:flex-none"
             >
-              <option value="Auto (GPS / Nearest)">📍 Auto (GPS / Nearest)</option>
+              <option value="Auto (GPS / Nearest)">Auto (GPS / Nearest)</option>
               {SUPPORTED_CITIES.map((c) => (
                 <option key={c.name} value={c.name}>
                   {c.name}
@@ -276,12 +276,12 @@ export function LiveEnrichTable() {
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-blue-500/20 text-blue-300 border border-blue-400/30 uppercase">
+                    <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-burgundy-500/20 text-burgundy-300 border border-burgundy-400/30 uppercase">
                       Nearest Police Station
                     </span>
                     {nearestPolice.distanceKm !== undefined && (
-                      <span className="px-2 py-0.5 rounded-md text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
-                        📍 {nearestPolice.distanceKm} km away
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-black bg-burgundy-600/20 text-beige-300 border border-beige-400/30">
+                        {nearestPolice.distanceKm} km away
                       </span>
                     )}
                   </div>
@@ -304,7 +304,7 @@ export function LiveEnrichTable() {
                     href={`https://www.google.com/maps/dir/?api=1&destination=${nearestPolice.lat},${nearestPolice.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-1.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                    className="flex-1 py-1.5 px-3 rounded-xl bg-burgundy-600 hover:bg-burgundy-500 text-beige-50 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
                   >
                     <Navigation className="w-3.5 h-3.5" /> Navigate (Maps)
                   </a>
@@ -323,8 +323,8 @@ export function LiveEnrichTable() {
                       Nearest Sakhi (One Stop Centre)
                     </span>
                     {nearestSakhi.distanceKm !== undefined && (
-                      <span className="px-2 py-0.5 rounded-md text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
-                        📍 {nearestSakhi.distanceKm} km away
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-black bg-burgundy-600/20 text-beige-300 border border-beige-400/30">
+                        {nearestSakhi.distanceKm} km away
                       </span>
                     )}
                   </div>
@@ -337,7 +337,7 @@ export function LiveEnrichTable() {
                 {nearestSakhi.phone && (
                   <a
                     href={`tel:${nearestSakhi.phone.replace(/\D/g, '')}`}
-                    className="flex-1 py-1.5 px-3 rounded-xl bg-peacock hover:bg-peacock-600 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                    className="flex-1 py-1.5 px-3 rounded-xl bg-burgundy-500 hover:bg-burgundy-400 text-beige-50 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
                   >
                     <Phone className="w-3.5 h-3.5" /> Call {nearestSakhi.phone}
                   </a>
@@ -426,7 +426,7 @@ export function LiveEnrichTable() {
             <Button
               onClick={handleEnrich}
               disabled={isEnriching}
-              className="bg-gradient-to-r from-peacock to-blue-600 hover:opacity-95 text-white font-bold text-xs h-9 px-3.5 rounded-xl shadow-sm shrink-0 flex items-center gap-1.5"
+              className="bg-gradient-to-r from-burgundy-600 to-burgundy-400 hover:opacity-95 text-beige-50 font-bold text-xs h-9 px-3.5 rounded-xl shadow-sm shrink-0 flex items-center gap-1.5"
             >
               <Sparkles className={`w-3.5 h-3.5 ${isEnriching ? 'animate-spin' : ''}`} />
               <span>{isEnriching ? 'Verifying...' : 'Self-Heal (TinyFish)'}</span>
@@ -457,9 +457,9 @@ export function LiveEnrichTable() {
 
       {/* Progress Status Bar during enrich */}
       {isEnriching && (
-        <div className="p-3 bg-peacock/10 border border-peacock/30 rounded-xl text-xs font-semibold text-peacock-800 dark:text-peacock-300 flex items-center justify-between animate-pulse">
+        <div className="p-3 bg-burgundy-500/10 border border-burgundy-400/30 rounded-xl text-xs font-semibold text-burgundy-200 dark:text-beige-300 flex items-center justify-between animate-pulse">
           <div className="flex items-center gap-2">
-            <RefreshCw className="w-4 h-4 animate-spin text-peacock" />
+            <RefreshCw className="w-4 h-4 animate-spin text-burgundy-300" />
             <span>{progressText || 'Batch fetching institutional portals...'}</span>
           </div>
           <span className="text-[11px] font-mono opacity-80">Rate: 10 URLs/batch</span>
@@ -498,8 +498,8 @@ export function LiveEnrichTable() {
                   {/* Proximity / Distance Badge */}
                   <td className="p-3.5 pl-4 align-top">
                     {record.distanceKm !== undefined ? (
-                      <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-black bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                        <Navigation className="w-3 h-3 text-emerald-600" />
+                      <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-black bg-burgundy-900/60 text-beige-200 border border-beige-400/30 dark:bg-burgundy-900 dark:text-beige-200 dark:border-beige-500/30">
+                        <Navigation className="w-3 h-3 text-beige-400" />
                         <span>{record.distanceKm} km</span>
                       </div>
                     ) : (
@@ -522,7 +522,7 @@ export function LiveEnrichTable() {
                       href={record.websiteUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] text-blue-600 dark:text-blue-400 hover:underline mt-1 font-medium"
+                      className="inline-flex items-center gap-1 text-[11px] text-burgundy-300 dark:text-beige-300 hover:underline mt-1 font-medium"
                     >
                       <span>Official Portal</span>
                       <ExternalLink className="w-2.5 h-2.5" />
@@ -534,7 +534,7 @@ export function LiveEnrichTable() {
                     <span
                       className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold border ${
                         record.type === 'Police Unit'
-                          ? 'bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-900'
+                          ? 'bg-burgundy-900/60 dark:bg-burgundy-950 text-burgundy-300 dark:text-beige-300 border-burgundy-500/40 dark:border-burgundy-700'
                           : record.type === 'One Stop Centre'
                           ? 'bg-rose-50 dark:bg-rose-950 text-rani border-rose-200 dark:border-rose-900'
                           : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
@@ -565,7 +565,7 @@ export function LiveEnrichTable() {
                           href={`https://www.google.com/maps/dir/?api=1&destination=${record.lat},${record.lng}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-burgundy-300 dark:text-beige-300 hover:underline"
                         >
                           <Navigation className="w-3 h-3" />
                           <span>Get Directions</span>

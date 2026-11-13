@@ -1,4 +1,5 @@
 import HeroSpark from '@/components/HeroSpark';
+import SurvivorTestimonials from '@/components/SurvivorTestimonials';
 import SilenceDataStory from '@/components/SilenceDataStory';
 import SafetyGapChart from '@/components/SafetyGapChart';
 import WorldVoiceMarquee from '@/components/WorldVoiceMarquee';
@@ -12,6 +13,9 @@ export default async function Home() {
     <div className="flex flex-col w-full overflow-x-hidden">
       {/* Hero Section: The Spark Within, animated SVG lotus, rotating mandala, particle canvas */}
       <HeroSpark />
+
+      {/* Survivor Testimonials: Rotating quote strip */}
+      <SurvivorTestimonials />
 
       {/* The Silence (Data Story): 5 chapters with verified survey numbers and visualizations */}
       <SilenceDataStory />

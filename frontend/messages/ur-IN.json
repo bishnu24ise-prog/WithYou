@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "رپورٹ جمع کریں اور ڈیش بورڈ پر جائیں",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "آواز سے بھرے گئے فیلڈ آپ کی آواز سے بھرے گئے ہیں۔ جمع کرنے سے پہلے جائزہ لیں۔",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "ایک خاموش ڈھال | ایک مضبوط آواز | 100% خفیہ",
+    "headlineLine1": "آپ اکیلی نہیں ہیں۔",
+    "headlineLine2": "آپ کے اندر ایک چنگاری ہے۔",
+    "subtitle": "مدد حاصل کریں، اپنے حقوق جانیں اور خاموشی و سلامتی کے ساتھ کنٹرول لیں۔",
+    "ctaSupport": "خاموشی سے مدد لیں",
+    "ctaRights": "اپنے حقوق جانیں",
+    "badgeNoLogs": "کوئی فون لاگ نہیں",
+    "badgeNoTracking": "کوئی اشتہار ٹریکنگ نہیں",
+    "badgeInstantExit": "فوری اخراج",
+    "cardSilenceTag": "اعداد میں خاموشی",
+    "cardSilenceTitle": "بھارت بھر میں ایک پوشیدہ بحران۔",
+    "cardSilenceBody": "بہت سی خواتین ہراسانی، ظلم اور تشدد کا سامنا کرتی ہیں — اکثر خاموشی میں۔",
+    "cardSilenceCta": "ڈیٹا دیکھیں",
+    "cardNightTitle": "رات کی حفاظتی کمی",
+    "cardNightBody": "رات میں حفاظت نمایاں طور پر کم ہو جاتی ہے۔",
+    "cardOneInThreeBig": "3 میں سے 1",
+    "cardOneInThreeBody": "بھارت میں خواتین کسی نہ کسی شکل میں تشدد کا تجربہ کرتی ہیں۔",
+    "cardOneInThreeSource": "WHO اور NFHS-5 سروے رجسٹری",
+    "cardKnowTitle": "زیادہ جانیں۔ محفوظ رہیں۔",
+    "cardKnowBody": "قوانین، اپنے حقوق اور مدد کے اختیارات کے بارے میں جانیں۔",
+    "cardKnowCta": "مزید پڑھیں",
+    "quickHeader1": "آپ کی حفاظت،",
+    "quickHeader2": "ہماری ترجیح",
+    "qaReportTitle": "ظلم کی اطلاع دیں",
+    "qaReportBody": "گھریلو تشدد یا ہراسانی کی محفوظ طریقے سے اطلاع دیں۔",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "سادہ زبان میں قانونی سوالوں کے جوابات حاصل کریں۔",
+    "qaDirectoryTitle": "مدد تلاش کریں",
+    "qaDirectoryBody": "قابل اعتماد ہیلپ لائنیں، پناہ گاہیں اور خدمات تلاش کریں۔",
+    "qaTherapyTitle": "آپ کا ساتھی",
+    "qaTherapyBody": "جب بھی ضرورت ہو، بات کرنے کے لیے ایک محفوظ جگہ۔"
   }
 }

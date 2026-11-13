@@ -11,11 +11,11 @@ export default function ProblemSolutionThread() {
       case 'Shield':
         return <Shield className="w-6 h-6 text-rani" />;
       case 'HeartHandshake':
-        return <HeartHandshake className="w-6 h-6 text-lavender" />;
+        return <HeartHandshake className="w-6 h-6 text-burgundy-300" />;
       case 'Scale':
-        return <Scale className="w-6 h-6 text-saffron" />;
+        return <Scale className="w-6 h-6 text-beige-400" />;
       case 'Activity':
-        return <Activity className="w-6 h-6 text-peacock" />;
+        return <Activity className="w-6 h-6 text-burgundy-400" />;
       default:
         return <Shield className="w-6 h-6 text-rani" />;
     }
@@ -24,7 +24,7 @@ export default function ProblemSolutionThread() {
   return (
     <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
       <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-peacock/10 text-peacock font-semibold text-xs tracking-wider uppercase">
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-burgundy-500/10 text-burgundy-300 font-semibold text-xs tracking-wider uppercase">
           Problem to Solution Pipeline
         </div>
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -83,7 +83,7 @@ export default function ProblemSolutionThread() {
                     <h4 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
                       {bridge.solutionTitle}
                     </h4>
-                    <span className="text-[11px] font-semibold text-peacock dark:text-peacock-400">
+                    <span className="text-[11px] font-semibold text-burgundy-300 dark:text-beige-300">
                       {bridge.solutionTag}
                     </span>
                   </div>

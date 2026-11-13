@@ -5,7 +5,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
-import { CheckCircleIcon } from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 const steps = [
@@ -73,7 +73,7 @@ export default function HorizontalLinearStepper({
           mt={4}
         >
           <div className="flex items-center gap-1">
-            <CheckCircleIcon style={{ fontSize: 60, color: 'green' }} />
+            <CheckCircle2 className="w-14 h-14 text-accent" />
             <Typography sx={{ ml: 2 }} variant="h5">
               Post successfully submitted!
             </Typography>
@@ -81,9 +81,9 @@ export default function HorizontalLinearStepper({
           <div className="mt-4 flex items-center gap-3">
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-md transition-all duration-150"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-burgundy-500 to-burgundy-400 hover:brightness-110 text-beige-50 rounded-xl text-sm font-semibold shadow-md transition-all duration-150"
             >
-              View on Live Dashboard →
+              View on Live Dashboard <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
           {poem && (
@@ -91,11 +91,11 @@ export default function HorizontalLinearStepper({
               mt={4}
               p={4}
               sx={{
-                fontFamily: 'Georgia, serif',
+                fontFamily: 'var(--font-display), Georgia, serif',
                 fontSize: '1.2rem',
-                backgroundColor: '#f9f9f9',
-                borderLeft: '4px solid #4CAF50',
-                color: '#555',
+                backgroundColor: 'hsl(var(--card))',
+                borderLeft: '4px solid var(--accent)',
+                color: 'hsl(var(--muted-foreground))',
                 textAlign: 'center',
                 maxWidth: '600px',
                 whiteSpace: 'pre-line',

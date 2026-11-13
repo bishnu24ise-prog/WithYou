@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "నివేదికను సమర్పించి డ్యాష్‌బోర్డ్‌కు వెళ్లండి",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked with were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "ఒక మౌన రక్షణ | ఒక శక్తివంతమైన గొంతు | 100% ఎన్‌క్రిప్టెడ్",
+    "headlineLine1": "మీరు ఒంటరిగా లేరు.",
+    "headlineLine2": "మీలో ఒక మెరుపు ఉంది.",
+    "subtitle": "సహాయం పొందండి, మీ హక్కులు తెలుసుకోండి మరియు నిశ్శబ్దంగా, సురక్షితంగా నియంత్రణ తీసుకోండి.",
+    "ctaSupport": "నిశ్శబ్దంగా సహాయం పొందండి",
+    "ctaRights": "మీ హక్కులు తెలుసుకోండి",
+    "badgeNoLogs": "ఫోన్ లాగ్‌లు లేవు",
+    "badgeNoTracking": "ప్రకటన ట్రాకింగ్ లేదు",
+    "badgeInstantExit": "తక్షణ నిష్క్రమణ",
+    "cardSilenceTag": "సంఖ్యలలో మౌనం",
+    "cardSilenceTitle": "భారతదేశం అంతటా ఒక దాగున్న సంక్షోభం.",
+    "cardSilenceBody": "చాలా మంది మహిళలు వేధింపులు, దుర్వినియోగం మరియు హింసను ఎదుర్కొంటారు — తరచుగా మౌనంగా.",
+    "cardSilenceCta": "డేటాను అన్వేషించండి",
+    "cardNightTitle": "రాత్రి భద్రత అంతరం",
+    "cardNightBody": "రాత్రి సమయంలో భద్రత గణనీయంగా తగ్గుతుంది.",
+    "cardOneInThreeBig": "3 లో 1",
+    "cardOneInThreeBody": "భారతదేశంలో మహిళలు ఏదో ఒక రూపంలో హింసను అనుభవిస్తారు.",
+    "cardOneInThreeSource": "WHO మరియు NFHS-5 సర్వే రిజిస్ట్రీ",
+    "cardKnowTitle": "మరింత తెలుసుకోండి. సురక్షితంగా ఉండండి.",
+    "cardKnowBody": "చట్టాలు, మీ హక్కులు మరియు మద్దతు ఎంపికల గురించి తెలుసుకోండి.",
+    "cardKnowCta": "మరింత చదవండి",
+    "quickHeader1": "మీ భద్రత,",
+    "quickHeader2": "మా ప్రాధాన్యత",
+    "qaReportTitle": "దుర్వినియోగాన్ని నివేదించండి",
+    "qaReportBody": "గృహ హింస లేదా వేధింపులను సురక్షితంగా నివేదించండి.",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "సరళమైన భాషలో చట్టపరమైన ప్రశ్నలకు సమాధానాలు పొందండి.",
+    "qaDirectoryTitle": "మద్దతు కనుగొనండి",
+    "qaDirectoryBody": "విశ్వసనీయ హెల్ప్‌లైన్‌లు, ఆశ్రయాలు మరియు సేవలను కనుగొనండి.",
+    "qaTherapyTitle": "మీ తోడు",
+    "qaTherapyBody": "ఎప్పుడు అవసరమైనా మాట్లాడటానికి ఒక సురక్షిత స్థలం."
   }
 }

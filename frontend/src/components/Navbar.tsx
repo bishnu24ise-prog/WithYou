@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { LoginDropdown } from './LoginDropdown';
 import { ModeToggle } from './ModeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -34,23 +35,29 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="w-full h-16 px-4 sm:px-6 flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-40 shadow-sm">
-      {/* Brand Logo */}
+    <nav className="w-full h-16 px-4 sm:px-6 flex items-center justify-between border-b border-[#F5EBE1]/15 bg-[#1F0511]/85 dark:bg-[#15030A]/90 backdrop-blur-xl sticky top-0 z-40 shadow-lg shadow-black/20 text-[#FAF4EC]">
+      {/* Brand Logo with User Uploaded Glowing Lotus Spark */}
       <Link
         href="/"
         prefetch={false}
-        className="font-black text-xl sm:text-2xl tracking-wide flex items-center gap-2 group"
+        className="font-black text-xl sm:text-2xl tracking-wide flex items-center gap-2.5 group"
       >
-        <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-tr from-rani via-saffron to-marigold flex items-center justify-center text-white text-xs sm:text-sm font-bold shadow-md shadow-rani/20 group-hover:scale-105 transition-transform">
-          ✦
-        </span>
-        <span className="text-slate-900 dark:text-white">
-          Safe<span className="text-gradient-aurora">Spark</span>
+        <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-md shadow-[#C0265D]/40 group-hover:scale-105 transition-transform border border-[#F5EBE1]/25 flex items-center justify-center bg-[#2D0717]">
+          <Image
+            src="/images/logo.png"
+            alt="SafeSpark Lotus Flame Logo"
+            fill
+            sizes="36px"
+            className="object-contain p-0.5 filter brightness-110 drop-shadow-[0_0_8px_rgba(255,122,144,0.6)]"
+          />
+        </div>
+        <span className="text-[#FAF4EC] font-bold tracking-tight">
+          Safe<span className="text-gradient-sparkle">Spark</span>
         </span>
       </Link>
 
       {/* Desktop Navigation Links */}
-      <div className="hidden md:flex items-center justify-center gap-3 lg:gap-5 font-semibold text-xs sm:text-[13px] text-slate-600 dark:text-slate-300">
+      <div className="hidden md:flex items-center justify-center gap-4 lg:gap-6 font-medium text-xs sm:text-[13px] text-[#FAF4EC]/85">
         {navLinks.map((link) => {
           const active = isActive(link.href);
           const isSos = link.href === '/create-post';
@@ -59,16 +66,16 @@ export default function Navbar() {
               key={link.href}
               href={link.href as any}
               prefetch={false}
-              className={`transition-colors duration-200 relative py-1 ${
+              className={`transition-colors duration-200 relative py-1.5 ${
                 active
-                  ? 'text-rani font-bold'
-                  : 'hover:text-rani dark:hover:text-rani-300'
-              } ${isSos ? 'flex items-center gap-1.5 text-rani font-bold' : ''}`}
+                  ? 'text-[#FFA8B8] font-bold drop-shadow-[0_0_8px_rgba(255,122,144,0.4)]'
+                  : 'hover:text-[#FFA8B8] text-[#FAF4EC]/80'
+              } ${isSos ? 'flex items-center gap-1.5 text-[#FF7A90] font-semibold' : ''}`}
             >
-              {isSos && <Lock className="w-3.5 h-3.5 text-rani animate-pulse" />}
+              {isSos && <Lock className="w-3.5 h-3.5 text-[#FF7A90] animate-pulse" />}
               <span>{link.label}</span>
               {active && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-rani to-saffron rounded-full" />
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#C32F6E] via-[#FF7A90] to-[#FAF4EC] rounded-full shadow-[0_0_6px_rgba(255,122,144,0.6)]" />
               )}
             </Link>
           );
@@ -76,7 +83,7 @@ export default function Navbar() {
       </div>
 
       {/* Right Controls: Language + Theme + Auth + Mobile Toggle */}
-      <div className="flex items-center gap-2 sm:gap-2.5">
+      <div className="flex items-center gap-2 sm:gap-3">
         <LanguageSwitcher />
         <ModeToggle />
         {mounted ? (
@@ -89,13 +96,13 @@ export default function Navbar() {
             </div>
           )
         ) : (
-          <div className="w-20 h-8 rounded-lg bg-slate-200/50 dark:bg-slate-800/50 animate-pulse" />
+          <div className="w-20 h-8 rounded-full bg-[#3B0B1E]/60 animate-pulse border border-[#F5EBE1]/20" />
         )}
 
         {/* Mobile menu trigger button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 text-slate-600 dark:text-slate-300 hover:text-rani"
+          className="md:hidden p-2 text-[#FAF4EC]/80 hover:text-[#FFA8B8] rounded-lg bg-[#2D0717]/60 border border-[#F5EBE1]/10"
           aria-label="Toggle Navigation"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

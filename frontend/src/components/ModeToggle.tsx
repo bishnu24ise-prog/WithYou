@@ -22,8 +22,8 @@ export function ModeToggle() {
 
   if (!mounted) {
     return (
-      <Button variant="outline" size="icon" aria-label="Toggle theme">
-        <Sun className="h-[1.2rem] w-[1.2rem]" />
+      <Button variant="outline" size="icon" aria-label="Toggle theme" className="border-[#F5EBE1]/30 bg-[#2D0717]/60 text-[#FAF4EC]">
+        <Sun className="h-[1.2rem] w-[1.2rem] text-beige-200" />
       </Button>
     );
   }
@@ -31,9 +31,13 @@ export function ModeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+        <Button
+          variant="outline"
+          size="icon"
+          className="border-[#F5EBE1]/30 bg-[#2D0717]/60 hover:bg-[#3D0B20]/80 text-[#FAF4EC] dark:border-[#F5EBE1]/20 dark:bg-[#2D0717]/60 dark:hover:bg-[#3D0B20]/80 dark:text-[#FAF4EC]"
+        >
+          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-beige-200" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-beige-200" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

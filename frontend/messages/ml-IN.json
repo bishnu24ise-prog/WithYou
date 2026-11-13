@@ -85,7 +85,7 @@
     "culpritPlaceholder": "Describe relation, appearance, weapon presence, or known identity...",
     "directSave": "Submit Emergency Report & Go to Dashboard",
     "stegoEncode": "Encode into Steganographic Photo",
-    "aiFilledNotice": "Fields marked with ✨ were filled by voice. Please review before submitting.",
+    "aiFilledNotice": "Fields marked with were filled by voice. Please review before submitting.",
     "submitting": "Encrypting & Submitting..."
   },
   "lawbot": {
@@ -177,5 +177,38 @@
     "situationRequired": "Please describe the situation (at least 5 characters).",
     "culpritRequired": "Please describe the culprit or situation (at least 5 characters).",
     "contactRequired": "Please select at least one contact method."
+  },
+  "hero": {
+    "eyebrow": "ഒരു നിശബ്ദ പരിചരണം | ഒരു ശക്തമായ ശബ്ദം | 100% എൻക്രിപ്റ്റഡ്",
+    "headlineLine1": "നിങ്ങൾ ഒറ്റക്കല്ല.",
+    "headlineLine2": "നിങ്ങളിൽ ഒരു തിളക്കമുണ്ട്.",
+    "subtitle": "സഹായം നേടൂ, നിങ്ങളുടെ അവകാശങ്ങൾ അറിയൂ, നിശബ്ദമായും സുരക്ഷിതമായും നിയന്ത്രണം ഏറ്റെടുക്കൂ.",
+    "ctaSupport": "നിശബ്ദമായി സഹായം നേടൂ",
+    "ctaRights": "നിങ്ങളുടെ അവകാശങ്ങൾ അറിയൂ",
+    "badgeNoLogs": "ഫോൺ ലോഗുകളില്ല",
+    "badgeNoTracking": "പരസ്യ ട്രാക്കിംഗ് ഇല്ല",
+    "badgeInstantExit": "ഉടനടി പുറത്തുകടക്കൂ",
+    "cardSilenceTag": "സംഖ്യകളിലെ നിശബ്ദത",
+    "cardSilenceTitle": "ഇന്ത്യ മുഴുവൻ ഒരു മറഞ്ഞ പ്രതിസന്ധി.",
+    "cardSilenceBody": "നിരവധി സ്ത്രീകൾ ഉപദ്രവം, ദുരുപദ്യോഗം, അക്രമം എന്നിവ നേരിടുന്നു — പലപ്പോഴും നിശബ്ദമായി.",
+    "cardSilenceCta": "ഡാറ്റ പര്യവേക്ഷണം ചെയ്യൂ",
+    "cardNightTitle": "രാത്രി സുരക്ഷ അന്തരം",
+    "cardNightBody": "രാത്രിയിൽ സുരക്ഷ ഗണ്യമായി കുറയുന്നു.",
+    "cardOneInThreeBig": "3 ൽ 1",
+    "cardOneInThreeBody": "ഇന്ത്യയിലെ സ്ത്രീകൾ ഏതെങ്കിലും തരത്തിലുള്ള അക്രമം അനുഭവിക്കുന്നു.",
+    "cardOneInThreeSource": "WHO & NFHS-5 സർവേ രജിസ്ട്രി",
+    "cardKnowTitle": "കൂടുതൽ അറിയൂ. സുരക്ഷിതരായിരിക്കൂ.",
+    "cardKnowBody": "നിയമങ്ങൾ, നിങ്ങളുടെ അവകാശങ്ങൾ, സഹായ ഓപ്ഷനുകൾ എന്നിവ അറിയൂ.",
+    "cardKnowCta": "കൂടുതൽ വായിക്കൂ",
+    "quickHeader1": "നിങ്ങളുടെ സുരക്ഷ,",
+    "quickHeader2": "ഞങ്ങളുടെ മുൻഗണന",
+    "qaReportTitle": "ദുരുപദ്യോഗം റിപ്പോർട്ട് ചെയ്യൂ",
+    "qaReportBody": "ഗാർഹിക പീഡനം അല്ലെങ്കിൽ ഉപദ്രവം സുരക്ഷിതമായി റിപ്പോർട്ട് ചെയ്യൂ.",
+    "qaLawbotTitle": "LawBot",
+    "qaLawbotBody": "ലളിതമായ ഭാഷയിൽ നിയമ ചോദ്യങ്ങൾക്ക് ഉത്തരം നേടൂ.",
+    "qaDirectoryTitle": "സഹായം കണ്ടെത്തൂ",
+    "qaDirectoryBody": "വിശ്വസ്ത ഹെൽപ്‌ലൈനുകൾ, അഭയകേന്ദ്രങ്ങൾ, സേവനങ്ങൾ കണ്ടെത്തൂ.",
+    "qaTherapyTitle": "നിങ്ങളുടെ കൂട്ടാളി",
+    "qaTherapyBody": "എപ്പോൾ വേണമെങ്കിലും സംസാരിക്കാൻ ഒരു സുരക്ഷിത ഇടം."
   }
 }

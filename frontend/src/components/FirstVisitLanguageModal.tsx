@@ -46,7 +46,7 @@ export default function FirstVisitLanguageModal() {
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] flex flex-col">
         {/* Header with safety reassurance */}
         <div className="text-center mb-5">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rani to-saffron flex items-center justify-center text-white mx-auto mb-3 shadow-lg shadow-rani/20">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rani to-burgundy-400 flex items-center justify-center text-white mx-auto mb-3 shadow-lg shadow-rani/20">
             <Globe className="w-6 h-6" />
           </div>
           <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
@@ -92,7 +92,7 @@ export default function FirstVisitLanguageModal() {
         {/* Footer info & confirm */}
         <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400 text-center sm:text-left">
-            <Shield className="w-3.5 h-3.5 text-jade shrink-0" />
+            <Shield className="w-3.5 h-3.5 text-accent shrink-0" />
             <span>{t('note')}</span>
           </div>
           <Button
