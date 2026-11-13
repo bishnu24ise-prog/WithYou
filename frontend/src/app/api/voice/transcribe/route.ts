@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { transcribeAudioWithGnani } from '@/lib/gnani';
 
-const GNANI_API_KEY = process.env.GNANI_API_KEY;
+const FALLBACK_GNANI_KEY =
+  'vach_1ytE2CY5X2Ou0P0yPaoQaijATV9H6AC2vDsQtS8dgXk6mUiO7nosR3zooCkBJT8SN5B5fkX50nyMP5eYFaAnn4ot8qELeVUd_463065025f61f6385cdda8592c2c37b4';
+const GNANI_API_KEY = process.env.GNANI_API_KEY || process.env.NEXT_PUBLIC_GNANI_API_KEY || FALLBACK_GNANI_KEY;
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
 
 export async function POST(req: NextRequest) {

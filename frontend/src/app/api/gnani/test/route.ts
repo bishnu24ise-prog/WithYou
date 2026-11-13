@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { synthesizeSpeechWithGnani, transcribeAudioWithGnani, GNANI_LANGUAGES } from '@/lib/gnani';
+import { synthesizeSpeechWithGnani, transcribeAudioWithGnani, GNANI_LANGUAGES, getGnaniApiKey } from '@/lib/gnani';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   const startTime = Date.now();
   const testResults: Record<string, any> = {
-    apiKeyConfigured: Boolean(process.env.GNANI_API_KEY),
+    apiKeyConfigured: Boolean(getGnaniApiKey()),
     timestamp: new Date().toISOString(),
     supportedLanguages: GNANI_LANGUAGES.map((l) => `${l.name} (${l.code})`),
   };

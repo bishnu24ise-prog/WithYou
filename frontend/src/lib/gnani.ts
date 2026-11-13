@@ -21,9 +21,11 @@ export const GNANI_LANGUAGES: GnaniLanguage[] = [
 ];
 
 const GNANI_API_BASE = 'https://api.vachana.ai';
+const FALLBACK_GNANI_API_KEY =
+  'vach_1ytE2CY5X2Ou0P0yPaoQaijATV9H6AC2vDsQtS8dgXk6mUiO7nosR3zooCkBJT8SN5B5fkX50nyMP5eYFaAnn4ot8qELeVUd_463065025f61f6385cdda8592c2c37b4';
 
 export function getGnaniApiKey(): string {
-  const key = process.env.GNANI_API_KEY;
+  const key = process.env.GNANI_API_KEY || process.env.NEXT_PUBLIC_GNANI_API_KEY || FALLBACK_GNANI_API_KEY;
   if (!key) {
     throw new Error('GNANI_API_KEY is not configured in environment variables.');
   }

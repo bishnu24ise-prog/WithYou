@@ -9,11 +9,10 @@ import requests
 from typing import Dict, Any, Optional
 
 GNANI_API_BASE = "https://api.vachana.ai"
+FALLBACK_GNANI_KEY = "vach_1ytE2CY5X2Ou0P0yPaoQaijATV9H6AC2vDsQtS8dgXk6mUiO7nosR3zooCkBJT8SN5B5fkX50nyMP5eYFaAnn4ot8qELeVUd_463065025f61f6385cdda8592c2c37b4"
 
 def get_gnani_api_key() -> str:
-    key = os.getenv("GNANI_API_KEY")
-    if not key:
-        raise ValueError("GNANI_API_KEY environment variable is missing.")
+    key = os.getenv("GNANI_API_KEY") or FALLBACK_GNANI_KEY
     return key
 
 def transcribe_audio(
