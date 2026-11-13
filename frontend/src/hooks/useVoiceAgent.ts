@@ -269,7 +269,10 @@ export function useVoiceAgent(options: UseVoiceAgentOptions = {}) {
           const currentText = final || interim;
           if (currentText) {
             setTranscript(currentText);
-            options.onTranscript?.(currentText, !!final);
+            // Only fire onTranscript for FINAL results to prevent repetition stacking
+            if (final) {
+              options.onTranscript?.(final, true);
+            }
           }
         };
 

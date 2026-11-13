@@ -416,8 +416,8 @@ export default function LawBotPage() {
             language={locale}
             showWarning={true}
             onTranscript={(txt) => {
-              const cur = form.getValues('message') || '';
-              form.setValue('message', cur ? `${cur} ${txt}` : txt, { shouldValidate: true });
+              // Replace the field value entirely with the final transcript — never append
+              form.setValue('message', txt, { shouldValidate: true });
             }}
           />
         </div>

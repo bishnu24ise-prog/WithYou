@@ -125,10 +125,26 @@ In freedom, dignity, and pride.`;
       ];
     }
 
-    // 3. Synthesize Exhaustive Detailed Answer via Sarvam 105B Indic Legal Engine or Gemini (Strict 6.5s timeout)
+    // 3. Detect exact reply language from the user's script
     let answer = '';
     let engineUsed = 'TinyFish Legal Knowledge Engine';
     const isIndic = isIndicOrHinglish(cleanInput, language);
+
+    // Detect exact script/language for native reply
+    const detectReplyLanguage = (text: string): string => {
+      if (/[\u0900-\u097F]/.test(text)) return 'Hindi (Devanagari script) — reply fully in Hindi';
+      if (/[\u0C80-\u0CFF]/.test(text)) return 'Kannada — reply fully in Kannada';
+      if (/[\u0B80-\u0BFF]/.test(text)) return 'Tamil — reply fully in Tamil';
+      if (/[\u0C00-\u0C7F]/.test(text)) return 'Telugu — reply fully in Telugu';
+      if (/[\u0980-\u09FF]/.test(text)) return 'Bengali — reply fully in Bengali';
+      if (/[\u0D00-\u0D7F]/.test(text)) return 'Malayalam — reply fully in Malayalam';
+      if (/[\u0A80-\u0AFF]/.test(text)) return 'Gujarati — reply fully in Gujarati';
+      if (/[\u0A00-\u0A7F]/.test(text)) return 'Punjabi (Gurmukhi) — reply fully in Punjabi';
+      if (/[\u0600-\u06FF]/.test(text)) return 'Urdu — reply fully in Urdu';
+      if (isIndic) return 'Hinglish (romanized Hindi/Indian English mix) — reply in natural Hinglish';
+      return 'English — reply in clear empathetic English';
+    };
+    const replyLanguageInstruction = detectReplyLanguage(cleanInput);
 
     // 3A. Prioritize Sarvam 105B MoE for ALL queries (Indic, Hinglish, and English)
     if (isSarvamConfigured()) {
@@ -136,8 +152,10 @@ In freedom, dignity, and pride.`;
         const sarvamSystemPrompt = `You are SafeSpark LawBot powered by Sarvam 105B Sovereign Indic Legal Intelligence and TinyFish Legal Web Research.
 You are an authoritative, deeply trauma-informed legal advocate specializing in Indian constitutional, statutory, and criminal law protecting women, survivors, and citizens in distress.
 
-CRITICAL INSTRUCTION:
-- Respond natively in the language of the user (${isIndic ? 'colloquial Hindi/Hinglish or the detected Indic language' : 'clear, empathetic English'}).
+CRITICAL LANGUAGE RULE (MUST FOLLOW — NO EXCEPTIONS):
+- The user wrote in: ${replyLanguageInstruction}
+- You MUST respond ENTIRELY in that same language. Do NOT switch to English under any circumstance.
+- If the user wrote in Hindi, your ENTIRE response must be in Hindi. Same for Kannada, Tamil, Telugu, Bengali, etc.
 - Provide an EXHAUSTIVE, DEEPLY DETAILED, LONG-FORM legal advisory. Do NOT give short summaries.
 - Cite exact Indian Statutory Provisions:
   1. Protection of Women from Domestic Violence Act (PWDVA) 2005 (Sections 12, 17, 18, 19, 20, 21, 22, 23, 31).
@@ -155,14 +173,14 @@ CRITICAL INSTRUCTION:
 - Explicitly cite official government sources in brackets [Source: nalsa.gov.in / ncw.nic.in]. Tone must be protective, respectful, and empowering.`;
 
         const sarvamUserPrompt = `User Query: "${cleanInput}"
-Language preference: ${language}
+REPLY LANGUAGE: ${replyLanguageInstruction}
 ${
   extractedContext
     ? `Live Verified Statutory Sources from TinyFish Web Agent:\n${extractedContext}\n`
     : `Refer to official Indian statutory frameworks: PWDVA 2005, BNS 2023, BNSS 2023 Zero FIR, POSH 2013, NALSA Free Legal Aid.`
 }
 
-Please provide an exhaustive, compassionate, and deeply detailed Indian legal advisory:`;
+Please provide an exhaustive, compassionate, and deeply detailed Indian legal advisory in the SAME LANGUAGE as the user's query:`;
 
         const sarvamRes = await callSarvamChat({
           messages: [{ role: 'user', content: sarvamUserPrompt }],
