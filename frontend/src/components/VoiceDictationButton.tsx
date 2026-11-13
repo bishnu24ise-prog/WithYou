@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { Mic, MicOff, Loader2, Sparkles } from 'lucide-react';
 import { GNANI_LANGUAGES } from '@/lib/gnani';
 import { convertAudioBlobToWav } from '@/lib/audio-converter';
+import { useTranslations } from 'next-intl';
 
 interface VoiceDictationButtonProps {
   onTranscribed: (text: string) => void;
@@ -18,6 +19,7 @@ export function VoiceDictationButton({
   className = '',
   buttonText = 'Speak to Type (Gnani AI)',
 }: VoiceDictationButtonProps) {
+  const t = useTranslations('audio');
   const [isRecording, setIsRecording] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [selectedLang, setSelectedLang] = useState(language);
@@ -128,12 +130,12 @@ export function VoiceDictationButton({
         {isTranscribing ? (
           <>
             <Loader2 className="h-3.5 w-3.5 animate-spin text-rani" />
-            <span>Transcribing...</span>
+            <span>{t('transcribing')}</span>
           </>
         ) : isRecording ? (
           <>
             <MicOff className="h-3.5 w-3.5 text-red-400 animate-bounce" />
-            <span>Stop ({currentLangObj.nativeName})</span>
+            <span>{t('stop')} ({currentLangObj.nativeName})</span>
           </>
         ) : (
           <>

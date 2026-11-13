@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/routing';
 import { Globe, ChevronDown, Check } from 'lucide-react';
 
@@ -33,10 +33,28 @@ export default function LanguageSwitcher({
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations('language');
 
   const currentLang =
     SUPPORTED_LANGUAGES.find((l) => l.code === currentLocale) ||
     SUPPORTED_LANGUAGES[0];
+
+  // Language Persistence: Sync from localStorage on initial mount if different
+  useEffect(() => {
+    try {
+      const savedLocale = localStorage.getItem('safespark_locale');
+      if (
+        savedLocale &&
+        savedLocale !== currentLocale &&
+        SUPPORTED_LANGUAGES.some((l) => l.code === savedLocale)
+      ) {
+        document.cookie = `NEXT_LOCALE=${savedLocale};path=/;max-age=31536000;SameSite=Lax`;
+        router.replace(pathname, { locale: savedLocale as any });
+      }
+    } catch (e) {
+      // LocalStorage access restricted in private mode
+    }
+  }, [currentLocale, pathname, router]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -49,10 +67,16 @@ export default function LanguageSwitcher({
   }, []);
 
   const handleSelectLanguage = (newLocale: string) => {
-    if (typeof document !== 'undefined') {
-      document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000;SameSite=Lax`;
-    }
+    try {
+      localStorage.setItem('safespark_locale', newLocale);
+      localStorage.setItem('safespark_lang_chosen', 'true');
+      if (typeof document !== 'undefined') {
+        document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000;SameSite=Lax`;
+      }
+    } catch (e) {}
+
     setOpen(false);
+    // Instant, client-side switch without page reload
     router.replace(pathname, { locale: newLocale as any });
   };
 
@@ -92,7 +116,8 @@ export default function LanguageSwitcher({
       <button
         onClick={() => setOpen(!open)}
         className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-xs font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-rani"
-        aria-label="Change language"
+        aria-label={t('select')}
+        title={t('chooseLanguage')}
       >
         <Globe className="w-3.5 h-3.5 text-rani shrink-0" />
         <span className="font-bold text-[11px] sm:text-xs max-w-[65px] sm:max-w-none truncate">{currentLang.native}</span>
@@ -102,7 +127,7 @@ export default function LanguageSwitcher({
       {open && (
         <div className="absolute right-0 mt-2 w-56 max-h-80 overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl z-50 p-1.5 scrollbar-thin">
           <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 dark:border-slate-800 mb-1">
-            Indian Languages (13)
+            {t('chooseLanguage')} (13)
           </div>
           {SUPPORTED_LANGUAGES.map((lang) => {
             const isSelected = lang.code === currentLocale;
@@ -133,4 +158,3 @@ export default function LanguageSwitcher({
     </div>
   );
 }
-

@@ -12,12 +12,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useSafeClerk } from '@/lib/auth-context';
 import { Shield, User, UserPlus, LogIn, ChevronDown, KeyRound, Sparkles } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 export function LoginDropdown() {
   const [mounted, setMounted] = React.useState(false);
   const { loginAs } = useSafeClerk();
   const router = useRouter();
+  const t = useTranslations('nav');
 
   React.useEffect(() => {
     setMounted(true);
@@ -26,7 +28,7 @@ export function LoginDropdown() {
   if (!mounted) {
     return (
       <Button variant="default" size="sm" className="bg-rani hover:bg-rani-600 text-white font-medium">
-        Login
+        {t('loginButton')}
       </Button>
     );
   }
@@ -39,11 +41,6 @@ export function LoginDropdown() {
       badge: 'Law Enforcement / Official',
     });
     router.push('/dashboard');
-    setTimeout(() => {
-      if (window.location.pathname !== '/dashboard') {
-        window.location.href = '/dashboard';
-      }
-    }, 150);
   };
 
   const handleCitizenLogin = () => {
@@ -54,11 +51,6 @@ export function LoginDropdown() {
       badge: 'Protected Citizen',
     });
     router.push('/create-post');
-    setTimeout(() => {
-      if (window.location.pathname !== '/create-post') {
-        window.location.href = '/create-post';
-      }
-    }, 150);
   };
 
   const handleCustomPortal = () => {
@@ -78,15 +70,15 @@ export function LoginDropdown() {
           className="bg-gradient-to-r from-rani to-saffron hover:opacity-95 text-white font-semibold flex items-center gap-1.5 shadow-sm px-3.5 py-1.5 rounded-lg transition-all"
         >
           <LogIn className="h-4 w-4" />
-          <span>Login</span>
+          <span>{t('loginButton')}</span>
           <ChevronDown className="h-3.5 w-3.5 opacity-70" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-72 p-2 shadow-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl z-50" align="end">
         <DropdownMenuLabel className="font-semibold text-xs text-slate-500 uppercase tracking-wider px-2 py-1 flex items-center justify-between">
-          <span>Choose Your Role</span>
+          <span>{t('chooseRole')}</span>
           <span className="text-[10px] text-rani font-bold flex items-center gap-1">
-            <Sparkles className="w-3 h-3" /> Quick Access
+            <Sparkles className="w-3 h-3" /> {t('quickAccess')}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator className="my-1" />
@@ -102,14 +94,14 @@ export function LoginDropdown() {
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
               <span className="font-bold text-sm text-slate-900 dark:text-slate-100">
-                Authority / Official
+                {t('roleAuthority')}
               </span>
               <span className="px-1.5 py-0.2 bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 rounded text-[10px] font-bold">
-                Police/NGO
+                {t('verifiedOfficialBadge')}
               </span>
             </div>
             <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-snug">
-              Instant login as Duty Officer to review dossiers and resolve cases
+              {t('lawOfficerDesc')}
             </span>
           </div>
         </DropdownMenuItem>
@@ -125,14 +117,14 @@ export function LoginDropdown() {
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
               <span className="font-bold text-sm text-slate-900 dark:text-slate-100">
-                Citizen / Survivor
+                {t('roleSurvivor')}
               </span>
               <span className="px-1.5 py-0.2 bg-rose-100 dark:bg-rose-900/60 text-rose-700 dark:text-rose-300 rounded text-[10px] font-bold">
-                Confidential
+                {t('protectedCitizenBadge')}
               </span>
             </div>
             <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-snug">
-              Instant login to submit covert SOS reports and track case progress
+              {t('citizenDesc')}
             </span>
           </div>
         </DropdownMenuItem>
@@ -145,7 +137,7 @@ export function LoginDropdown() {
           className="flex items-center gap-2.5 p-2 rounded-lg cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium text-xs transition-colors"
         >
           <KeyRound className="h-4 w-4 text-slate-500 shrink-0" />
-          <span>Login with Custom ID / Password</span>
+          <span>{t('customOfficer')}</span>
         </DropdownMenuItem>
 
         {/* 4. New Registration */}
@@ -154,7 +146,7 @@ export function LoginDropdown() {
           className="flex items-center gap-2.5 p-2 rounded-lg cursor-pointer hover:bg-purple-50 dark:hover:bg-slate-800 text-purple-700 dark:text-purple-300 font-medium text-xs transition-colors"
         >
           <UserPlus className="h-4 w-4 shrink-0" />
-          <span>Register New Account</span>
+          <span>{t('registerCitizen')}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

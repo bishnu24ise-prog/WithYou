@@ -5,11 +5,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SILENCE_CHAPTERS, StatStory } from '@/data/stats';
 import { AlertCircle, ExternalLink } from 'lucide-react';
 import { VerifiedBadge } from '@/components/VerifiedBadge';
+import { useTranslations } from 'next-intl';
 
 export default function SilenceDataStory() {
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
+  const t = useTranslations('silence');
 
   const activeChapter: StatStory = SILENCE_CHAPTERS[activeChapterIndex];
+  const chapterKeys = ['ch1', 'ch2', 'ch3', 'ch4', 'ch5'] as const;
+  const currentKey = chapterKeys[activeChapterIndex] || 'ch1';
 
   return (
     <section id="the-silence" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
@@ -20,20 +24,20 @@ export default function SilenceDataStory() {
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rani/10 dark:bg-rani/20 text-rani-600 dark:text-rani-300 font-semibold text-xs tracking-wider uppercase">
-          Chaptered Data Story
+          {t('badge')}
         </div>
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
-          The Silence <span className="text-gradient-aurora">In Numbers</span>
+          {t('title')} <span className="text-gradient-aurora">{t('titleHighlight')}</span>
         </h2>
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300">
-          Behind every statistic lies a sister, mother, daughter, or friend. These five verified data chapters reveal why silence is maintained, and why SafeSpark had to be built.
+          {t('subtitle')}
         </p>
 
         {/* Content Note Banner */}
         <div className="mt-4 p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-xs sm:text-sm text-amber-900 dark:text-amber-200 flex items-start sm:items-center gap-2.5 text-left">
           <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5 sm:mt-0" />
           <div className="flex-1">
-            <span className="font-semibold">Content Note:</span> This section contains verified statistical survey findings regarding domestic abuse, psychological distress, and legal barriers. All data is cited from official WHO, NFHS-5, and NMHS records.
+            <span className="font-semibold">{t('contentNoteTitle')}</span> {t('contentNote')}
           </div>
         </div>
       </div>
@@ -42,6 +46,7 @@ export default function SilenceDataStory() {
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3 mb-8">
         {SILENCE_CHAPTERS.map((chapter, idx) => {
           const isActive = idx === activeChapterIndex;
+          const k = chapterKeys[idx] || 'ch1';
           return (
             <button
               key={chapter.id}
@@ -59,7 +64,7 @@ export default function SilenceDataStory() {
                 <span className={`w-2 h-2 rounded-full ${isActive ? 'bg-rani animate-pulse' : 'bg-slate-300 dark:bg-slate-700'}`} />
               </div>
               <p className={`font-semibold line-clamp-2 leading-tight ${isActive ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400'}`}>
-                {chapter.theme}
+                {t(`chapters.${k}.tabTitle`)}
               </p>
             </button>
           );
@@ -81,44 +86,45 @@ export default function SilenceDataStory() {
             <div className="lg:col-span-7 space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: activeChapter.accentColor }} />
-                <span>{activeChapter.badge}</span>
+                <span>{t(`chapters.${currentKey}.tabTitle`)}</span>
               </div>
 
               <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">
-                {activeChapter.headline}
+                {t(`chapters.${currentKey}.headline`)}
               </h3>
 
               <div className="flex items-baseline gap-3">
                 <span className="text-4xl sm:text-6xl font-black tracking-tight" style={{ color: activeChapter.accentColor }}>
-                  {activeChapter.number}
+                  {t(`chapters.${currentKey}.number`)}
                 </span>
                 <span className="text-sm sm:text-base font-medium text-slate-500 dark:text-slate-400">
-                  {activeChapter.unit}
+                  {t(`chapters.${currentKey}.unit`)}
                 </span>
               </div>
 
               <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
-                {activeChapter.subtext}
+                {t(`chapters.${currentKey}.subtext`)}
               </p>
 
               {/* Exact Survey Definition Badge */}
               <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-1">
                 <div className="font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider text-[10px]">
-                  Survey Metric Definition
+                  {t('officialRecord')}
                 </div>
-                <div>{activeChapter.definition}</div>
+                <div>{t(`chapters.${currentKey}.def`)}</div>
               </div>
 
               {/* Verified Source Citation */}
               <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-                <VerifiedBadge verifiedAt="2026-10-31" sourceUrl={activeChapter.sourceUrl} size="sm" /><span>Source: <strong className="text-slate-700 dark:text-slate-300">{activeChapter.source} ({activeChapter.year})</strong></span>
+                <VerifiedBadge verifiedAt="2026-10-31" sourceUrl={activeChapter.sourceUrl} size="sm" />
+                <span>{t('sourcePrefix')} <strong className="text-slate-700 dark:text-slate-300">{activeChapter.source} ({activeChapter.year})</strong></span>
                 <a
                   href={activeChapter.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-peacock hover:underline font-semibold"
                 >
-                  <span>Read report</span>
+                  <span>{t('readFullSource')}</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
@@ -147,7 +153,7 @@ export default function SilenceDataStory() {
                             </svg>
                           </div>
                           <span className={`text-xs font-bold ${isAffected ? 'text-rani' : 'text-slate-400'}`}>
-                            {isAffected ? '1 in 3 (Affected)' : `Subject ${num}`}
+                            {isAffected ? `${t('chapters.ch1.number')} (Affected)` : `Subject ${num}`}
                           </span>
                         </div>
                       );
@@ -189,23 +195,23 @@ export default function SilenceDataStory() {
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                       <span className="text-3xl font-black text-lavender-600 dark:text-lavender">85.2%</span>
-                      <span className="text-[10px] uppercase font-bold text-slate-500">Untreated</span>
+                      <span className="text-[10px] uppercase font-bold text-slate-500">{t('untreatedLabel')}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 text-xs">
                     <div className="flex items-center gap-1.5">
                       <span className="w-3 h-3 rounded-full bg-lavender" />
-                      <span>No Treatment (85.2%)</span>
+                      <span>{t('noTreatment')}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <span className="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700" />
-                      <span>Received Care (14.8%)</span>
+                      <span>{t('receivedCare')}</span>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Visual Type 3: 10x10 Dot Grid (80.1% Never Disclosed or 1.3% Law Gap) */}
+              {/* Visual Type 3: 10x10 Dot Grid */}
               {activeChapter.visualType === 'dotgrid' && (
                 <div className="w-full flex flex-col items-center gap-3">
                   <div className="grid grid-cols-10 gap-1.5 sm:gap-2 p-2">
@@ -228,17 +234,17 @@ export default function SilenceDataStory() {
                     })}
                   </div>
                   <p className="text-xs text-center text-slate-500">
-                    100-dot population grid: <strong className="text-slate-800 dark:text-slate-200">{Math.round(activeChapter.numericValue)} of 100</strong> units highlighted.
+                    {t('dotGridSummary', { count: Math.round(activeChapter.numericValue) })}
                   </p>
                 </div>
               )}
 
-              {/* Visual Type 4: Aid Gap Micro Bars (0.2% vs 99.8%) */}
+              {/* Visual Type 4: Aid Gap Micro Bars */}
               {activeChapter.visualType === 'bars' && (
                 <div className="w-full flex flex-col gap-5 py-4">
                   <div>
                     <div className="flex justify-between text-xs font-semibold mb-1.5">
-                      <span>General Development Aid</span>
+                      <span>{t('genAid')}</span>
                       <span className="text-slate-500">99.8%</span>
                     </div>
                     <div className="w-full h-3 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
@@ -248,7 +254,7 @@ export default function SilenceDataStory() {
 
                   <div>
                     <div className="flex justify-between text-xs font-bold mb-1.5 text-marigold-600 dark:text-marigold">
-                      <span>Violence Prevention ODA Allocation</span>
+                      <span>{t('violenceOda')}</span>
                       <span>0.2%</span>
                     </div>
                     <div className="w-full h-3 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">

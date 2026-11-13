@@ -19,7 +19,8 @@ import {
 } from 'lucide-react';
 import CustomTimeline from './Timeline';
 import toast from 'react-hot-toast';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 interface Post {
   _id: string;
@@ -56,6 +57,7 @@ interface Post {
 }
 
 function PostDetail({ id }: { id: string }) {
+  const t = useTranslations('postDetail');
   const [post, setPost] = useState<Post | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [city, setCity] = useState<string | null>(null);
@@ -120,14 +122,14 @@ function PostDetail({ id }: { id: string }) {
     return (
       <div className="flex flex-col items-center justify-center p-8 gap-4 max-w-md mx-auto mt-12 text-center">
         <ShieldAlert className="h-12 w-12 text-red-500" />
-        <h2 className="text-xl font-bold">Unable to Load Report</h2>
+        <h2 className="text-xl font-bold">{t('unableToLoad')}</h2>
         <p className="text-sm text-slate-500">{error}</p>
         <Link
           href="/dashboard"
           prefetch={false}
           className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold"
         >
-          Return to Dashboard
+          {t('returnDashboard')}
         </Link>
       </div>
     );
@@ -137,7 +139,7 @@ function PostDetail({ id }: { id: string }) {
     return (
       <div className="h-screen flex flex-col items-center justify-center gap-3">
         <Loader2 size={32} className="animate-spin text-blue-600" />
-        <span className="text-sm text-slate-500">Loading incident dossier...</span>
+        <span className="text-sm text-slate-500">{t('loadingDossier')}</span>
       </div>
     );
   }
@@ -218,7 +220,7 @@ function PostDetail({ id }: { id: string }) {
             href="/dashboard"
             prefetch={false}
             className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors text-slate-600 dark:text-slate-300"
-            title="Back to Dashboard"
+            title={t('backToDashboard')}
           >
             <ArrowLeft className="h-5 w-5" />
           </Link>
@@ -230,7 +232,7 @@ function PostDetail({ id }: { id: string }) {
               </h1>
             </div>
             <p className="text-xs text-slate-500 mt-0.5">
-              Case Dossier ID: <span className="font-mono text-slate-600 dark:text-slate-400">{post._id}</span>
+              {t('dossierTitle')}: <span className="font-mono text-slate-600 dark:text-slate-400">{post._id}</span>
             </p>
           </div>
         </div>
@@ -242,13 +244,13 @@ function PostDetail({ id }: { id: string }) {
               className="flex items-center space-x-2 bg-red-600 hover:bg-red-700 text-white shadow"
             >
               <CircleX className="h-4 w-4" />
-              <span>Close Issue</span>
+              <span>{t('resolveCase')}</span>
             </Button>
           )}
           {post.status === 'closed' && (
             <Button disabled className="flex items-center space-x-2 bg-emerald-600 text-white opacity-100 cursor-default shadow">
               <Check className="h-4 w-4" />
-              <span>Issue Closed</span>
+              <span>{t('statusProtected')}</span>
             </Button>
           )}
         </div>
@@ -259,18 +261,18 @@ function PostDetail({ id }: { id: string }) {
         {/* Card 1: Preferred Contact Method */}
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between w-full mb-3">
-            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">Preferred way of contact</h2>
+            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">{t('preferredContact')}</h2>
             <div className="p-2 bg-blue-50 dark:bg-blue-950 rounded-lg text-blue-600">
               <PhoneCall className="h-4 w-4" />
             </div>
           </div>
           <div className="space-y-1.5 text-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500 font-medium">Method:</span>
+              <span className="text-xs text-slate-500 font-medium">{t('methodLabel')}</span>
               <span className="font-semibold text-slate-800 dark:text-slate-200">{prefMethod}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500 font-medium">Contact:</span>
+              <span className="text-xs text-slate-500 font-medium">{t('contactLabel')}</span>
               <span className="font-mono font-semibold text-blue-600 dark:text-blue-400">{contactNumber}</span>
             </div>
           </div>
@@ -279,18 +281,18 @@ function PostDetail({ id }: { id: string }) {
         {/* Card 2: Frequency & Duration of Domestic Violence */}
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between w-full mb-3">
-            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">Frequency & Duration</h2>
+            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">{t('durationAbuse')}</h2>
             <div className="p-2 bg-amber-50 dark:bg-amber-950 rounded-lg text-amber-600">
               <CalendarDays className="h-4 w-4" />
             </div>
           </div>
           <div className="space-y-1.5 text-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500 font-medium">Frequency:</span>
+              <span className="text-xs text-slate-500 font-medium">{t('frequencyAbuse')}:</span>
               <span className="font-semibold text-slate-800 dark:text-slate-200">{frequencyText}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500 font-medium">Duration:</span>
+              <span className="text-xs text-slate-500 font-medium">{t('durationAbuse')}:</span>
               <span className="font-semibold text-slate-800 dark:text-slate-200">{durationText}</span>
             </div>
           </div>
@@ -300,7 +302,7 @@ function PostDetail({ id }: { id: string }) {
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between w-full mb-3">
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">Nature & Severity</h2>
+              <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">{t('currentSituation')}</h2>
               {(post.original_text || post.language) && (
                 <button
                   type="button"
@@ -309,7 +311,7 @@ function PostDetail({ id }: { id: string }) {
                   title="Toggle between English for authorities and original language"
                 >
                   <Globe className="w-3 h-3" />
-                  <span>{viewOriginalLang ? 'Original' : 'English'}</span>
+                  <span>{viewOriginalLang ? t('viewOriginal', { lang: post.language || 'Native' }) : t('viewEnglish')}</span>
                 </button>
               )}
             </div>
@@ -319,17 +321,17 @@ function PostDetail({ id }: { id: string }) {
           </div>
           <div className="space-y-1.5 text-sm">
             <div>
-              <span className="text-xs text-slate-500 font-medium block">Situation:</span>
+              <span className="text-xs text-slate-500 font-medium block">{t('situationLabel')}</span>
               <p className="font-medium text-slate-900 dark:text-slate-100 line-clamp-2">{situationText}</p>
             </div>
             <div className="flex items-center justify-between pt-1">
-              <span className="text-xs text-slate-500 font-medium">Severity:</span>
+              <span className="text-xs text-slate-500 font-medium">{t('severityLabel')}</span>
               <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300 border border-red-200">
                 {severityVal}
               </span>
             </div>
             {post.visibleInjuries && (
-              <p className="text-xs text-slate-500">Visible Injuries: <strong>{post.visibleInjuries}</strong></p>
+              <p className="text-xs text-slate-500">{t('visibleInjuriesLabel')} <strong>{post.visibleInjuries}</strong></p>
             )}
             {post['Impact on children'] && (
               <p className="text-xs text-amber-700 dark:text-amber-400">⚠️ {post['Impact on children']}</p>
@@ -340,14 +342,14 @@ function PostDetail({ id }: { id: string }) {
         {/* Card 4: Culprit Details */}
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between w-full mb-3">
-            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">Culprit details</h2>
+            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">{t('culpritDetails')}</h2>
             <div className="p-2 bg-purple-50 dark:bg-purple-950 rounded-lg text-purple-600">
               <FileUser className="h-4 w-4" />
             </div>
           </div>
           <div className="space-y-1.5 text-sm">
             <div>
-              <span className="text-xs text-slate-500 font-medium block">Description:</span>
+              <span className="text-xs text-slate-500 font-medium block">{t('descriptionLabel')}</span>
               <p className="font-medium text-slate-800 dark:text-slate-200">{culpritText}</p>
             </div>
             <p className="text-xs text-slate-500 pt-1">
@@ -359,18 +361,18 @@ function PostDetail({ id }: { id: string }) {
         {/* Card 5: Location */}
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between w-full mb-3">
-            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">Location</h2>
+            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">{t('incidentLocation')}</h2>
             <div className="p-2 bg-emerald-50 dark:bg-emerald-950 rounded-lg text-emerald-600">
               <MapPin className="h-4 w-4" />
             </div>
           </div>
           <div className="space-y-1.5 text-sm">
             <div>
-              <span className="text-xs text-slate-500 font-medium block">Coordinates:</span>
+              <span className="text-xs text-slate-500 font-medium block">{t('coordinatesLabel')}</span>
               <p className="font-mono text-xs text-slate-700 dark:text-slate-300 truncate">{locationText}</p>
             </div>
             <div className="flex items-center justify-between pt-1">
-              <span className="text-xs text-slate-500 font-medium">City / Area:</span>
+              <span className="text-xs text-slate-500 font-medium">{t('cityAreaLabel')}</span>
               <span className="font-semibold text-emerald-700 dark:text-emerald-400">{displayCity}</span>
             </div>
           </div>
@@ -379,14 +381,14 @@ function PostDetail({ id }: { id: string }) {
         {/* Card 6: Current Status */}
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between w-full mb-3">
-            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">Current Status</h2>
+            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">{t('statusLabel')}</h2>
             <div className="p-2 bg-blue-50 dark:bg-blue-950 rounded-lg text-blue-600">
               <TrendingUp className="h-4 w-4" />
             </div>
           </div>
           <div className="space-y-1.5 text-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500 font-medium">State:</span>
+              <span className="text-xs text-slate-500 font-medium">{t('stateLabel')}</span>
               <span className={`px-2.5 py-0.5 text-xs font-semibold rounded-full uppercase ${
                 post.status === 'closed'
                   ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
@@ -397,8 +399,8 @@ function PostDetail({ id }: { id: string }) {
             </div>
             <p className="text-xs text-slate-500 pt-1">
               {post.status === 'closed'
-                ? 'Issue closed. Welfare monitoring completed.'
-                : 'Resolve this issue by contacting the person and providing necessary protection.'}
+                ? t('caseResolved')
+                : t('unresolvedHelp')}
             </p>
           </div>
         </div>
@@ -409,7 +411,7 @@ function PostDetail({ id }: { id: string }) {
         <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900 p-2">
           <div className="flex items-center gap-2 px-2 py-1 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wide">
             <MapPin className="h-3.5 w-3.5 text-blue-500" />
-            Emergency SOS Geolocation Map
+            {t('mapHeading')}
           </div>
           <iframe
             width="100%"
@@ -427,7 +429,7 @@ function PostDetail({ id }: { id: string }) {
           <div className="flex items-center gap-2 mb-4 pb-2 border-b border-slate-100 dark:border-slate-800">
             <Clock className="h-4 w-4 text-blue-500" />
             <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">
-              Recent Case Activities & Timeline
+              {t('timelineHeading')}
             </h2>
           </div>
           <CustomTimeline

@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Sparkles, Scale, HeartHandshake, ArrowRight, Lock } from 'lucide-react';
 import womenHeroImg from '@/assets/women-hero.webp';
+import { useTranslations } from 'next-intl';
 
 interface Particle {
   x: number;
@@ -114,19 +115,12 @@ export default function HeroSpark() {
     };
   }, []);
 
-  const headlineWords = [
-    'A',
-    'Silent',
-    'Shield,',
-    'A',
-    'Strong',
-    'Voice.',
-    'Built',
-    'For',
-    'Women,',
-    'Powered',
-    'By',
-    'Courage.',
+  const t = useTranslations('hero');
+  const rawWords = t.raw('words') as string[];
+  const headlineWords = Array.isArray(rawWords) && rawWords.length > 0 ? rawWords : [
+    t('headlineWordShield'),
+    t('headlineWordVoice'),
+    t('headlineWordCourage'),
   ];
 
   return (
@@ -162,16 +156,16 @@ export default function HeroSpark() {
           {/* Eyebrow badge with mandala motif */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rani/10 dark:bg-rani/20 border border-rani/30 text-rani-600 dark:text-rani-300 text-xs sm:text-sm font-semibold tracking-wide shadow-sm">
             <Sparkles className="w-4 h-4 text-marigold animate-spin-slow" />
-            <span>THE SPARK WITHIN • CONFIDENTIAL & ENCRYPTED</span>
+            <span>{t('badge')}</span>
           </div>
 
           {/* Staggered Blur-to-Sharp Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] text-slate-900 dark:text-white">
             {headlineWords.map((word, idx) => {
               const isAccent =
-                word.includes('Shield') ||
-                word.includes('Voice') ||
-                word.includes('Courage');
+                word.includes(t('headlineWordShield')) ||
+                word.includes(t('headlineWordVoice')) ||
+                word.includes(t('headlineWordCourage'));
               return (
                 <motion.span
                   key={idx}
@@ -195,7 +189,7 @@ export default function HeroSpark() {
             transition={{ duration: 0.6, delay: 0.9 }}
             className="text-base sm:text-lg text-slate-700 dark:text-slate-300 max-w-2xl leading-relaxed font-normal"
           >
-            SafeSpark provides a discreet refuge: covert distress signals hidden inside everyday images, instant legal clarity on PWDVA 2005 & BNS rights, and a confidential 3D AI companion who listens without judgment.
+            {t('description')}
           </motion.p>
 
           {/* Action CTAs */}
@@ -211,7 +205,7 @@ export default function HeroSpark() {
               className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-rani via-saffron to-marigold hover:opacity-95 text-white font-bold text-base shadow-lg shadow-rani/25 hover:shadow-xl hover:shadow-rani/35 hover:-translate-y-0.5 transition-all flex items-center gap-2.5 group"
             >
               <Lock className="w-5 h-5 text-marigold-100 group-hover:rotate-12 transition-transform" />
-              <span>Get Support Quietly</span>
+              <span>{t('getSupportBtn')}</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
 
@@ -221,7 +215,7 @@ export default function HeroSpark() {
               className="px-6 py-3.5 rounded-2xl bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 border-2 border-peacock/40 hover:border-peacock text-peacock dark:text-peacock-300 font-bold text-base shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center gap-2"
             >
               <Scale className="w-5 h-5 text-peacock" />
-              <span>Know Your Rights</span>
+              <span>{t('knowRightsBtn')}</span>
             </Link>
 
             <Link
@@ -230,7 +224,7 @@ export default function HeroSpark() {
               className="px-4 py-3 rounded-2xl bg-lavender/10 hover:bg-lavender/20 text-slate-700 dark:text-lavender-200 font-semibold text-sm transition-all flex items-center gap-2"
             >
               <HeartHandshake className="w-4 h-4 text-lavender" />
-              <span>3D Companion</span>
+              <span>{t('companionBtn')}</span>
             </Link>
           </motion.div>
 
@@ -243,12 +237,12 @@ export default function HeroSpark() {
           >
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-jade animate-pulse" />
-              No phone logs created
+              {t('tagNoLogs')}
             </span>
             <span className="hidden xs:inline">•</span>
-            <span>Zero ad tracking</span>
+            <span>{t('tagZeroAds')}</span>
             <span className="hidden xs:inline">•</span>
-            <span>Instant history cleanup</span>
+            <span>{t('tagStego')}</span>
           </motion.div>
         </div>
 

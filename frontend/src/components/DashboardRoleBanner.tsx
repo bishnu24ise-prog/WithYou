@@ -1,14 +1,17 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { useSafeAuth } from '@/lib/auth-context';
-import { ShieldCheck, ShieldAlert, User, LogIn, ArrowRight, Sparkles, Shield, UserCheck } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, User, Shield, UserCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 
 export function DashboardRoleBanner() {
   const [mounted, setMounted] = useState(false);
   const { user, role, loginAs, signOut } = useSafeAuth();
+  const t = useTranslations('dashboard');
+  const tNav = useTranslations('nav');
 
   useEffect(() => {
     setMounted(true);
@@ -30,11 +33,11 @@ export function DashboardRoleBanner() {
                 {user.name}
               </span>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-200 dark:bg-blue-900 text-blue-900 dark:text-blue-200 uppercase tracking-wide flex items-center gap-1">
-                <Shield className="w-3 h-3" /> Verified Official
+                <Shield className="w-3 h-3" /> {t('verifiedOfficial')}
               </span>
             </div>
             <p className="text-xs text-blue-700 dark:text-blue-300 mt-0.5">
-              {user.department || 'Special Police Unit for Women & Children (SPUWAC)'} • Full case dossier resolution privileges active.
+              {user.department || t('officialPrivileges')}
             </p>
           </div>
         </div>
@@ -46,7 +49,7 @@ export function DashboardRoleBanner() {
             onClick={() => loginAs('victim')}
             className="text-xs h-8 border-blue-300 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900 text-blue-900 dark:text-blue-200"
           >
-            Switch to Citizen Mode
+            {t('switchCitizen')}
           </Button>
           <Button
             size="sm"
@@ -54,7 +57,7 @@ export function DashboardRoleBanner() {
             onClick={() => signOut()}
             className="text-xs h-8 text-slate-500 hover:text-rose-600"
           >
-            Sign Out
+            {t('signOut')}
           </Button>
         </div>
       </div>
@@ -75,11 +78,11 @@ export function DashboardRoleBanner() {
                 {user.name}
               </span>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-200 dark:bg-rose-900 text-rose-900 dark:text-rose-200 uppercase tracking-wide">
-                Protected Citizen
+                {tNav('roleSurvivor')}
               </span>
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
-              Confidential community view active. Official case closure actions require an Authority Officer account.
+              {t('communityViewNotice')}
             </p>
           </div>
         </div>
@@ -90,7 +93,7 @@ export function DashboardRoleBanner() {
             onClick={() => loginAs('authority')}
             className="text-xs h-8 bg-blue-600 hover:bg-blue-700 text-white font-bold"
           >
-            Switch to Authority Mode →
+            {t('switchOfficial')} →
           </Button>
           <Button
             size="sm"
@@ -98,7 +101,7 @@ export function DashboardRoleBanner() {
             onClick={() => signOut()}
             className="text-xs h-8 text-slate-500 hover:text-rose-600"
           >
-            Sign Out
+            {t('signOut')}
           </Button>
         </div>
       </div>
@@ -115,14 +118,14 @@ export function DashboardRoleBanner() {
         <div>
           <div className="flex items-center gap-2">
             <span className="font-bold text-xs text-amber-900 dark:text-amber-100">
-              Public Live Preview Mode
+              {t('title')}
             </span>
             <span className="text-[10px] font-medium px-1.5 py-0.2 bg-amber-200 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 rounded">
-              Guest
+              {t('guestBadge')}
             </span>
           </div>
           <p className="text-xs text-amber-800 dark:text-amber-300 mt-0.5">
-            Log in to unlock official case triage, police evidence dossiers, or submit covert reports.
+            {t('subtitle')}
           </p>
         </div>
       </div>
@@ -141,7 +144,7 @@ export function DashboardRoleBanner() {
           className="text-xs h-8 bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1 shadow-xs"
         >
           <Shield className="w-3.5 h-3.5" />
-          <span>Login as Authority</span>
+          <span>{tNav('roleAuthority')}</span>
         </Button>
 
         <Button
@@ -157,14 +160,14 @@ export function DashboardRoleBanner() {
           className="text-xs h-8 bg-gradient-to-r from-rani to-saffron hover:opacity-95 text-white font-bold flex items-center gap-1 shadow-xs"
         >
           <User className="w-3.5 h-3.5" />
-          <span>Login as Citizen</span>
+          <span>{tNav('roleSurvivor')}</span>
         </Button>
 
         <Link
           href="/sign-in"
           className="text-xs text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 underline underline-offset-2 ml-1"
         >
-          Custom Login →
+          {tNav('signIn')} →
         </Link>
       </div>
     </div>

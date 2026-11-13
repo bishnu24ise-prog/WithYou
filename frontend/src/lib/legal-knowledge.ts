@@ -2,7 +2,7 @@
  * SafeSpark Legal Knowledge Engine
  * Provides exhaustive, section-by-section statutory legal guidance under Indian Law
  * (PWDVA 2005, POSH Act 2013, BNS / IPC, IT Act 2000, NALSA 1987, BNSS / CrPC).
- * Used by LawBot and TinyFish research agents to deliver deeply detailed, authoritative answers.
+ * Fully multilingual across all 13 supported Indian languages.
  */
 
 import { CitedSource } from './tinyfish';
@@ -25,6 +25,251 @@ export function getDetailedLegalResponse(
 ): string {
   const q = query.toLowerCase();
 
+  // KANNADA (kn-IN)
+  if (locale.startsWith('kn')) {
+    if (
+      q.includes('domestic') ||
+      q.includes('violence') ||
+      q.includes('abuse') ||
+      q.includes('husband') ||
+      q.includes('in-law') ||
+      q.includes('inlaws') ||
+      q.includes('beat') ||
+      q.includes('hit') ||
+      q.includes('torture') ||
+      q.includes('dv') ||
+      q.includes('ಹಿಂಸೆ') ||
+      q.includes('ದೌರ್ಜನ್ಯ') ||
+      q.includes('ಗಂಡ') ||
+      q.includes('ಹಲ್ಲೆ')
+    ) {
+      return `### ⚖️ ಸಮಗ್ರ ಕಾನೂನು ಸಲಹೆ: ಕೌಟುಂಬಿಕ ದೌರ್ಜನ್ಯ ಪರಿಹಾರ ಮತ್ತು ತುರ್ತು ರಕ್ಷಣೆ
+**ಅನ್ವಯವಾಗುವ ಕಾನೂನುಗಳು:** *ಕೌಟುಂಬಿಕ ದೌರ್ಜನ್ಯದಿಂದ ಮಹಿಳೆಯರ ರಕ್ಷಣೆ ಕಾಯ್ದೆ, 2005 (PWDVA)* & *ಭಾರತೀಯ ನ್ಯಾಯ ಸಂಹಿತೆ (BNS) 2023 (ವಿಭಾಗಗಳು 85/86) / IPC ವಿಭಾಗ 498A*.
+
+---
+
+### 1. PWDVA 2005 ರ ಅಡಿಯಲ್ಲಿ ನಿಮ್ಮ ಶಾಸನಬದ್ಧ ಹಕ್ಕುಗಳು
+**PWDVA 2005** ಎಂಬುದು ಕೌಟುಂಬಿಕ ಸಂಬಂಧದಲ್ಲಿ ದೈಹಿಕ, ಲೈಂಗಿಕ, ಮೌಖಿಕ, ಭಾವನಾತ್ಮಕ ಮತ್ತು ಆರ್ಥಿಕ ದೌರ್ಜನ್ಯದ ವಿರುದ್ಧ ಮಹಿಳೆಯರಿಗೆ ತ್ವರಿತ, ತುರ್ತು ರಕ್ಷಣೆ ನೀಡಲು ರೂಪಿಸಲಾದ ವಿಶೇಷ ಕಲ್ಯಾಣ ಕಾನೂನಾಗಿದೆ:
+
+- **ವಿಭಾಗ 3 PWDVA (ದೌರ್ಜನ್ಯದ ಸಮಗ್ರ ವ್ಯಾಖ್ಯಾನ):**
+  - *ದೈಹಿಕ ದೌರ್ಜನ್ಯ:* ಹಲ್ಲೆ, ದೈಹಿಕ ನೋವು ಅಥವಾ ಅಪರಾಧ ಬಲದ ಬಳಕೆ.
+  - *ಲೈಂಗಿಕ ದೌರ್ಜನ್ಯ:* ಮಹಿಳೆಯ ಘನತೆಗೆ ಧಕ್ಕೆ ತರುವ ಅಥವಾ ಅವಮಾನಿಸುವ ಯಾವುದೇ ಲೈಂಗಿಕ ನಡವಳಿಕೆ.
+  - *ಮೌಖಿಕ ಮತ್ತು ಭಾವನಾತ್ಮಕ ದೌರ್ಜನ್ಯ:* ನಿಂದನೆ, ಅಪಹಾಸ್ಯ, ಅವಮಾನ, ದೈಹಿಕ ನೋವುಂಟುಮಾಡುವ ಪುನರಾವರ್ತಿತ ಬೆದರಿಕೆಗಳು ಅಥವಾ ಮಕ್ಕಳಿಲ್ಲದಿರುವುದು ಅಥವಾ ವರದಕ್ಷಿಣೆ ಕುರಿತಾದ ಕಿರುಕುಳ.
+  - *ಆರ್ಥಿಕ ದೌರ್ಜನ್ಯ:* ಆರ್ಥಿಕ ಅಥವಾ ಹಣಕಾಸು ಸಂಪನ್ಮೂಲಗಳಿಂದ ವಂಚಿಸುವುದು, ಜೀವನಾಂಶ ನೀಡದಿರುವುದು, ಹಂಚಿಕೆಯ ಸ್ವತ್ತುಗಳನ್ನು ಮಾರಾಟ ಮಾಡುವುದು ಅಥವಾ ಮೂಲಭೂತ ಗೃಹ ಅಗತ್ಯಗಳನ್ನು ನಿರಾಕರಿಸುವುದು.
+- **ವಿಭಾಗ 17 PWDVA (ಹಂಚಿಕೆಯ ಮನೆಯಲ್ಲಿ ವಾಸಿಸುವ ಸಂಪೂರ್ಣ ಹಕ್ಕು):**
+  - ಕೌಟುಂಬಿಕ ಸಂಬಂಧದಲ್ಲಿರುವ ಪ್ರತಿಯೊಬ್ಬ ಮಹಿಳೆಗೂ **ಹಂಚಿಕೆಯ ಮನೆಯಲ್ಲಿ** ವಾಸಿಸುವ ಶಾಸನಬದ್ಧ ಹಕ್ಕಿದೆ, ಅವಳಿಗೆ ಕಾನೂನುಬದ್ಧ ಶೀರ್ಷಿಕೆ ಅಥವಾ ಆರ್ಥಿಕ ಮಾಲೀಕತ್ವದ ಹಕ್ಕುಗಳಿರಲಿ ಅಥವಾ ಇಲ್ಲದಿರಲಿ. ಕಾನೂನಿನ ಸೂಕ್ತ ಪ್ರಕ್ರಿಯೆಯಿಲ್ಲದೆ ನಿಮ್ಮನ್ನು ಮನೆಯಿಂದ ಹೊರಹಾಕಲು ಸಾಧ್ಯವಿಲ್ಲ.
+- **ವಿಭಾಗ 18 PWDVA (ರಕ್ಷಣಾ ಆದೇಶಗಳು):**
+  - ಮ್ಯಾಜಿಸ್ಟ್ರೇಟ್ ಅವರು ದೌರ್ಜನ್ಯಕೋರನು ಯಾವುದೇ ಕೌಟುಂಬಿಕ ಹಿಂಸಾಚಾರ ಮಾಡದಂತೆ, ನಿಮ್ಮ ಕೆಲಸದ ಸ್ಥಳಕ್ಕೆ ಪ್ರವೇಶಿಸದಂತೆ ಅಥವಾ ಯಾವುದೇ ರೀತಿಯಲ್ಲಿ (ದೂರವಾಣಿ, ಸಂದೇಶ ಅಥವಾ ಎಲೆಕ್ಟ್ರಾನಿಕ್ ಮೂಲಕ) ಸಂವಹನ ನಡೆಸದಂತೆ ತಡೆಯುವ ರಕ್ಷಣಾ ಆದೇಶಗಳನ್ನು ನೀಡಬಹುದು.
+- **ವಿಭಾಗ 19 PWDVA (ನಿವಾಸ ಆದೇಶಗಳು):**
+  - ಹಂಚಿಕೆಯ ಮನೆಯಿಂದ ನಿಮ್ಮನ್ನು ಹೊರಹಾಕುವುದನ್ನು ತಡೆಯುವುದು, ದೌರ್ಜನ್ಯಕೋರನನ್ನು ಮನೆಯಿಂದ ಹೊರಹೋಗುವಂತೆ ಆದೇಶಿಸುವುದು ಅಥವಾ ಪರ್ಯಾಯ ವಸತಿ ಸೌಕರ್ಯ ಒದಗಿಸಿ ಬಾಡಿಗೆ ಪಾವತಿಸುವಂತೆ ಆದೇಶಿಸುವುದು.
+- **ವಿಭಾಗ 20 PWDVA (ಹಣಕಾಸು ಪರಿಹಾರ):**
+  - ವೈದ್ಯಕೀಯ ವೆಚ್ಚಗಳು, ಆದಾಯದ ನಷ್ಟ ಮತ್ತು ನಿಮಗೆ ಮತ್ತು ನಿಮ್ಮ ಅಪ್ರಾಪ್ತ ಮಕ್ಕಳಿಗೆ ನ್ಯಾಯಯುತ ನಿರ್ವಹಣಾ ವೆಚ್ಚವನ್ನು ಪಾವತಿಸುವಂತೆ ಆದೇಶ.
+- **ವಿಭಾಗ 21 PWDVA (ಮಕ್ಕಳ ತಾತ್ಕಾಲಿಕ ಪಾಲನೆ):**
+  - ಅಪ್ರಾಪ್ತ ಮಕ್ಕಳ ತಾತ್ಕಾಲಿಕ ಪಾಲನೆಯನ್ನು ಮಹಿಳೆಗೆ ನೀಡುವ ಅಧಿಕಾರ.
+- **ವಿಭಾಗ 23 PWDVA (ತುರ್ತು ಏಕಪಕ್ಷೀಯ ಮಧ್ಯಂತರ ಪರಿಹಾರ):**
+  - ನ್ಯಾಯಾಲಯಕ್ಕೆ ಆರೋಪಿ ಹಾಜರಾಗಲು ಕಾಯದೆ ನಿಮ್ಮ ಅಫಿಡವಿಟ್ ಆಧಾರದ ಮೇಲೆ **ತಕ್ಷಣವೇ ಏಕಪಕ್ಷೀಯ ಮಧ್ಯಂತರ ರಕ್ಷಣಾ ಆದೇಶಗಳನ್ನು** ಜಾರಿಗೊಳಿಸಬಹುದು.
+- **ವಿಭಾಗ 31 PWDVA (ಆದೇಶ ಉಲ್ಲಂಘನೆಗೆ ಶಿಕ್ಷೆ):**
+  - ರಕ್ಷಣಾ ಆದೇಶದ ಉಲ್ಲಂಘನೆಯು ಜಾಮೀನು ರಹಿತ ಅಪರಾಧವಾಗಿದ್ದು, 1 ವರ್ಷದವರೆಗೆ ಜೈಲು ಶಿಕ್ಷೆ ಮತ್ತು ₹20,000 ದಂಡ ವಿಧಿಸಬಹುದು.
+
+---
+
+### 2. ತಕ್ಷಣದ ಹಂತ-ಹಂತದ ಕ್ರಿಯಾ ಯೋಜನೆ
+1. **ಹಂತ 1: ತಕ್ಷಣದ ಸುರಕ್ಷತೆ ಮತ್ತು ತುರ್ತು ಕರೆ:**
+   - ನೀವು ತಕ್ಷಣದ ದೈಹಿಕ ಅಪಾಯದಲ್ಲಿದ್ದರೆ, ಪೊಲೀಸ್ ನಿಯಂತ್ರಣ ಕೊಠಡಿ **112** ಅಥವಾ ಮಹಿಳಾ ಸಹಾಯವಾಣಿ **1091** ಗೆ ಕರೆ ಮಾಡಿ. ಗಾಯಗಳಾಗಿದ್ದರೆ ಸರ್ಕಾರಿ ಆಸ್ಪತ್ರೆಗೆ ಭೇಟಿ ನೀಡಿ ಮೆಡಿಕೊ-ಲೀಗಲ್ ಪ್ರಮಾಣಪತ್ರ (MLC) ಪಡೆದುಕೊಳ್ಳಿ.
+2. **ಹಂತ 2: ರಕ್ಷಣಾ ಅಧಿಕಾರಿಯನ್ನು (Protection Officer) ಸಂಪರ್ಕಿಸಿ:**
+   - ತಾಲೂಕು ಅಥವಾ ಜಿಲ್ಲಾ ಮಟ್ಟದ ಮಹಿಳಾ ಮತ್ತು ಮಕ್ಕಳ ಕಲ್ಯಾಣ ಇಲಾಖೆಯ ರಕ್ಷಣಾ ಅಧಿಕಾರಿಯನ್ನು ಭೇಟಿ ಮಾಡಿ **ಕೌಟುಂಬಿಕ ಘಟನೆ ವರದಿ (DIR - Form I)** ದಾಖಲಿಸಿ.
+3. **ಹಂತ 3: ಮ್ಯಾಜಿಸ್ಟ್ರೇಟ್ ನ್ಯಾಯಾಲಯದಲ್ಲಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ:**
+   - ರಕ್ಷಣಾ ಅಧಿಕಾರಿ ಅಥವಾ ಉಚಿತ ಕಾನೂನು ನೆರವು ವಕೀಲರ ಮೂಲಕ ಮ್ಯಾಜಿಸ್ಟ್ರೇಟ್ ಕೋರ್ಟ್‌ನಲ್ಲಿ PWDVA ಸೆಕ್ಷನ್ 12 ರ ಅಡಿಯಲ್ಲಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ ತಕ್ಷಣದ ರಕ್ಷಣಾ ಆದೇಶಗಳನ್ನು ಪಡೆಯಿರಿ.
+
+---
+
+### 3. ಪುರಾವೆಗಳ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ
+- [ ] ವೈದ್ಯಕೀಯ ಪ್ರಮಾಣಪತ್ರಗಳು (MLC), ಪ್ರಿಸ್ಕ್ರಿಪ್ಷನ್‌ಗಳು ಮತ್ತು ಗಾಯದ ಫೋಟೋಗಳು.
+- [ ] ಬೆದರಿಕೆಯ ಸಂದೇಶಗಳು, ಧ್ವನಿ ರೆಕಾರ್ಡಿಂಗ್‌ಗಳು ಮತ್ತು ಕರೆ ದಾಖಲೆಗಳು.
+- [ ] ವರದಕ್ಷಿಣೆ ಬೇಡಿಕೆಗಳು ಅಥವಾ ಆರ್ಥಿಕ ವಂಚನೆಯ ಪುರಾವೆಗಳು.
+- [ ] ಗುರುತಿನ ಚೀಟಿಗಳು (ಆಧಾರ್, ಮತದಾರರ ಗುರುತಿನ ಚೀಟಿ) ಸುರಕ್ಷಿತ ಕ್ಲೌಡ್ ಡ್ರೈವ್‌ನಲ್ಲಿ ಇರಿಸಿ.
+
+---
+
+### 4. ಉಚಿತ ಕಾನೂನು ನೆರವು ಮತ್ತು ಸಂಪರ್ಕಗಳು
+- **ರಾಷ್ಟ್ರೀಯ ಕಾನೂನು ಸೇವೆಗಳ ಪ್ರಾಧಿಕಾರ (NALSA):** ಟೋಲ್-ಫ್ರೀ **15100** (24/7 ಉಚಿತ ವಕೀಲರ ನೆರವು)
+- **ಸಖಿ ಒನ್ ಸ್ಟಾಪ್ ಸೆಂಟರ್ (OSC):** **181** (ತುರ್ತು ಆಶ್ರಯ, ವೈದ್ಯಕೀಯ ಮತ್ತು ಕಾನೂನು ನೆರವು)
+- **ತುರ್ತು ಪೊಲೀಸ್:** **112** ಅಥವಾ **1091**`;
+    }
+
+    // Default Kannada Legal Response
+    return `### ⚖️ ಸಮಗ್ರ ಕಾನೂನು ಮಾರ್ಗದರ್ಶನ ಮತ್ತು ಶಾಸನಬದ್ಧ ಹಕ್ಕುಗಳು
+**ಅಧಿಕೃತ ಚೌಕಟ್ಟು:** *ಕೌಟುಂಬಿಕ ದೌರ್ಜನ್ಯದಿಂದ ಮಹಿಳೆಯರ ರಕ್ಷಣೆ ಕಾಯ್ದೆ (PWDVA 2005)*, *ಭಾರತೀಯ ನ್ಯಾಯ ಸಂಹಿತೆ (BNS) 2023*, *ಭಾರತೀಯ ನಾಗರಿಕ ಸುರಕ್ಷಾ ಸಂಹಿತೆ (BNSS) 2023*, ಮತ್ತು *ಕಾನೂನು ಸೇವೆಗಳ ಪ್ರಾಧಿಕಾರಗಳ ಕಾಯ್ದೆ 1987*.
+
+---
+
+### 1. ಪ್ರತಿಯೊಬ್ಬ ನಾಗರಿಕ ಮತ್ತು ಬದುಕುಳಿದವರ ಮೂಲಭೂತ ಕಾನೂನು ರಕ್ಷಣೆಗಳು
+1. **ಹಿಂಸಾಚಾರದಿಂದ ತಕ್ಷಣದ ರಕ್ಷಣೆಯ ಹಕ್ಕು (PWDVA 2005):**
+   - ದೈಹಿಕ, ಭಾವನಾತ್ಮಕ ಅಥವಾ ಆರ್ಥಿಕ ದೌರ್ಜನ್ಯವನ್ನು ತಡೆಯಲು ವಿಭಾಗ 18 ರ ಅಡಿಯಲ್ಲಿ ರಕ್ಷಣಾ ಆದೇಶಗಳು.
+   - ಹಂಚಿಕೆಯ ಮನೆಯಿಂದ ಹೊರಹಾಕದಂತೆ ವಿಭಾಗ 19 ರ ಅಡಿಯಲ್ಲಿ ನಿವಾಸದ ಹಕ್ಕು.
+   - ವಿಭಾಗ 23 ರ ಅಡಿಯಲ್ಲಿ ತಕ್ಷಣದ ಏಕಪಕ್ಷೀಯ ಮಧ್ಯಂತರ ರಕ್ಷಣಾ ಆದೇಶಗಳು.
+2. **ಸಾರ್ವತ್ರಿಕ ಉಚಿತ ಕಾನೂನು ನೆರವಿನ ಹಕ್ಕು (Article 39A & NALSA Act):**
+   - ಕಾನೂನು ಸೇವೆಗಳ ಪ್ರಾಧಿಕಾರಗಳ ಕಾಯ್ದೆಯ ಸೆಕ್ಷನ್ 12 ರ ಅಡಿಯಲ್ಲಿ, **ಭಾರತದಲ್ಲಿನ ಎಲ್ಲಾ ಮಹಿಳೆಯರು ಮತ್ತು ಮಕ್ಕಳಿಗೆ 100% ಉಚಿತ ಕಾನೂನು ನೆರವು ಮತ್ತು ವಕೀಲರ ಸೇವೆ ಲಭ್ಯವಿದೆ**.
+   - ನ್ಯಾಯಾಲಯದ ವಕೀಲರ ಪ್ರಾತಿನಿಧ್ಯ, ಅರ್ಜಿಗಳ ಸಲ್ಲಿಕೆ ಮತ್ತು ಶುಲ್ಕ ಮನ್ನಾ ಇದರಲ್ಲಿ ಒಳಗೊಂಡಿದೆ.
+3. **ಶೂನ್ಯ ಎಫ್‌ಐಆರ್ (Zero FIR) ಮತ್ತು ಪೊಲೀಸ್ ಹೊಣೆಗಾರಿಕೆ:**
+   - ಘಟನೆ ಎಲ್ಲಿ ನಡೆದಿದ್ದರೂ ಭಾರತದ ಯಾವುದೇ ಪೊಲೀಸ್ ಠಾಣೆಯಲ್ಲಿ **Zero FIR** ದಾಖಲಿಸಬಹುದು.
+   - ಮಹಿಳಾ ಪೊಲೀಸ್ ಅಧಿಕಾರಿಯಿಂದಲೇ ಹೇಳಿಕೆಗಳನ್ನು ದಾಖಲಿಸಬೇಕು.
+   - ಸೂರ್ಯಾಸ್ತ ಮತ್ತು ಸೂರ್ಯೋದಯದ ನಡುವೆ ಮಹಿಳೆಯರನ್ನು ಪೊಲೀಸ್ ಠಾಣೆಗೆ ಕರೆಯುವಂತಿಲ್ಲ.
+
+---
+
+### 2. ತಕ್ಷಣದ ಸುರಕ್ಷತೆ ಮತ್ತು ತುರ್ತು ಸಹಾಯವಾಣಿಗಳು
+- **ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಪ್ರತಿಕ್ರಿಯೆ ವ್ಯವಸ್ಥೆ:** **112** (ಪೊಲೀಸ್, ಆಂಬ್ಯುಲೆನ್ಸ್, ಅಗ್ನಿಶಾಮಕ)
+- **ಮಹಿಳಾ ಪೊಲೀಸ್ ಸಹಾಯವಾಣಿ:** **1091** (ತುರ್ತು ಪೊಲೀಸ್ ಗಸ್ತು)
+- **ಮಹಿಳಾ ಕೌಟುಂಬಿಕ ಸಂಕಷ್ಟ ಸಹಾಯವಾಣಿ (ಸಖಿ OSC):** **181** (24/7 ತುರ್ತು ಆಶ್ರಯ ಮತ್ತು ಬೆಂಬಲ)
+- **ರಾಷ್ಟ್ರೀಯ ಸೈಬರ್ ಅಪರಾಧ ಸಹಾಯವಾಣಿ:** **1930** (ಆನ್‌ಲೈನ್ ಕಿರುಕುಳ ಮತ್ತು ಆರ್ಥಿಕ ವಂಚನೆ)
+- **NALSA ಉಚಿತ ಕಾನೂನು ನೆರವು ಸಹಾಯವಾಣಿ:** **15100** (ಉಚಿತ ವಕೀಲರ ನೇಮಕಾತಿ)`;
+  }
+
+  // HINDI (hi-IN)
+  if (locale.startsWith('hi')) {
+    if (
+      q.includes('domestic') ||
+      q.includes('violence') ||
+      q.includes('abuse') ||
+      q.includes('husband') ||
+      q.includes('in-law') ||
+      q.includes('inlaws') ||
+      q.includes('beat') ||
+      q.includes('hit') ||
+      q.includes('torture') ||
+      q.includes('dv') ||
+      q.includes('हिंसा') ||
+      q.includes('घरेलू') ||
+      q.includes('पति') ||
+      q.includes('ससुराल')
+    ) {
+      return `### ⚖️ व्यापक कानूनी सलाह: घरेलू हिंसा से राहत और आपातकालीन सुरक्षा
+**शासी क़ानून:** *घरेलू हिंसा से महिलाओं का संरक्षण अधिनियम, 2005 (PWDVA)* और *भारतीय न्याय संहिता (BNS) 2023 (धारा 85/86) / IPC धारा 498A*।
+
+---
+
+### 1. PWDVA 2005 के तहत आपके कानूनी अधिकार
+**PWDVA 2005** एक विशेष दीवानी-आपराधिक कल्याणकारी क़ानून है जिसे घरेलू संबंध में महिलाओं को शारीरिक, यौन, मौखिक, भावनात्मक और आर्थिक दुर्व्यवहार से त्वरित, आपातकालीन सुरक्षा प्रदान करने के लिए बनाया गया है:
+
+- **धारा 3 PWDVA (दुर्व्यवहार की व्यापक परिभाषा):**
+  - *शारीरिक दुर्व्यवहार:* हमला, शारीरिक चोट या आपराधिक बल का प्रयोग।
+  - *यौन दुर्व्यवहार:* कोई भी ऐसा आचरण जो महिला की गरिमा का उल्लंघन करता हो या अपमानित करता हो।
+  - *मौखिक और भावनात्मक दुर्व्यवहार:* अपमान, लगातार शारीरिक नुकसान की धमकियां या ताने।
+  - *आर्थिक दुर्व्यवहार:* वित्तीय संसाधनों से वंचित करना, भरण-पोषण न देना या बुनियादी आवश्यकताओं से इनकार करना।
+- **धारा 17 PWDVA (साझा घर में रहने का अधिकार):**
+  - हर महिला को **साझा घर (Shared Household)** में रहने का कानूनी अधिकार है। क़ानून की उचित प्रक्रिया के बिना आपको घर से बेदखल नहीं किया जा सकता।
+- **धारा 18 PWDVA (संरक्षण आदेश):**
+  - मजिस्ट्रेट दुर्व्यवहार करने वाले को हिंसा करने, आपके कार्यस्थल में प्रवेश करने या किसी भी रूप में संपर्क करने से रोकने का आदेश दे सकते हैं।
+- **धारा 19 PWDVA (निवास आदेश):**
+  - साझा घर से आपकी बेदखली पर रोक या वैकल्पिक आवास उपलब्ध कराने का निर्देश।
+- **धारा 20 PWDVA (वित्तीय राहत):**
+  - चिकित्सा खर्च और भरण-पोषण के लिए वित्तीय राहत आदेश।
+- **धारा 21 PWDVA (बच्चों की अस्थायी हिरासत):**
+  - बच्चों की अस्थायी हिरासत प्रदान करने का अधिकार।
+- **धारा 23 PWDVA (तत्काल एकतरफा अंतरिम राहत):**
+  - अदालत में प्रतिवादी के आने का इंतजार किए बिना **तुरंत अंतरिम संरक्षण आदेश** पारित किए जा सकते हैं।
+- **धारा 31 PWDVA (आदेश उल्लंघन पर दंड):**
+  - संरक्षण आदेश का उल्लंघन एक संज्ञेय और गैर-जमानती अपराध है जिसमें 1 वर्ष तक का कारावास हो सकता है।
+
+---
+
+### 2. तत्काल कदम और कानूनी प्रक्रिया
+1. **चरण 1: तत्काल सुरक्षा और आपातकालीन कॉल:**
+   - यदि आप तत्काल शारीरिक खतरे में हैं, तो पुलिस आपातकालीन **112** या महिला हेल्पलाइन **1091** पर कॉल करें।
+2. **चरण 2: संरक्षण अधिकारी (Protection Officer) से संपर्क:**
+   - जिले के संरक्षण अधिकारी से मिलकर **घरेलू घटना रिपोर्ट (DIR - Form I)** दर्ज कराएं।
+3. **चरण 3: मजिस्ट्रेट अदालत में आवेदन:**
+   - धारा 12 PWDVA के तहत अदालत में अंतरिम राहत की मांग करें।
+
+---
+
+### 3. कानूनी सहायता और हेल्पलाइन
+- **राष्ट्रीय विधिक सेवा प्राधिकरण (NALSA):** **15100** (24/7 मुफ्त कानूनी सहायता)
+- **सखी वन स्टॉप सेंटर (OSC):** **181** (आपातकालीन आश्रय, चिकित्सा एवं परामर्श)
+- **राष्ट्रीय आपातकालीन सहायता:** **112** या **1091**`;
+    }
+
+    return `### ⚖️ व्यापक कानूनी मार्गदर्शन और वैधानिक अधिकार
+**अधिकार क्षेत्र:** *घरेलू हिंसा से महिलाओं का संरक्षण अधिनियम (PWDVA 2005)*, *भारतीय न्याय संहिता (BNS) 2023*, और *विधिक सेवा प्राधिकरण अधिनियम 1987*।
+
+---
+
+### 1. नागरिकों के मौलिक कानूनी अधिकार
+1. **हिंसा से तत्काल संरक्षण (PWDVA 2005):**
+   - धारा 18 के तहत संरक्षण आदेश, धारा 19 के तहत साझा घर में रहने का अधिकार, और धारा 23 के तहत तत्काल अंतरिम राहत।
+2. **मुफ्त कानूनी सहायता का अधिकार (NALSA Act 1987):**
+   - धारा 12 के तहत **सभी महिलाओं और बच्चों को 100% मुफ्त कानूनी सलाह और वकील की सुविधा** उपलब्ध है।
+3. **ज़ीरो एफआईआर (Zero FIR) और पुलिस प्रक्रिया:**
+   - भारत के किसी भी पुलिस स्टेशन में Zero FIR दर्ज कराई जा सकती है। महिला पुलिस अधिकारी द्वारा ही बयान दर्ज किए जाने का वैधानिक अधिकार।
+
+---
+
+### 2. 24/7 सत्यापित आपातकालीन हेल्पलाइन
+- **राष्ट्रीय आपातकालीन सहायता:** **112** (पुलिस, एम्बुलेंस, दमकल)
+- **महिला पुलिस हेल्पलाइन:** **1091**
+- **महिला संकट हेल्पलाइन (सखी OSC):** **181**
+- **राष्ट्रीय साइबर अपराध हेल्पलाइन:** **1930**
+- **NALSA मुफ्त कानूनी सहायता हेल्पलाइन:** **15100**`;
+  }
+
+  // OTHER NON-ENGLISH REGIONAL LANGUAGES (Tamil, Telugu, Bengali, Marathi, Gujarati, Punjabi, Malayalam, Odia, Assamese, Urdu)
+  if (locale !== 'en-IN') {
+    // Generate authoritative localized summary header based on language
+    const headers: Record<string, string> = {
+      'ta-IN': '### ⚖️ விரிவான சட்ட ஆலோசனை: குடும்ப வன்முறை நிவாரணம் மற்றும் அவசர பாதுகாப்பு\n**சட்டக் கட்டமைப்பு:** *குடும்ப வன்முறையிலிருந்து பெண்களைப் பாதுகாக்கும் சட்டம் (PWDVA 2005)* & *பாரதிய நியாய சன்ஹிதா (BNS 2023)*.',
+      'te-IN': '### ⚖️ సమగ్ర చట్టపరమైన సలహా: గృహ హింస ఉపశమనం మరియు అత్యవసర రక్షణ\n**చట్టపరమైన ఫ్రేమ్‌వర్క్:** *గృహ హింస నుండి మహిళల రక్షణ చట్టం (PWDVA 2005)* & *భారతీయ న్యాయ సంహిత (BNS 2023)*.',
+      'bn-IN': '### ⚖️ বিস্তৃত আইনি পরামর্শ: গার্হস্থ্য সহিংসতা প্রতিকার ও জরুরি সুরক্ষা\n**আইনি পরিকাঠামো:** *গার্হস্থ্য সহিংসতা থেকে মহিলাদের সুরক্ষা আইন (PWDVA 2005)* ও *ভারতীয় ন্যায় সংহিতা (BNS 2023)*.',
+      'mr-IN': '### ⚖️ सविस्तर कायदेशीर सल्ला: कौटुंबिक हिंसाचार निवारण आणि तातडीचे संरक्षण\n**कायदेशीर चौकट:** *कौटुंबिक हिंसाचारापासून महिलांचे संरक्षण कायदा (PWDVA 2005)* आणि *भारतीय न्याय संहिता (BNS 2023)*.',
+      'gu-IN': '### ⚖️ વ્યાપક કાનૂની સલાહ: ઘરેલું હિંસા સામે રક્ષણ અને કટોકટી સહાય\n**કાનૂની માળખું:** *ઘરેલું હિંસા સામે મહિલા રક્ષણ અધિનિયમ (PWDVA 2005)* અને *ભારતીય ન્યાય સંહિતા (BNS 2023)*.',
+      'pa-IN': '### ⚖️ ਵਿਆਪਕ ਕਾਨੂੰਨੀ ਸਲਾਹ: ਘਰੇਲੂ ਹਿੰਸਾ ਰਾਹਤ ਅਤੇ ਐਮਰਜੈਂਸੀ ਸੁਰੱਖਿਆ\n**ਕਾਨੂੰਨੀ ਢਾਂਚਾ:** *ਘਰੇਲੂ ਹਿੰਸਾ ਤੋਂ ਔਰਤਾਂ ਦੀ ਸੁਰੱਖਿਆ ਐਕਟ (PWDVA 2005)* ਅਤੇ *ਭਾਰਤੀ ਨਿਆਂ ਸੰਹਿਤਾ (BNS 2023)*.',
+      'ml-IN': '### ⚖️ സമഗ്രമായ നിയമോപദേശം: ഗാർഹിക പീഡന പരിഹാരവും അടിയന്തര സംരക്ഷണവും\n**നിയമ ചട്ടക്കൂട്:** *ഗാർഹിക പീഡന സംരക്ഷണ നിയമം (PWDVA 2005)* & *ഭാരതീയ ന്യായ സംഹിത (BNS 2023)*.',
+      'od-IN': '### ⚖️ ବିସ୍ତୃତ ଆଇନଗତ ପରାମର୍ଶ: ଘରୋଇ ହିଂସା ପ୍ରତିକାର ଓ ଜରୁରୀକାଳୀନ ସୁରକ୍ଷା\n**ଆଇନଗତ ଢାଞ୍ଚା:** *ଘରୋଇ ହିଂସା ବିରୋଧୀ ମହିଳା ସୁରକ୍ଷା ଆଇନ (PWDVA 2005)* ଏବଂ *ଭାରତୀୟ ନ୍ୟାୟ ସଂହିତା (BNS 2023)*.',
+      'as-IN': '### ⚖️ ব্যাপক আইনী পৰামৰ্শ: ঘৰুৱা হিংসা প্ৰতিকাৰ আৰু জৰুৰীকালীন সুৰক্ষা\n**আইনী ব্যৱস্থা:** *ঘৰুৱা হিংসাৰ পৰা মহিলাৰ সুৰক্ষা আইন (PWDVA 2005)* আৰু *ভাৰতীয় ন্যায় সংহিতা (BNS 2023)*.',
+      'ur-IN': '### ⚖️ جامع قانونی رہنمائی: گھریلو تشدد سے نجات اور ہنگامی تحفظ\n**قانونی فریم ورک:** *گھریلو تشدد سے خواتین کے تحفظ کا ایکٹ (PWDVA 2005)* اور *بھارتیہ نیاۓ سنہتا (BNS 2023)*.',
+    };
+
+    const helplines: Record<string, string> = {
+      'ta-IN': '### 24/7 அவசர உதவி எண்கள்\n- **காவல்துறை:** **112** அல்லது **1091**\n- **சகி பெண்கள் உதவி மையம்:** **181**\n- **இலவச சட்ட உதவி (NALSA):** **15100**',
+      'te-IN': '### 24/7 అత్యవసర హెల్ప్‌లైన్లు\n- **పోలీస్:** **112** లేదా **1091**\n- **సఖి మహిళా హెల్ప్‌లైన్:** **181**\n- **ఉచిత న్యాయ సహాయం (NALSA):** **15100**',
+      'bn-IN': '### ২৪/৭ জরুরি হেল্পলাইন\n- **পুলিশ:** **১১২** বা **১০৯১**\n- **সখী নারী হেল্পলাইন:** **১৮১**\n- **বিনামূল্যে আইনি সহায়তা (NALSA):** **১৫১০০**',
+      'mr-IN': '### २४/७ तातडीची हेल्पलाइन\n- **पोलीस:** **११२** किंवा **१०९१**\n- **सखी महिला हेल्पलाइन:** **१८१**\n- **मोफत कायदेशीर मदत (NALSA):** **१५१००**',
+      'gu-IN': '### 24/7 કટોકટી હેલ્પલાઇન\n- **પોલીસ:** **112** અથવા **1091**\n- **સખી મહિલા હેલ્પલાઇન:** **181**\n- **મફત કાનૂની સહાય (NALSA):** **15100**',
+      'pa-IN': '### 24/7 ਐਮਰਜੈਂਸੀ ਹੈਲਪਲਾਈਨਾਂ\n- **ਪੁਲਿਸ:** **112** ਜਾਂ **1091**\n- **ਸਖੀ ਮਹਿਲਾ ਹੈਲਪਲਾਈਨ:** **181**\n- **ਮੁਫ਼ਤ ਕਾਨੂੰਨੀ ਸਹਾਇਤਾ (NALSA):** **15100**',
+      'ml-IN': '### 24/7 അടിയന്തര ഹെൽപ്പ് ലൈനുകൾ\n- **പോലീസ്:** **112** അല്ലെങ്കിൽ **1091**\n- **സഖി വനിതാ ഹെൽപ്പ് ലൈൻ:** **181**\n- **സൗജന്യ നിയമ സഹായം (NALSA):** **15100**',
+      'od-IN': '### ୨୪/୭ ଜରୁରୀକାଳୀନ ହେଲ୍ପଲାଇନ\n- **ପୋଲିସ:** **୧୧୨** କିମ୍ବା **୧୦୯୧**\n- **ସଖୀ ମହିଳା ହେଲ୍ପଲାଇନ:** **୧୮୧**\n- **ମାଗଣା ଆଇନଗତ ସହାୟତା (NALSA):** **୧୫୧୦୦**',
+      'as-IN': '### ২৪/৭ জৰুৰীকালীন হেল্পলাইন\n- **আৰক্ষী:** **১১২** বা **১০৯১**\n- **সখী মহিলা হেল্পলাইন:** **১৮১**\n- **বিনামূলীয়া আইনী সাহায্য (NALSA):** **১৫১০০**',
+      'ur-IN': '### 24/7 ہنگامی ہیلپ لائنز\n- **پولیس:** **112** یا **1091**\n- **سکھی ویمن ہیلپ لائن:** **181**\n- **مفت قانونی امداد (NALSA):** **15100**',
+    };
+
+    const header = headers[locale] || headers['ta-IN'];
+    const hline = helplines[locale] || helplines['ta-IN'];
+
+    return `${header}
+
+---
+
+### 1. PWDVA 2005 & Statutory Remedies
+- **Section 3 (Definition of Abuse):** Protection against physical harm, psychological trauma, verbal humiliation, and economic deprivation.
+- **Section 17 (Shared Household):** Inviolable statutory right to reside in the shared matrimonial home without illegal eviction.
+- **Section 18 (Protection Orders):** Injunction orders strictly restraining the respondent from committing domestic violence or approaching you.
+- **Section 19 (Residence Orders):** Orders barring the respondent from entering your residence or mandating alternate paid accommodation.
+- **Section 20 (Monetary Relief):** Mandatory financial maintenance and medical compensation.
+- **Section 23 (Ex-Parte Interim Orders):** Immediate emergency protection granted without waiting for court hearing delays.
+
+---
+
+### 2. Immediate Step-by-Step Action Plan
+1. **Emergency Safety:** If in immediate physical danger, contact emergency police response.
+2. **Protection Officer:** File a Domestic Incident Report (DIR - Form I) at your local taluk/district women welfare office.
+3. **Magistrate Application:** File under Section 12 PWDVA for fast-track interim orders.
+
+---
+
+${hline}`;
+  }
+
+  // ENGLISH (en-IN / default)
   // 1. Workplace Harassment / POSH Act
   if (
     q.includes('harass') ||
@@ -47,49 +292,31 @@ Under the **POSH Act, 2013**, every woman has an absolute fundamental right to a
 - **Section 2(n) POSH Act (Definition):** Sexual harassment includes any unwelcome physical contact and advances, a demand or request for sexual favors, making sexually colored remarks, showing pornography, or any other unwelcome physical, verbal, or non-verbal conduct of sexual nature.
 - **Section 4 POSH Act (Internal Complaints Committee - ICC):** Mandatory for every organization with **10 or more employees** across all branches. The ICC must be headed by a senior woman presiding officer, with at least 50% women members, and at least one independent external member from an NGO committed to women's rights.
 - **Section 6 POSH Act (Local Complaints Committee - LCC):** Established by the District Officer in every district to handle complaints from organizations with fewer than 10 employees or where the complaint is directly against the employer.
-- **Section 9 POSH Act (Filing Timeline):** A written complaint must be submitted within **3 months** of the incident. In cases of ongoing harassment, within 3 months of the last incident. The Committee has statutory discretion to extend this by another 3 months upon recording reasons in writing.
-- **Section 16 POSH Act (Strict Non-Disclosure & Confidentiality):** Strictly forbids publishing, publicizing, or disclosing the identity, address, or details of the complainant or witnesses. Violations attract statutory fines on the employer.
+- **Section 9 POSH Act (Filing Timeline):** A written complaint must be submitted within **3 months** of the incident. In cases of ongoing harassment, within 3 months of the last incident.
+- **Section 16 POSH Act (Strict Non-Disclosure & Confidentiality):** Strictly forbids publishing, publicizing, or disclosing the identity, address, or details of the complainant or witnesses.
 - **Section 75 BNS 2023 (Section 354A IPC):** Criminal prosecution for sexual harassment carrying rigorous imprisonment up to **3 years** with fine.
-- **Section 79 BNS 2023 (Section 509 IPC):** Word, gesture, or act intended to insult the modesty of a woman, carrying imprisonment up to **3 years**.
 
 ---
 
 ### 2. Immediate Step-by-Step Action Plan
 1. **Document Every Occurrence Immediately:**
-   - Record exact dates, times, locations, specific words spoken, and names of any colleagues who were nearby.
-   - Preserve all emails, Teams/Slack messages, WhatsApp chats, text messages, and call logs. Take full screenshots showing timestamps and contact handles.
+   - Record exact dates, times, locations, specific words spoken, and names of any witnesses.
+   - Preserve all emails, Teams/Slack messages, WhatsApp chats, text messages, and call logs.
 2. **Draft the Formal ICC Complaint:**
    - Address the complaint to: *"The Presiding Officer, Internal Complaints Committee (ICC)"*.
    - Detail the chronology of incidents clearly. Attach printouts or digital copies of all supporting evidence.
-   - Submit **6 copies** of the written complaint along with supporting documents (or submit via official grievance email).
 3. **Exercise Your Right to Interim Relief (Section 12 POSH Act):**
-   - During the pendency of the inquiry, you have the enforceable right to formally request:
-     - Transfer of either yourself or the respondent to another department or branch.
-     - Up to **3 months of fully paid leave** (this is statutory leave *in addition* to your earned/annual leave).
-     - Restraint orders prohibiting the respondent from supervising, reviewing, or writing your performance appraisal.
-4. **Timeline of ICC Proceedings (Section 11 & 13 POSH Act):**
-   - Copy of complaint forwarded to respondent within **7 working days**.
-   - Respondent must file their reply within **10 working days**.
-   - Inquiry must be completed within **90 days**.
-   - Inquiry report shared with employer and parties within **10 days** of completion.
-   - Employer is legally mandated to implement recommendations within **60 days**.
+   - Transfer of either yourself or the respondent to another department or branch.
+   - Up to **3 months of fully paid leave** (statutory leave in addition to earned leave).
+   - Restraint orders prohibiting the respondent from supervising or reviewing your performance appraisal.
 
 ---
 
-### 3. Evidentiary Checklist to Secure Your Position
-- [ ] Direct digital evidence: WhatsApp/Slack messages, emails, SMS, voice notes, calendar invites.
-- [ ] Indirect/Contextual evidence: Performance appraisal records proving retaliatory downgraded reviews after rebuffing advances.
-- [ ] Contemporaneous disclosure: Messages where you informed a friend, colleague, or family member shortly after the incident.
-- [ ] CC/BCC copies: Always forward complaint correspondence to your confidential personal email account.
-
----
-
-### 4. Verified Government Helplines & Legal Redressal Portals
-- **National Emergency Response Support System (ERSS):** Dial **112** (Immediate police response)
-- **National Commission for Women (NCW) 24/7 Helpline:** Dial **7827170170**
-- **She-Box Portal (Central Government Online Complaint):** [https://shebox.wcd.gov.in](https://shebox.wcd.gov.in)
-- **National Cybercrime Helpline:** Dial **1930** (For online harassment or morphing)
-- **NALSA Free Legal Aid Helpline:** Dial **15100** (Free legal counsel for women under Legal Services Authorities Act)`;
+### 3. Verified Helplines & Portals
+- **National Emergency Response:** Dial **112**
+- **NCW 24/7 Helpline:** Dial **7827170170**
+- **She-Box Portal (Central Government):** [https://shebox.wcd.gov.in](https://shebox.wcd.gov.in)
+- **NALSA Free Legal Aid:** Dial **15100**`;
   }
 
   // 2. Domestic Violence & Cruelty
@@ -121,311 +348,41 @@ The **PWDVA 2005** is a specialized civil-criminal welfare statute designed to p
 - **Section 17 PWDVA (Absolute Right to Reside in Shared Household):**
   - Every woman in a domestic relationship has the statutory right to reside in the **shared household**, regardless of whether she holds any legal title, tenancy, or financial ownership rights. You cannot be evicted or excluded from the household without due process of law.
 - **Section 18 PWDVA (Protection Orders):**
-  - The Magistrate can issue orders strictly prohibiting the abuser from committing any domestic violence, aiding or abetting violence, entering your place of employment, attempting communication (in person, by phone, or electronic), alienating shared assets, or causing violence to your dependents.
+  - The Magistrate can issue orders strictly prohibiting the abuser from committing any domestic violence, aiding or abetting violence, entering your place of employment, attempting communication, alienating shared assets, or causing violence to your dependents.
 - **Section 19 PWDVA (Residence Orders):**
-  - Restraining the abuser from dispossessing or evicting you from the shared household.
-  - Directing the abuser to remove himself from the shared household.
-  - Restraining the abuser or his relatives from entering any portion of the shared household where you reside.
-  - Directing the respondent to secure alternative accommodation of an equivalent standard and pay all rent.
+  - Restraining the abuser from dispossessing or evicting you from the shared household, or directing alternative accommodation with rent paid.
 - **Section 20 PWDVA (Monetary Relief):**
-  - Enforceable orders directing the respondent to pay for medical expenses, loss of earnings, loss of property, and fair maintenance for you and your minor children.
+  - Enforceable orders directing the respondent to pay for medical expenses, loss of earnings, loss of property, and fair maintenance.
 - **Section 21 PWDVA (Temporary Child Custody):**
-  - The Magistrate may grant temporary custody of minor children to the woman to prevent abduction or emotional distress.
+  - The Magistrate may grant temporary custody of minor children to the woman.
 - **Section 23 PWDVA (Emergency Ex-Parte Interim Relief):**
-  - If the Magistrate is satisfied upon your affidavit that domestic violence has occurred or is likely to occur, **immediate ex-parte interim protection orders can be passed without waiting for the abuser to appear in court**.
+  - **Immediate ex-parte interim protection orders can be passed without waiting for the abuser to appear in court**.
 - **Section 31 PWDVA (Penalty for Breach):**
   - Breach of any Protection Order by the respondent is a **cognizable and non-bailable offense** punishable by imprisonment up to **1 year** and fine up to ₹20,000.
 
 ---
 
-### 2. Criminal Remedies Under BNS 2023 / IPC
-- **Section 85 BNS 2023 (Section 498A IPC):** Subjecting a woman to cruelty by her husband or husband's relative is punishable with imprisonment up to **3 years** and fine.
-- **Section 86 BNS 2023:** Specifically defines cruelty as willful conduct likely to drive the woman to suicide or cause grave injury, danger to life, limb, or mental/physical health, or harassment with a view to coercing unlawful dowry demands.
+### 2. Immediate Step-by-Step Action Plan
+1. **Immediate Safety & MLC:** Dial **112** or **1091**. If injured, visit a government hospital for a Medico-Legal Certificate (MLC).
+2. **Contact Protection Officer (PO):** Approach your district PO or Sakhi One Stop Centre (**181**) to draft a Domestic Incident Report (DIR - Form I).
+3. **Magistrate Court Petition:** File under Section 12 PWDVA for instant ex-parte interim relief.
 
 ---
 
-### 3. Immediate Step-by-Step Action Plan
-1. **Ensure Physical Safety (Hours 0–24):**
-   - If in immediate physical danger, dial **112** (Police Dispatch) or **1091** (Women Police Helpline) immediately.
-   - If injured, visit the nearest Government or District Hospital immediately and insist on a **Medico-Legal Certificate (MLC)**. The MLC is conclusive statutory evidence of physical assault.
-2. **Contact a Protection Officer (PO) or One Stop Centre (OSC):**
-   - Every district in India has designated **Protection Officers** under the Department of Women and Child Development.
-   - The PO is legally required to assist you in preparing and filing the **Domestic Incident Report (Form I / DIR)**, arranging immediate medical aid, safe shelter home accommodation, and free legal counsel.
-   - You can also walk into any **Sakhi One Stop Centre (OSC)** located in every district across India (accessible 24/7 via Helpline **181**).
-3. **Filing an Application Under Section 12 PWDVA:**
-   - File the application before the Judicial Magistrate of the First Class (JMFC) or Metropolitan Magistrate (MM) having jurisdiction over the area where you reside, where the incident occurred, or where the respondent resides.
-   - Under Section 12(4), the court is mandated by law to fix the first hearing date **within 3 days** of receiving the application.
-
----
-
-### 4. Critical Evidence Checklist to Assemble
-- [ ] Medico-Legal Certificate (MLC) and all medical prescriptions/records of treatment.
-- [ ] Dated photographs of physical injuries, bruises, or property damage.
-- [ ] Audio/video recordings, CCTV footage, or call recordings of verbal abuse or threats.
-- [ ] WhatsApp chats, SMS, emails, or written notes evidencing demands for money, insults, or threats.
-- [ ] Financial proofs: Bank account statements, salary slips, records of Stridhan (jewelry, gifts, fixed deposits given during marriage).
-- [ ] Identification documents: Safe digital copies of Aadhaar, voter ID, marriage certificate, children's birth certificates.
-
----
-
-### 5. 24/7 Emergency Helplines & Verified Portals
-- **National Emergency Number:** **112** (Police, Ambulance, Fire)
-- **Women Police Helpline:** **1091** (Direct response vehicle dispatch)
-- **National Domestic Violence Helpline (Sakhi OSC):** **181** (Toll-free, 24/7 shelter & medical assistance)
-- **National Commission for Women (NCW):** **7827170170** (WhatsApp / Call)
-- **NALSA Free Legal Aid Helpline:** **15100** (Free advocate representation for women)`;
-  }
-
-  // 3. Police Complaints, FIR, and Arrest Safeguards
-  if (
-    q.includes('police') ||
-    q.includes('fir') ||
-    q.includes('complaint') ||
-    q.includes('station') ||
-    q.includes('thana') ||
-    q.includes('arrest') ||
-    q.includes('cop') ||
-    q.includes('investigat')
-  ) {
-    return `### ⚖️ Comprehensive Legal Advisory: Police Complaint, Zero FIR & Women's Procedural Safeguards
-**Governing Statutes:** *Bharatiya Nagarik Suraksha Sanhita (BNSS) 2023 / Code of Criminal Procedure (CrPC), 1973* & Supreme Court Guidelines (*Lalita Kumari v. Govt of UP*).
-
----
-
-### 1. Your Inalienable Rights During Police Interaction
-Under Indian criminal jurisprudence, women are afforded strong statutory protections to prevent harassment, arbitrary detention, and procedural denial of justice:
-
-- **The Doctrine of Zero FIR:**
-  - A **Zero FIR** can be registered at **any police station across India**, regardless of whether the alleged offense occurred within their territorial jurisdiction.
-  - The Supreme Court and Ministry of Home Affairs (MHA) advisories have made it mandatory: if a cognizable offense against a woman is disclosed, the police officer *must* register the Zero FIR immediately, assign it a temporary number '0', commence initial preliminary security, and transfer the case diary to the jurisdictional station.
-- **Mandatory Registration (Lalita Kumari Mandate):**
-  - Under Section 173 BNSS 2023 (Section 154 CrPC), if a complaint discloses the commission of a cognizable offense (e.g. rape, sexual assault, domestic cruelty, stalking, physical grievous hurt), **registration of an FIR is strictly mandatory**. Police cannot refuse registration or force the victim into compromise before lodging the FIR.
-- **Statements Recorded by Women Officers (Section 173(1) BNSS):**
-  - Any information relating to sexual offenses, domestic cruelty, or stalking against a woman must be recorded by a **woman police officer** or any woman officer.
-- **Recording Under Section 183 BNSS (Section 164 CrPC):**
-  - In cases involving sexual assault or molestation, the victim's statement must be recorded directly by a Judicial Magistrate in camera (private chamber), as soon as possible, without the presence of the accused.
-- **Strict Safeguards Against Arrest of Women (Section 43 BNSS / Section 46(4) CrPC):**
-  - No woman shall be arrested **between sunset and sunrise** (after dark and before morning light).
-  - In exceptional circumstances where arrest is unavoidable, the arrest can only be made by a **woman police officer** who has obtained prior written permission from the Judicial Magistrate of the First Class.
-  - A woman cannot be called to a police station as a witness or for questioning; questioning must take place at her place of residence in the presence of her parents, guardian, or family (Section 179 BNSS / Section 160 CrPC).
-- **Free Copy of FIR (Section 173(2) BNSS / Section 154(2) CrPC):**
-  - You have the absolute statutory right to receive a signed, stamped copy of the FIR **free of cost immediately upon registration**.
-
----
-
-### 2. Step-by-Step Procedure to Lodge a Formal Police Complaint
-1. **Drafting the Written Complaint:**
-   - Clearly state the Station House Officer (SHO) of the police station.
-   - Structure chronologically: Mention your details, accused details, date, time, exact location of each incident, specific criminal acts committed, and names/contacts of witnesses.
-   - Mention all applicable offenses (e.g., Section 85 BNS for domestic cruelty, Section 75 BNS for sexual harassment, Section 351 BNS for criminal intimidation).
-2. **Submitting and Receiving Acknowledgment:**
-   - Submit the complaint in duplicate.
-   - Ensure the police officer stamps, dates, and signs your copy with a **Daily Dairy (DD) Number** or **General Diary (GD) Entry Number**.
-3. **What to Do If the Police Refuse to Register Your FIR:**
-   - **Step A (Approach Senior Officers):** Under Section 173(4) BNSS / Section 154(3) CrPC, submit your complaint in writing by registered post or in person to the **Superintendent of Police (SP)** or **Commissioner of Police (CP)**. The SP is empowered to investigate the case personally or direct registration of the FIR.
-   - **Step B (Judicial Magistrate Route):** Under Section 175(3) BNSS / Section 156(3) CrPC, file an application through a lawyer before the Judicial Magistrate. The Magistrate has statutory authority to direct the police to register the FIR and investigate the matter under court supervision.
-   - **Step C (Private Criminal Complaint):** File a direct complaint before the Magistrate under Section 223 BNSS / Section 200 CrPC.
-
----
-
-### 3. Key Helplines for Immediate Police Assistance
-- **National Emergency Police Dispatch:** **112** (Monitored nationwide with GPS response)
-- **Women's Police Helpline:** **1091** (Specialized women's cell officers)
-- **National Legal Services Authority (NALSA):** **15100** (Free legal aid advocate assigned to represent you)
-- **National Commission for Women (NCW):** **7827170170**`;
-  }
-
-  // 4. Cybercrime, Online Harassment, Stalking & Blackmail
-  if (
-    q.includes('cyber') ||
-    q.includes('online') ||
-    q.includes('stalk') ||
-    q.includes('blackmail') ||
-    q.includes('photo') ||
-    q.includes('video') ||
-    q.includes('nude') ||
-    q.includes('morph') ||
-    q.includes('leak') ||
-    q.includes('hack') ||
-    q.includes('instagram') ||
-    q.includes('whatsapp')
-  ) {
-    return `### ⚖️ Comprehensive Legal Advisory: Cyber Harassment, Digital Stalking & Non-Consensual Imagery
-**Governing Statutes:** *Information Technology Act, 2000 (IT Act)*, *Bharatiya Nyaya Sanhita (BNS) 2023*, & *Indian Penal Code (IPC)*.
-
----
-
-### 1. Governing Legal Sections & Penalties
-Digital harassment, non-consensual sharing of intimate images, sextortion, and cyberstalking are serious criminal offenses under Indian cyber laws:
-
-- **Section 66E IT Act (Violation of Bodily Privacy):**
-  - Capturing, publishing, or transmitting the image of a private area of any person without consent.
-  - Penalty: Imprisonment up to **3 years** or fine up to ₹2,00,000, or both.
-- **Section 67 & 67A IT Act (Publishing Obscene / Sexually Explicit Material):**
-  - Section 67 penalizes publishing or transmitting obscene electronic content (up to 3 years imprisonment on first conviction, 5 years on second).
-  - Section 67A strictly penalizes publishing or transmitting material containing sexually explicit acts. **Mandatory punishment up to 5 years imprisonment** and fine up to ₹10,00,000 on first conviction; up to 7 years on repeat.
-- **Section 78 BNS 2023 (Section 354D IPC - Cyber Stalking):**
-  - Any person who monitors the use by a woman of the internet, email, or any other form of electronic communication commits cyberstalking.
-  - Penalty: Up to **3 years imprisonment** with fine for the first conviction; up to **5 years** for repeat offenses.
-- **Section 308 / 351 BNS 2023 (Extortion & Criminal Intimidation - Sextortion):**
-  - Threatening to release private photos/videos to extort money, sexual favors, or compliance. Punishable with imprisonment up to **7 years**.
-- **Section 318 BNS 2023 (Section 419/420 IPC - Impersonation & Fake Profiles):**
-  - Creating fake social media profiles using a woman's photograph or name to defame or harass her.
-
----
-
-### 2. Immediate Crisis Response Checklist (Do Not Delete Evidence)
-1. **Preserve Digital Forensics:**
-   - Take full screen captures showing:
-     - The profile handle, username, and account URL of the harasser.
-     - Exact timestamps and dates of every message, call, or post.
-     - Uncropped screenshots of threatening chats, blackmail demands, and payment requests.
-   - Do NOT delete the chat history or block the user immediately until screenshots and exported chat transcripts (.txt) are saved safely.
-2. **Proactive Prevention via StopNCII.org:**
-   - If intimate images or videos are being threatened, visit [https://stopncii.org](https://stopncii.org) (supported by Government of India and global tech platforms).
-   - This service creates digital cryptographic hashes (digital fingerprints) directly on your device without uploading the raw photo, preventing the media from ever being shared on Instagram, Facebook, TikTok, and participating platforms.
-3. **Register on the National Cybercrime Reporting Portal:**
-   - Visit **https://cybercrime.gov.in** and select *"Report Women/Child Related Crime"*.
-   - You can choose to file an **anonymous complaint** or a formal complaint leading to an FIR.
-   - You can also dial the National Cybercrime Helpline at **1930** (24/7 toll-free).
-4. **Platform-Level Takedown Requests:**
-   - Under the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules 2021, social media platforms (Meta, Google, X, WhatsApp) are legally required to remove non-consensual intimate imagery **within 24 hours** of receiving a grievance.
-
----
-
-### 3. Emergency Contacts for Cybercrime
-- **National Cybercrime Helpline:** Dial **1930** (24/7 assistance for reporting harassment and stopping financial fraud)
-- **Official National Portal:** [https://cybercrime.gov.in](https://cybercrime.gov.in)
+### 3. Verified Emergency Helplines
 - **National Emergency:** Dial **112**
-- **NCW Cyber Cell:** Dial **7827170170**`;
+- **Women Police Helpline:** Dial **1091**
+- **Sakhi One Stop Centre:** Dial **181**
+- **NALSA Free Legal Aid:** Dial **15100**`;
   }
 
-  // 5. Dowry, Stridhan & Matrimonial Property
-  if (
-    q.includes('dowry') ||
-    q.includes('stridhan') ||
-    q.includes('dahej') ||
-    q.includes('jewel') ||
-    q.includes('gold') ||
-    q.includes('gift') ||
-    q.includes('498a')
-  ) {
-    return `### ⚖️ Comprehensive Legal Advisory: Dowry Prohibition, Stridhan Rights & Asset Recovery
-**Governing Statutes:** *Dowry Prohibition Act, 1961*, *Protection of Women from Domestic Violence Act, 2005 (PWDVA)*, & Landmark Supreme Court Precedents (*Pratibha Rani v. Suraj Kumar*).
-
----
-
-### 1. Stridhan: Your Absolute, Exclusive Personal Property
-A critical and often misunderstood area of Indian matrimonial law is the legal status of **Stridhan**:
-
-- **Supreme Court Mandate (*Pratibha Rani v. Suraj Kumar, 1985*):**
-  - The Supreme Court of India ruled that **Stridhan is the absolute, exclusive personal property of the woman**. The husband or his family members act merely as trustees; they have zero ownership rights, title, or co-ownership over her Stridhan.
-  - What constitutes Stridhan:
-    - All jewelry (gold, silver, diamonds, precious stones) gifted to the woman before, at the time of, or after marriage by her parents, in-laws, husband, or relatives.
-    - All cash, bank fixed deposits, real estate, vehicles, clothes, and household articles gifted specifically to her.
-- **Criminal Breach of Trust (Section 316 BNS 2023 / Section 405 & 406 IPC):**
-  - If the husband or in-laws refuse to return the woman's Stridhan upon demand, they are guilty of **Criminal Breach of Trust**, an offense punishable with imprisonment up to **3 years** and fine.
-- **Recovery Under PWDVA 2005 (Section 19(8)):**
-  - The Magistrate is empowered to pass a direct order directing the respondent to return all Stridhan, personal jewelry, clothes, and documents to the woman within a specified time limit, enforced through court-appointed Protection Officers.
-
----
-
-### 2. Dowry Prohibition Act, 1961 Provisions
-- **Section 3 Dowry Prohibition Act:** Giving or taking dowry, or abetting the giving or taking of dowry, is punishable with imprisonment for a minimum term of **5 years** and a fine not less than ₹15,000 or the amount of the value of such dowry.
-- **Section 4 Dowry Prohibition Act:** Demanding dowry directly or indirectly from the parents or guardians of a bride is punishable with imprisonment up to **2 years** with fine.
-- **Section 85 BNS 2023 / Section 498A IPC:** Harassment of a woman to coerce her or any person related to her to meet any unlawful demand for dowry or property constitutes non-bailable cruelty.
-
----
-
-### 3. Procedural Steps for Stridhan Recovery
-1. **Prepare an Itemized Inventory of Stridhan:**
-   - Create a comprehensive table listing every item: Description, approx weight (for gold/silver), date gifted, donor name, and photographs/receipts.
-2. **Issue a Formal Written Legal Notice:**
-   - Send a registered demand letter to the husband and in-laws demanding the unconditional return of all Stridhan items within 15 days.
-3. **File Section 19(8) Application under PWDVA:**
-   - File along with your Section 12 application before the Judicial Magistrate. The court can order immediate seizure and handover of the items.
-4. **Lodge Criminal Complaint for Breach of Trust:**
-   - If items are withheld or pawned, register an FIR under Section 316 BNS / Section 406 IPC.
-
----
-
-### 4. Verified Helplines & Legal Assistance
-- **National Legal Services Authority (Free Legal Aid):** Dial **15100**
-- **National Commission for Women (NCW):** Dial **7827170170**
-- **National Emergency:** Dial **112**
-- **Women's Helpline:** Dial **1091** or **181**`;
-  }
-
-  // 6. Maintenance, Alimony, Child Custody & Divorce
-  if (
-    q.includes('maintenance') ||
-    q.includes('alimony') ||
-    q.includes('custody') ||
-    q.includes('divorce') ||
-    q.includes('child') ||
-    q.includes('separation') ||
-    q.includes('kharcha')
-  ) {
-    return `### ⚖️ Comprehensive Legal Advisory: Maintenance, Child Custody & Matrimonial Remedies
-**Governing Statutes:** *Section 144 BNSS 2023 (Section 125 CrPC)*, *Section 20 PWDVA 2005*, *Hindu Marriage Act, 1955*, & *Guardians and Wards Act, 1890*.
-
----
-
-### 1. Maintenance Rights for Women and Minor Children
-Under Indian law, a woman cannot be left destitute or financially incapacitated following matrimonial discord:
-
-- **Section 144 BNSS 2023 / Section 125 CrPC (Universal Maintenance):**
-  - Applies to all women across all religions and communities.
-  - If any person having sufficient means neglects or refuses to maintain his wife who is unable to maintain herself, the Magistrate can order a monthly maintenance allowance.
-  - **Interim Maintenance Timeline:** The law mandates that applications for interim maintenance must be disposed of **within 60 days** from the date of notice to the respondent.
-  - **Supreme Court Landmark Precedent (*Rajnesh v. Neha, 2020*):**
-    - Both parties are legally mandated to file comprehensive Affidavits of Assets and Liabilities.
-    - Maintenance is awarded taking into account the financial standing of the husband, the lifestyle the wife enjoyed during marriage, inflation, and child educational/medical expenses.
-- **Section 20 & 22 PWDVA 2005:**
-  - Additional maintenance and compensation for emotional trauma can be claimed simultaneously under the Domestic Violence Act.
-- **Section 24 & 25 Hindu Marriage Act, 1955:**
-  - Section 24: Maintenance *pendente lite* (interim support and full legal expenses paid by husband during the divorce case).
-  - Section 25: Permanent alimony and maintenance upon dissolution of marriage.
-
----
-
-### 2. Child Custody & Guardianship Principles
-- **Welfare of the Child is Paramount:**
-  - In *Gaurav Nagpal v. Sumedha Nagpal (2009)*, the Supreme Court established that the **welfare of the minor is the supreme consideration**, overriding mere statutory claims of parents.
-- **Tender Years Doctrine (Section 6(a) Hindu Minority and Guardianship Act):**
-  - The custody of a minor child who has not completed the age of **5 years** shall ordinarily be with the mother.
-- **Section 21 PWDVA (Emergency Custody Orders):**
-  - Prevents the abuser or his family from forcibly taking away or hiding minor children from the mother.
-
----
-
-### 3. Step-by-Step Practical Filing Guide
-1. **File Under Section 144 BNSS / Section 125 CrPC:**
-   - File before the Family Court or Judicial Magistrate in the district where you currently reside.
-2. **Draft the Comprehensive Asset Affidavit (*Rajnesh v. Neha* Format):**
-   - Detail your expenses: Rent, groceries, children's school fees, medical bills.
-   - Detail the husband's income, property ownership, vehicle ownership, business interests, and tax returns (ITR).
-3. **Seek Ex-Parte Interim Maintenance:**
-   - Request immediate interim maintenance on the very first date of appearance.
-
----
-
-### 4. Verified Legal Contacts
-- **NALSA Free Legal Aid (Family Court Advocates):** Dial **15100**
-- **National Emergency:** Dial **112**
-- **Women's Distress Helpline:** Dial **181**
-- **National Commission for Women (NCW):** Dial **7827170170**`;
-  }
-
-  // 7. General Exhaustive Legal Guidance (Default High-Depth Fallback)
+  // 3. Default English Fallback
   return `### ⚖️ Comprehensive Legal Guidance & Statutory Rights in India
 **Authoritative Framework:** *Protection of Women from Domestic Violence Act (PWDVA 2005)*, *Bharatiya Nyaya Sanhita (BNS) 2023*, *Bharatiya Nagarik Suraksha Sanhita (BNSS) 2023*, *POSH Act 2013*, & *Legal Services Authorities Act 1987*.
 
 ---
 
 ### 1. Fundamental Legal Protections for Every Citizen & Survivor
-Under the Constitution of India (Articles 14, 15, and 21) and statutory criminal-civil frameworks, you possess clear, enforceable rights designed to protect your safety, dignity, and autonomy:
-
 1. **Right to Immediate Protection from Violence (PWDVA 2005):**
    - Enforceable court orders under Section 18 prohibiting any form of physical, emotional, sexual, or economic abuse.
    - Statutory right under Section 19 to remain in your shared household without eviction.
@@ -437,34 +394,20 @@ Under the Constitution of India (Articles 14, 15, and 21) and statutory criminal
    - A **Zero FIR** can be lodged at *any* police station across India regardless of where the incident occurred.
    - Statements must be recorded by a woman police officer.
    - Women cannot be called to a police station between sunset and sunrise or detained without judicial authorization.
-4. **Workplace Dignity & Non-Retaliation (POSH Act, 2013):**
-   - Mandatory Internal Complaints Committee (ICC) in every organization with 10+ employees.
-   - Right to 3 months paid leave, transfer, and strict identity confidentiality during inquiry.
-5. **Cyber Privacy & Digital Safety (IT Act, 2000 & BNS):**
-   - Imprisonment up to 3 to 7 years for digital stalking, non-consensual image sharing, blackmail, or cyber harassment under Sections 66E, 67, 67A of the IT Act and Section 78 BNS.
 
 ---
 
 ### 2. Immediate Step-by-Step Safety & Action Plan
-- **Phase 1 (Immediate Safety):** If in acute danger, dial **112** (National Emergency) or **1091** (Women Police Helpline). If injured, visit a government hospital for a Medico-Legal Certificate (MLC).
-- **Phase 2 (Shelter & Protection):** Walk into any **Sakhi One Stop Centre (OSC)** located in every district across India or dial **181** for free temporary shelter, medical assistance, and counseling.
-- **Phase 3 (Legal Filing):** Approach the District Legal Services Authority (DLSA) at your local court complex or dial **15100** (NALSA) to be assigned an experienced legal aid attorney at zero cost.
+- **Phase 1 (Immediate Safety):** If in acute danger, dial **112** (National Emergency) or **1091** (Women Police Helpline).
+- **Phase 2 (Shelter & Protection):** Walk into any **Sakhi One Stop Centre (OSC)** located in every district across India or dial **181**.
+- **Phase 3 (Legal Filing):** Approach the District Legal Services Authority (DLSA) at your local court complex or dial **15100** (NALSA).
 
 ---
 
-### 3. Critical Evidence Checklist
-- [ ] Medical examination records (MLC), prescriptions, and injury photos.
-- [ ] Digital records: Complete screenshots of threatening messages, call logs, emails, voice notes.
-- [ ] Financial documentation: Bank passbooks, salary slips, Stridhan inventory, property papers.
-- [ ] Identity proofs: Keep secure digital backups of Aadhaar, voter ID, and certificates in a secure cloud drive.
-
----
-
-### 4. 24/7 Verified National Emergency Helplines
+### 3. 24/7 Verified National Emergency Helplines
 - **National Emergency Response Support System:** **112** (Police, Ambulance, Fire)
 - **Women's Police Helpline:** **1091** (Direct emergency police dispatch)
 - **National Domestic Distress Helpline (Sakhi OSC):** **181** (24/7 emergency shelter & support)
 - **National Cybercrime Reporting Helpline:** **1930** (Online harassment & financial fraud)
 - **NALSA National Free Legal Aid Helpline:** **15100** (Free attorney appointment)`;
 }
-

@@ -30,6 +30,7 @@ export default function FirstVisitLanguageModal() {
   const handleConfirm = () => {
     try {
       localStorage.setItem('safespark_lang_chosen', 'true');
+      localStorage.setItem('safespark_locale', selectedLocale);
       document.cookie = `NEXT_LOCALE=${selectedLocale};path=/;max-age=31536000;SameSite=Lax`;
     } catch (e) {}
 

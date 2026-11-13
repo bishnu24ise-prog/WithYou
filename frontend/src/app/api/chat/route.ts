@@ -33,7 +33,21 @@ export async function POST(req: Request) {
 
     // If query is a creative/utility query (e.g. poem in MultiStep onboarding), handle immediately
     if (qLower.includes('poem') && qLower.includes('women')) {
-      const poemReply = `In every step, a courage profound,
+      const localizedPoems: Record<string, string> = {
+        'kn-IN': `ಪ್ರತಿ ಹೆಜ್ಜೆಯಲ್ಲೂ ಆಕೆಯ ಧೈರ್ಯ ಅಪಾರ,\nಮೌನವನ್ನು ಮುರಿದು ಧ್ವನಿ ಎತ್ತಿದಳು ಸಾಕಾರ.\nಹೆದರಿಕೆಯಿಲ್ಲ, ಅಳುಕಿಲ್ಲ ಆಕೆಯ ಪಯಣದಲ್ಲಿ,\nಸ್ವಾಭಿಮಾನದ ಜ್ಯೋತಿ ಬೆಳಗಿದೆ ಮನದಲ್ಲಿ.\nಸಮಾನತೆಯೇ ಆಕೆಯ ಜನ್ಮಸಿದ್ಧ ಹಕ್ಕು,\nನ್ಯಾಯದ ಬೆಳಕೇ ಸದಾ ಆಕೆಯ ಬೆಂಬಲಕ್ಕೆ ನಿಲ್ಲು.`,
+        'hi-IN': `हर कदम पर अदम्य साहस की पहचान है वो,\nखामोशी तोड़ती एक बुलंद आवाज़ है वो।\nडर की कोई ज़ंजीर उसे रोक न पाएगी,\nअपने हक और आत्मसम्मान से आगे बढ़ती जाएगी।\nसमानता और गरिमा उसका अधिकार है,\nन्याय की हर शक्ति पर उसका ऐतबार है।`,
+        'ta-IN': `ஒவ்வொரு அடியிலும் அவளின் துணிவு மிளிருது,\nமௌனம் கலைத்து அவளின் குரல் உயருது.\nஅச்சமில்லை, அடக்குமுறைக்கு இடமில்லை,\nசுயமரியாதையுடன் நிமிர்ந்து வாழும் எல்லை.\nசமத்துவமும் நீதியும் அவளின் பிறப்புரிமை,\nபாதுகாப்பும் கண்ணியமும் என்றும் அவளின் பெருமை.`,
+        'te-IN': `ప్రతి అడుగులో ఆమె ధైర్యం అనంతం,\nమౌనాన్ని ఛేదించే గళం అద్భుతం.\nభయానికి చోటు లేదు ఆమె ప్రయాణంలో,\nఆత్మగౌరవంతో నిలబడే సంకల్పంలో.\nసమానత్వమే ఆమె సహజ హక్కు,\nన్యాయం నిలుస్తుంది ఆమెకు తోడుగా వెలుగు చూపుతూ.`,
+        'bn-IN': `প্রতিটি পদক্ষেপে তার অসীম সাহস জেগে ওঠে,\nনীরবতা ভেঙে তার বলিষ্ঠ কণ্ঠস্বর ফোটে।\nভয়ের কোনো শৃঙ্খল তাকে বাঁধতে পারে না,\nআত্মমর্যাদা নিয়ে সে এগিয়ে চলে নির্ভীক চেতনায়।\nসমতা ও মর্যাদাই তার প্রাপ্য অধিকার,\nন্যায়ের আলোয় উজ্জ্বল হোক তার প্রতিটা ক্ষণ এবার।`,
+        'mr-IN': `प्रत्येक पावलावर तिचे असीम धैर्य उजळते,\nमौन तोडून तिची तेजस्वी वाणी प्रकटते.\nभीतीची कोणतीही साखळी तिला रोखू शकत नाही,\nस्वाभिमानाने ती अन्यायाविरुद्ध उभी राहते.\nसमानता आणि प्रतिष्ठा हा तिचा जन्मसिद्ध हक्क आहे,\nन्यायाची अखंड साथ तिच्या पाठीशी सदैव आहे.`,
+        'gu-IN': `દરેક પગલે તેનું અદમ્ય સાહસ ઝળહળે છે,\nમૌન તોડીને તેનો પ્રચંડ અવાજ ગૂંજે છે.\nડરની કોઈ સાંકળ તેને બાંધી શકતી નથી,\nસ્વાભિમાન અને હિંમતથી તે અડીખમ ઊભી રહે છે.\nસમાનતા અને ગૌરવ તેનો જન્મસિદ્ધ અધિકાર છે,\nન્યાયની શક્તિ તેના પક્ષે અડગ ઊભી છે.`,
+        'pa-IN': `ਹਰ ਕਦਮ ਤੇ ਉਸਦਾ ਬੇਮਿਸਾਲ ਹੌਸਲਾ ਹੈ,\nਚੁੱਪ ਤੋੜ ਕੇ ਉੱਠਦਾ ਉਸਦਾ ਬੁਲੰਦ ਫੈਸਲਾ ਹੈ।\nਡਰ ਦੀ ਕੋਈ ਜ਼ੰਜੀਰ ਉਸਨੂੰ ਰੋਕ ਨਹੀਂ ਸਕਦੀ,\nਆਤਮ-ਸਨਮਾਨ ਨਾਲ ਉਹ ਸੱਚ ਦੀ ਰਾਹ ਤੇ ਚੱਲਦੀ।\nਬਰਾਬਰੀ ਅਤੇ ਸਨਮਾਨ ਉਸਦਾ ਅਧਿਕਾਰ ਹੈ,\nਇਨਸਾਫ਼ ਉਸਦੇ ਹੱਕ ਵਿੱਚ ਸਦਾ ਤਿਆਰ ਹੈ।`,
+        'ml-IN': `ഓരോ ചുവടിലും അവളുടെ അതിരറ്റ ധൈര്യം,\nമൗനം ഭേദിച്ച് ഉയരുന്ന സ്വതന്ത്ര സ്വരം.\nഭയത്തിന്റെ ചങ്ങലകൾ അവളെ തളർത്തുകയില്ല,\nആത്മാഭിമാനത്തോടെ അവൾ മുന്നേറുന്നു.\nതുല്യതയും നീതിയും അവളുടെ അവകാശമാണ്,\nസുരക്ഷിതത്വം അവളുടെ ജന്മാവകാശമാണ്.`,
+        'od-IN': `ପ୍ରତ୍ୟେକ ପଦକ୍ଷେପରେ ତାଙ୍କର ଅସୀମ ସାହସ,\nନୀରବତା ଭାଙ୍ଗି ଉଠିଛି ତାଙ୍କର ଆତ୍ମବିଶ୍ୱାସ।\nଭୟର ଶୃଙ୍ଖଳ ତାଙ୍କୁ ବାନ୍ଧି ରଖିପାରିବ ନାହିଁ,\nସ୍ୱାଭିମାନ ସହ ସେ ନ୍ୟାୟ ପାଇଁ ଲଢ଼ିବେ ସଦାହିଁ।\nସମାନତା ଓ ଗୌରବ ତାଙ୍କର ପ୍ରକୃତ ଅଧିକାର,\nସୁରକ୍ଷା ଓ ମର୍ଯ୍ୟାଦା ତାଙ୍କ ଜୀବନର ସଂସ୍କାର।`,
+        'as-IN': `প্ৰতিটো খোজতে তেওঁৰ অসীম সাহস জিলিকি উঠে,\nমৌনতা ভাঙি তেওঁৰ বলিষ্ঠ কণ্ঠস্বৰ জাগে।\nভয়ৰ কোনো শিকলিয়ে তেওঁক বান্ধিব নোৱাৰে,\nআত্মসম্মানেৰে তেওঁ সত্যৰ পথত আগবাঢ়ে।\nসমতা আৰু মৰ্যাদা তেওঁৰ জন্মগত অধিকাৰ,\nন্যায়েৰে উজ্বলি উঠক জীৱন তেওঁৰ অপাৰ।`,
+        'ur-IN': `ہر قدم پر اس کا بے مثال حوصلہ اور وقار ہے،\nخاموشی توڑتی ہوئی اس کی آواز پُر وقار ہے۔\nخوف کی کوئی زنجیر اسے روک نہیں سکتی،\nعزتِ نفس سے وہ حق کی راہ پر بڑھتی چلی جاتی ہے۔\nمساوات اور تحفظ اس کا بنیادی حق ہے،\nانصاف اور عزت اس کی اصل طاقت ہے۔`,
+      };
+      const poemReply = localizedPoems[language] || `In every step, a courage profound,
 Her voice breaks silence, breaks the ground.
 No cage of fear, no shackle of fright,
 Her spirit rises, fierce and bright.
@@ -273,7 +287,13 @@ Please provide an exhaustive, compassionate, and deeply detailed Indian legal ad
           systemInstruction: `You are SafeSpark LawBot, an elite, trauma-informed legal advocate specializing in Indian constitutional, statutory, and criminal law protecting women, survivors, and citizens in distress.
 You are powered by the TinyFish Legal Web Research Agent.
 
-CRITICAL INSTRUCTION: Provide an EXHAUSTIVE, DEEPLY DETAILED, LONG-FORM legal advisory.
+CRITICAL MULTILINGUAL INSTRUCTION:
+The user has chosen the language/locale: "${language}".
+You MUST generate your entire response STRICTLY and FLUENTLY in "${language}" (e.g. Hindi, Kannada, Tamil, Telugu, Bengali, Marathi, Gujarati, Punjabi, Odia, Assamese, Urdu, Malayalam, or English).
+Do NOT reply in English unless the requested language is "en-IN".
+Translate all section headings, explanations, remedies, steps, and advice into the user's selected language while keeping official Act names and section numbers clear.
+
+CRITICAL INSTRUCTION: Provide an EXHAUSTIVE, DEEPLY DETAILED, LONG-FORM legal advisory in "${language}".
 Do NOT give short, brief, or superficial summaries. The user needs comprehensive, step-by-step clarity to protect themselves legally and physically.
 
 Format your response using structured Markdown:

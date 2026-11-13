@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Globe,
   Lock,
@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface AgentStepEvent {
   time: string;
@@ -27,17 +28,26 @@ interface AgentStepEvent {
 }
 
 export function AgentLivePanel({
-  initialSummary = 'Stalking and online harassment via social media messages with threats. Immediate FIR assistance and cyber forensic evidence preservation requested under IT Act 66E / 67.',
+  initialSummary,
 }: {
   initialSummary?: string;
 }) {
-  const [incidentSummary, setIncidentSummary] = useState(initialSummary);
+  const t = useTranslations('assist');
+  const locale = useLocale();
+  const defaultSummaryText = initialSummary || t('defaultSummary');
+  const [incidentSummary, setIncidentSummary] = useState(defaultSummaryText);
   const [portalUrl, setPortalUrl] = useState('https://cybercrime.gov.in');
   const [isRunning, setIsRunning] = useState(false);
   const [events, setEvents] = useState<AgentStepEvent[]>([]);
   const [progressPercent, setProgressPercent] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    if (!initialSummary) {
+      setIncidentSummary(t('defaultSummary'));
+    }
+  }, [t, initialSummary]);
 
   const startAgentStream = async (forceDemo: boolean = false) => {
     setIsRunning(true);
@@ -47,7 +57,7 @@ export function AgentLivePanel({
       {
         time: new Date().toLocaleTimeString(),
         type: 'INITIALIZED',
-        message: 'Initializing TinyFish Web Agent in stealth browser sandbox...',
+        message: t('step1Init'),
       },
     ]);
 
@@ -65,6 +75,7 @@ export function AgentLivePanel({
         body: JSON.stringify({
           incidentSummary,
           portalUrl,
+          language: locale,
         }),
         signal: abortControllerRef.current.signal,
       });
@@ -125,11 +136,11 @@ export function AgentLivePanel({
 
   const runDemoReplay = async () => {
     const demoSteps = [
-      { delay: 600, percent: 20, type: 'INITIALIZED', message: `Connecting to ${portalUrl} via secure proxy sandbox...` },
-      { delay: 900, percent: 45, type: 'STEP', message: 'Analyzing portal DOM: Women & Children Grievance reporting form found.' },
-      { delay: 1100, percent: 70, type: 'STEP', message: 'Pre-filling incident draft from LawBot summary (PII scrubbed)...' },
-      { delay: 1200, percent: 90, type: 'SAFETY_HALT', message: '🛡️ SAFETY HALT ACTIVATED: Agent paused before final submission / CAPTCHA. Never submits.' },
-      { delay: 800, percent: 100, type: 'COMPLETE', message: 'Draft pre-filled successfully! Handing over full control to human complainant.' },
+      { delay: 600, percent: 20, type: 'INITIALIZED', message: t('step1Init') },
+      { delay: 900, percent: 45, type: 'STEP', message: t('step2Analyze') },
+      { delay: 1100, percent: 70, type: 'STEP', message: t('step3PreFill') },
+      { delay: 1200, percent: 90, type: 'SAFETY_HALT', message: t('step4SafetyHalt') },
+      { delay: 800, percent: 100, type: 'COMPLETE', message: t('step5Complete') },
     ];
 
     for (const step of demoSteps) {
@@ -146,7 +157,7 @@ export function AgentLivePanel({
     }
     setIsCompleted(true);
     setIsRunning(false);
-    toast.success('Complaint Assist draft ready for your review! 🛡️');
+    toast.success(t('toastDraftReady'));
   };
 
   const stopAgent = () => {
@@ -159,10 +170,10 @@ export function AgentLivePanel({
       {
         time: new Date().toLocaleTimeString(),
         type: 'STOPPED',
-        message: 'Agent stopped by user command.',
+        message: t('stepUserStopped'),
       },
     ]);
-    toast('Agent automation halted.', { icon: '🛑' });
+    toast(t('toastHalted'), { icon: '🛑' });
   };
 
   return (
@@ -173,10 +184,10 @@ export function AgentLivePanel({
           <div>
             <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-rani" />
-              <span>Complaint Assist (TinyFish Web Agent)</span>
+              <span>{t('panelTitle')}</span>
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Automates draft pre-filling on official complaint portals from your LawBot guidance.
+              {t('panelSubtitle')}
             </p>
           </div>
 
@@ -188,7 +199,7 @@ export function AgentLivePanel({
                   className="bg-gradient-to-r from-rani to-saffron hover:opacity-95 text-white font-bold text-xs h-9 px-4 rounded-xl shadow-sm flex items-center gap-1.5"
                 >
                   <Play className="w-3.5 h-3.5 fill-white" />
-                  <span>Launch Agent Pre-Fill</span>
+                  <span>{t('startSession')}</span>
                 </Button>
                 <Button
                   variant="outline"
@@ -197,7 +208,7 @@ export function AgentLivePanel({
                   title="Run offline fixture replay for judging"
                 >
                   <RotateCcw className="w-3 h-3 mr-1" />
-                  Demo Mode
+                  {t('demoMode')}
                 </Button>
               </>
             ) : (
@@ -207,7 +218,7 @@ export function AgentLivePanel({
                 className="text-xs h-9 px-4 rounded-xl font-bold flex items-center gap-1.5 shadow-sm"
               >
                 <Square className="w-3.5 h-3.5 fill-white" />
-                <span>Stop Agent</span>
+                <span>{t('abortSession')}</span>
               </Button>
             )}
           </div>
@@ -216,7 +227,7 @@ export function AgentLivePanel({
         {/* Input Incident Summary */}
         <div className="space-y-1">
           <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
-            Incident Legal Summary (Pre-Fill Data)
+            {t('legalSummaryLabel')}
           </label>
           <textarea
             value={incidentSummary}
@@ -224,7 +235,7 @@ export function AgentLivePanel({
             disabled={isRunning}
             rows={2}
             className="w-full text-xs p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-rani/40 font-mono"
-            placeholder="Enter incident statement..."
+            placeholder={t('placeholderSummary')}
           />
         </div>
       </div>
@@ -245,7 +256,7 @@ export function AgentLivePanel({
             <Lock className="w-3 h-3 text-emerald-400 shrink-0" />
             <span className="truncate">{portalUrl}/citizen-reporting-flow</span>
             <span className="ml-auto text-[10px] text-slate-500 uppercase tracking-widest font-sans hidden sm:inline">
-              Stealth Sandbox
+              {t('stealthSandbox')}
             </span>
           </div>
 
@@ -268,14 +279,14 @@ export function AgentLivePanel({
             <div className="flex items-center justify-between text-slate-400 text-[11px] pb-1 border-b border-slate-800">
               <span className="flex items-center gap-1.5 font-bold text-slate-200">
                 <Terminal className="w-3.5 h-3.5 text-blue-400" />
-                Live Agent Execution Log (SSE Stream)
+                {t('agentLogTitle')}
               </span>
-              <span>Proxy: Singapore/India Residental IP</span>
+              <span>{t('agentProxy')}</span>
             </div>
 
             {events.length === 0 ? (
               <div className="py-12 text-center text-slate-500 italic">
-                Press &quot;Launch Agent Pre-Fill&quot; to watch TinyFish Web Agent navigate the complaint portal and pre-populate your grievance draft.
+                {t('agentLogPlaceholder')}
               </div>
             ) : (
               <div className="space-y-1.5 max-h-[220px] overflow-y-auto pr-2 custom-scrollbar">
@@ -306,10 +317,10 @@ export function AgentLivePanel({
               </div>
               <div>
                 <div className="text-xs font-bold text-amber-300">
-                  Strict Safety Constraint: Zero Automated Submission
+                  {t('safetyConstraintTitle')}
                 </div>
                 <div className="text-[11px] text-slate-400">
-                  The agent fills draft statements, but NEVER submits, solves CAPTCHA, or enters OTPs.
+                  {t('safetyConstraintDesc')}
                 </div>
               </div>
             </div>
@@ -324,7 +335,7 @@ export function AgentLivePanel({
                   : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
               }`}
             >
-              <span>Review & Submit Yourself</span>
+              <span>{t('reviewSubmitSelf')}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
@@ -333,4 +344,3 @@ export function AgentLivePanel({
     </div>
   );
 }
-

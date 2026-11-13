@@ -1,12 +1,26 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { EMERGENCY_HELPLINES } from '@/data/stats';
 import { PhoneCall, Scale, ShieldAlert } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function SafeSparkFooter() {
+  const t = useTranslations('footer');
+  const tNav = useTranslations('nav');
+
   const performQuickExit = () => {
+    // Clear cookies immediately
+    if (typeof document !== 'undefined') {
+      document.cookie = 'NEXT_LOCALE=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+      } catch (e) {}
+    }
     window.location.replace('https://www.google.com/search?q=today+weather+and+news');
   };
 
@@ -19,10 +33,10 @@ export default function SafeSparkFooter() {
             <div>
               <div className="flex items-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider mb-1">
                 <PhoneCall className="w-4 h-4 animate-pulse" />
-                Verified 24/7 Crisis & Legal Helplines
+                {t('emergencyTitle')}
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
-                If you are in immediate danger, call now
+                {t('emergencySubtitle')}
               </h3>
             </div>
             <button
@@ -30,7 +44,7 @@ export default function SafeSparkFooter() {
               className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold flex items-center gap-2"
             >
               <ShieldAlert className="w-4 h-4" />
-              QUICK EXIT (ESC × 3)
+              {t('quickExitBtn')}
             </button>
           </div>
 
@@ -53,7 +67,7 @@ export default function SafeSparkFooter() {
                   </div>
                 </div>
                 <div className="mt-3 text-xs font-semibold text-rose-400 flex items-center gap-1">
-                  <span>Call Toll-Free</span>
+                  <span>{t('callTollFree')}</span>
                   <span>→</span>
                 </div>
               </a>
@@ -75,35 +89,44 @@ export default function SafeSparkFooter() {
               &quot;A Silent Shield, A Strong Voice&quot; — Built for women to give them support, confidential distress reporting, legal self-advocacy, and emotional grounding.
             </p>
             <div className="text-xs text-slate-500 space-y-1">
-              <div>Complies with Indian Digital Personal Data Protection standards.</div>
-              <div>Zero commercial ad cookies. E2E steganographic distress encoding.</div>
+              <div>{t('statutoryNotice')}</div>
             </div>
           </div>
 
           {/* Platform Capabilities */}
           <div className="md:col-span-3 space-y-2.5 text-xs">
             <div className="font-bold text-white uppercase tracking-wider">
-              Safety Technology
+              {tNav('lawbot')} &amp; Tools
             </div>
             <ul className="space-y-2 text-slate-400">
               <li>
                 <Link href="/create-post" className="hover:text-white transition-colors">
-                  Steganographic SOS Reporting
+                  {tNav('sos')}
                 </Link>
               </li>
               <li>
                 <Link href="/lawbot" className="hover:text-white transition-colors">
-                  AI LawBot (PWDVA & BNS)
+                  {tNav('lawbot')}
                 </Link>
               </li>
               <li>
                 <Link href="/therapybot" className="hover:text-white transition-colors">
-                  3D Empathetic AI Companion
+                  {tNav('therapy')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/directory" className="hover:text-white transition-colors">
+                  {tNav('directory')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/assist" className="hover:text-white transition-colors">
+                  {tNav('assist')}
                 </Link>
               </li>
               <li>
                 <Link href="/dashboard" className="hover:text-white transition-colors">
-                  Authority Case Management
+                  {tNav('dashboard')}
                 </Link>
               </li>
             </ul>
@@ -120,7 +143,7 @@ export default function SafeSparkFooter() {
                 <strong className="text-slate-300">PWDVA 2005:</strong> Protection Orders (Sec 18), Residence Rights (Sec 19), Monetary Relief (Sec 20).
               </li>
               <li>
-                <strong className="text-slate-300">Bharatiya Nyaya Sanhita (BNS):</strong> Replaced IPC 498A with updated spousal cruelty & harassment provisions.
+                <strong className="text-slate-300">Bharatiya Nyaya Sanhita (BNS):</strong> Replaced IPC 498A with updated spousal cruelty &amp; harassment provisions.
               </li>
               <li>
                 <strong className="text-slate-300">IT Act 2000 (Sec 66E / 67):</strong> Legal penalties for privacy violation, cyberstalking, and non-consensual imagery.
@@ -132,7 +155,7 @@ export default function SafeSparkFooter() {
         {/* Bottom Credits & Copyright */}
         <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
-            © {new Date().getFullYear()} SafeSpark. Built with courage, confidentiality, and care.
+            © {new Date().getFullYear()} SafeSpark. {t('rightsReserved')}
           </div>
           <div className="flex items-center gap-4">
             <Link href="#privacy" className="hover:text-slate-300">

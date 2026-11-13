@@ -6,14 +6,8 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import { CheckCircleIcon } from 'lucide-react';
-import Link from 'next/link';
-
-const steps = [
-  'Fill out the form',
-  'Review and Generate Image',
-  'Submit post',
-  'Submission complete',
-];
+import { Link } from '@/i18n/routing';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface HorizontalLinearStepperProps {
   activeStep: number;
@@ -25,6 +19,16 @@ export default function HorizontalLinearStepper({
   stepContent,
 }: HorizontalLinearStepperProps) {
   const [poem, setPoem] = React.useState(null as string | null);
+  const t = useTranslations('sos');
+  const tToast = useTranslations('toasts');
+  const locale = useLocale();
+
+  const steps = [
+    t('step1Title'),
+    t('step2Title'),
+    t('step3Title'),
+    tToast('reportSubmitted'),
+  ];
 
   React.useEffect(() => {
     if (activeStep === 4 && !poem) {
@@ -34,6 +38,7 @@ export default function HorizontalLinearStepper({
             method: 'POST',
             body: JSON.stringify({
               userInput: 'tell me 10 lines poem on women equality',
+              language: locale,
             }),
             headers: { 'Content-Type': 'application/json' },
           });
@@ -49,7 +54,7 @@ export default function HorizontalLinearStepper({
 
       generatePoem();
     }
-  }, [activeStep, poem]);
+  }, [activeStep, poem, locale]);
 
   return (
     <div className="max-w-4xl mx-auto w-full mt-6">
@@ -75,7 +80,7 @@ export default function HorizontalLinearStepper({
           <div className="flex items-center gap-1">
             <CheckCircleIcon style={{ fontSize: 60, color: 'green' }} />
             <Typography sx={{ ml: 2 }} variant="h5">
-              Post successfully submitted!
+              {tToast('reportSubmitted')}
             </Typography>
           </div>
           <div className="mt-4 flex items-center gap-3">
@@ -83,7 +88,7 @@ export default function HorizontalLinearStepper({
               href="/dashboard"
               className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-md transition-all duration-150"
             >
-              View on Live Dashboard →
+              {t('viewOnDashboard')}
             </Link>
           </div>
           {poem && (
