@@ -13,3 +13,4 @@ tweepy>=4.14.0
 requests>=2.32.0
 elevenlabs>=1.0.0
 SpeechRecognition>=3.10.0
+sarvamai>=0.1.45

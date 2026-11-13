@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { tinyfishSearch, tinyfishFetch, getDomainFromUrl, CitedSource } from '@/lib/tinyfish';
 import { stripPiiFromText } from '@/lib/pii-stripper';
 import { getDetailedLegalResponse } from '@/lib/legal-knowledge';
+import { callSarvamChat, isIndicOrHinglish, isSarvamConfigured } from '@/lib/sarvam';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 
@@ -124,10 +125,64 @@ In freedom, dignity, and pride.`;
       ];
     }
 
-    // 3. Synthesize Exhaustive Detailed Answer via Gemini (Race with 6.5s timeout)
+    // 3. Synthesize Exhaustive Detailed Answer via Sarvam 105B Indic Legal Engine or Gemini (Strict 6.5s timeout)
     let answer = '';
+    let engineUsed = 'TinyFish Legal Knowledge Engine';
+    const isIndic = isIndicOrHinglish(cleanInput, language);
 
-    if (GEMINI_API_KEY) {
+    // 3A. Prioritize Sarvam 105B MoE for Indic languages, Hinglish, or when configured
+    if (isSarvamConfigured() && (isIndic || body?.prefer_sarvam)) {
+      try {
+        const sarvamSystemPrompt = `You are SafeSpark LawBot powered by Sarvam 105B Sovereign Indic Legal Intelligence and TinyFish Legal Web Research.
+You are an authoritative, deeply trauma-informed legal advocate specializing in Indian constitutional, statutory, and criminal law protecting women, survivors, and citizens in distress.
+
+CRITICAL INSTRUCTION:
+- Respond natively in the language of the user (${language === 'en-IN' && isIndic ? 'colloquial Hindi/Hinglish' : language}).
+- Provide an EXHAUSTIVE, DEEPLY DETAILED, LONG-FORM legal advisory. Do NOT give short summaries.
+- Cite exact Indian Statutory Provisions:
+  1. Protection of Women from Domestic Violence Act (PWDVA) 2005 (Sections 12, 17, 18, 19, 20, 21, 22, 23, 31).
+  2. Bharatiya Nyaya Sanhita (BNS) 2023 / IPC (Sections 85, 86, 74, 351, 352).
+  3. Bharatiya Nagarik Suraksha Sanhita (BNSS) 2023 / CrPC (Section 173 Zero FIR, free copy of FIR).
+  4. POSH Act 2013 (Internal Committee, 90 days inquiry, interim relief).
+  5. Legal Services Authorities Act 1987 (Free legal aid for all women under Article 39A).
+- Structure with clear Markdown headers:
+  ### ⚖️ लागू कानूनी धाराएं एवं प्रावधान (Statutory Sections & Penalties)
+  ### 📋 तत्काल कानूनी प्रक्रिया (Step-by-Step Procedure: Hours 0-24, Zero FIR, Protection Officer DIR Form 1)
+  ### 🛡️ अदालती सुरक्षा आदेश (Protection, Residence & Maintenance Orders)
+  ### 🔍 साक्ष्य एवं डिजिटल फॉरेंसिक चेकलिस्ट (Evidence Checklist)
+  ### 🏛️ मुफ्त कानूनी सहायता एवं वन स्टॉप सेंटर (Free Legal Aid & Sakhi OSC 181, NALSA 15100)
+  ### 📞 आपातकालीन हेल्पलाइन (24/7 Helplines: 112, 1091, 181, 1930)
+- Explicitly cite official government sources in brackets [Source: nalsa.gov.in / ncw.nic.in]. Tone must be protective, respectful, and empowering.`;
+
+        const sarvamUserPrompt = `User Query: "${cleanInput}"
+Language preference: ${language}
+${
+  extractedContext
+    ? `Live Verified Statutory Sources from TinyFish Web Agent:\n${extractedContext}\n`
+    : `Refer to official Indian statutory frameworks: PWDVA 2005, BNS 2023, BNSS 2023 Zero FIR, POSH 2013, NALSA Free Legal Aid.`
+}
+
+Please provide an exhaustive, compassionate, and deeply detailed Indian legal advisory:`;
+
+        const sarvamRes = await callSarvamChat({
+          messages: [{ role: 'user', content: sarvamUserPrompt }],
+          systemPrompt: sarvamSystemPrompt,
+          model: 'sarvam-105b-conversations',
+          timeoutMs: 6500,
+          temperature: 0.25,
+        });
+
+        if (sarvamRes?.text && sarvamRes.text.trim().length > 100) {
+          answer = sarvamRes.text;
+          engineUsed = 'Sarvam 105B Sovereign Indic Legal Engine + TinyFish';
+        }
+      } catch (sarvamErr: any) {
+        console.warn('Sarvam 105B LawBot notice (falling back seamlessly to Gemini):', sarvamErr?.message || sarvamErr);
+      }
+    }
+
+    // 3B. Gemini Fallback or Primary for English queries if Sarvam didn't run
+    if (!answer && GEMINI_API_KEY) {
       try {
         const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({
@@ -160,7 +215,6 @@ ${
 
 Please provide an exhaustive, multi-section, and deeply detailed legal response based on these statutory frameworks and TinyFish live findings:`;
 
-        // Enforce 6.5s strict timeout so total response is ALWAYS under 10-15 seconds
         const geminiPromise = model.generateContent(prompt);
         const timeoutPromise = new Promise<null>((_, reject) =>
           setTimeout(() => reject(new Error('Gemini generation timeout (6500ms exceeded)')), 6500)
@@ -170,6 +224,7 @@ Please provide an exhaustive, multi-section, and deeply detailed legal response 
         const text = result?.response?.text();
         if (text && text.trim().length > 100) {
           answer = text;
+          engineUsed = 'Gemini 2.5 Flash + TinyFish';
         }
       } catch (geminiError: any) {
         console.warn('Gemini fast timeout/notice (seamlessly applying instant statutory knowledge engine):', geminiError?.message || geminiError);
@@ -179,6 +234,7 @@ Please provide an exhaustive, multi-section, and deeply detailed legal response 
     // 4. Instant High-Depth Fallback Knowledge Engine (0ms, exhaustive 120+ lines, section-by-section)
     if (!answer) {
       answer = getDetailedLegalResponse(cleanInput, sources, language);
+      engineUsed = 'SafeSpark Statutory Knowledge Base (Zero Latency)';
     }
 
     const elapsedMs = Date.now() - startTime;
@@ -188,7 +244,8 @@ Please provide an exhaustive, multi-section, and deeply detailed legal response 
       sources,
       pagesRead: sources.length,
       is_emergency: isEmergency,
-      agent: 'TinyFish Legal Web Research Agent',
+      agent: engineUsed,
+      model: engineUsed.includes('Sarvam') ? 'sarvam-105b-conversations' : 'gemini-2.5-flash',
       latency_ms: elapsedMs,
     });
   } catch (error: any) {

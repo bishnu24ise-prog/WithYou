@@ -199,12 +199,17 @@ export default function LawBotPage() {
             <ScaleIcon className="w-4 h-4" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 flex-wrap">
               <h1 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
                 {t('title')}
               </h1>
+              {/* Sarvam 105B Indic AI Live Badge */}
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/70 dark:to-orange-950/70 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-700 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                <span>Sarvam 105B Indic Engine</span>
+              </span>
               {/* TinyFish Agent Live Badge */}
-              <span className="hidden xs:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+              <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                 <Sparkles className="w-3 h-3 text-blue-500 animate-pulse" />
                 TinyFish Legal Agent
               </span>
@@ -371,7 +376,7 @@ export default function LawBotPage() {
                         </>
                       )}
                     </button>
-                    <span className="text-[10px] text-slate-400">Grounded in Indian Law (PWDVA/BNS/POSH)</span>
+                    <span className="text-[10px] text-slate-400">⚡ Grounded in Indian Law via Sarvam 105B & TinyFish</span>
                   </div>
                 )}
               </div>

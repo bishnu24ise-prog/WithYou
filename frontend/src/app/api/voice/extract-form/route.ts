@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { callSarvamChat, isIndicOrHinglish, isSarvamConfigured } from '@/lib/sarvam';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
@@ -37,7 +38,38 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Transcript cannot be empty' }, { status: 400 });
     }
 
-    // Try forwarding to FastAPI backend
+    // 1. Prioritize Sarvam 105B Indic Extraction for Indian speech / Hinglish
+    if (isSarvamConfigured() && isIndicOrHinglish(transcript, language)) {
+      try {
+        const sarvamPrompt = `Extract the structured complaint data from this spoken distress statement in ${language}:
+"${transcript}"
+
+Format strictly as JSON according to the schema provided.`;
+
+        const sarvamRes = await callSarvamChat({
+          messages: [{ role: 'user', content: sarvamPrompt }],
+          systemPrompt: FORM_EXTRACTION_SYSTEM,
+          model: 'sarvam-105b-conversations',
+          temperature: 0.2,
+          timeoutMs: 6500,
+        });
+
+        if (sarvamRes?.text) {
+          const cleanJson = sarvamRes.text.replace(/```json/g, '').replace(/```/g, '').trim();
+          const parsed = JSON.parse(cleanJson);
+          if (parsed && typeof parsed === 'object') {
+            return NextResponse.json({
+              ...parsed,
+              _extractedBy: 'Sarvam 105B Indic MoE',
+            });
+          }
+        }
+      } catch (sarvamErr: any) {
+        console.warn('Sarvam form extraction notice (falling back):', sarvamErr?.message || sarvamErr);
+      }
+    }
+
+    // 2. Try forwarding to FastAPI backend
     try {
       const res = await fetch(`${BACKEND_URL}/api/voice/extract-form`, {
         method: 'POST',
@@ -53,7 +85,7 @@ export async function POST(req: NextRequest) {
       console.warn('Backend extract-form proxy notice:', backendErr);
     }
 
-    // Local Gemini extraction fallback
+    // 3. Local Gemini extraction fallback
     if (GEMINI_API_KEY) {
       try {
         const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);

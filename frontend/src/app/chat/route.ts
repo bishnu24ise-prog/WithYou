@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { callSarvamChat, isIndicOrHinglish, isSarvamConfigured } from '@/lib/sarvam';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 const ELEVEN_LABS_API_KEY = process.env.ELEVEN_LABS_API_KEY;
@@ -262,8 +263,48 @@ export async function POST(req: Request) {
     let expression = dynamicResponse.facialExpression;
     let animation = dynamicResponse.animation;
 
-    // If Gemini API is available and quota allows, generate personalized reply
-    if (GEMINI_API_KEY) {
+    // 1A. Prioritize Sarvam 105B Indic MoE for Maya's conversational therapy
+    if (isSarvamConfigured() && (isIndicOrHinglish(userMessage, language) || !GEMINI_API_KEY)) {
+      try {
+        const sarvamSystemPrompt = `You are Maya, an empathetic, trauma-informed 3D therapy companion for SafeSpark supporting women in distress.
+Respond directly to the user in their language (${language === 'en-IN' && isIndicOrHinglish(userMessage) ? 'warm conversational Hindi/Hinglish' : language}).
+Keep your response concise, compassionate, and validating (2-3 sentences max).
+Format your response as valid JSON:
+{
+  "text": "your warm empathetic reply here",
+  "facialExpression": "smile",
+  "animation": "Talking_1"
+}`;
+
+        const sarvamRes = await callSarvamChat({
+          messages: [{ role: 'user', content: userMessage }],
+          systemPrompt: sarvamSystemPrompt,
+          model: 'sarvam-105b-conversations',
+          temperature: 0.4,
+          maxTokens: 250,
+          timeoutMs: 5000,
+        });
+
+        if (sarvamRes?.text) {
+          try {
+            const cleanJson = sarvamRes.text.replace(/```json/g, '').replace(/```/g, '').trim();
+            const parsed = JSON.parse(cleanJson);
+            if (parsed.text) botReply = parsed.text;
+            if (parsed.facialExpression) expression = parsed.facialExpression;
+            if (parsed.animation) animation = parsed.animation;
+          } catch {
+            botReply = sarvamRes.text;
+            expression = 'smile';
+            animation = 'Talking_1';
+          }
+        }
+      } catch (sarvamErr: any) {
+        console.warn('Sarvam Maya chat notice:', sarvamErr?.message || sarvamErr);
+      }
+    }
+
+    // 1B. If Gemini API is available and Sarvam didn't run or query is English
+    if (botReply === dynamicResponse.text && GEMINI_API_KEY) {
       try {
         const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
