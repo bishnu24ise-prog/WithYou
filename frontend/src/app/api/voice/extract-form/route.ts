@@ -38,8 +38,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Transcript cannot be empty' }, { status: 400 });
     }
 
-    // 1. Prioritize Sarvam 105B Indic Extraction for Indian speech / Hinglish
-    if (isSarvamConfigured() && isIndicOrHinglish(transcript, language)) {
+    // 1. Prioritize Sarvam 105B for ALL voice/text extraction — best at contextual Indian speech
+    if (isSarvamConfigured()) {
       try {
         const sarvamPrompt = `Extract the structured complaint data from this spoken distress statement in ${language}:
 "${transcript}"

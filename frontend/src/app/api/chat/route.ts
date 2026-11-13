@@ -130,14 +130,14 @@ In freedom, dignity, and pride.`;
     let engineUsed = 'TinyFish Legal Knowledge Engine';
     const isIndic = isIndicOrHinglish(cleanInput, language);
 
-    // 3A. Prioritize Sarvam 105B MoE for Indic languages, Hinglish, or when configured
-    if (isSarvamConfigured() && (isIndic || body?.prefer_sarvam)) {
+    // 3A. Prioritize Sarvam 105B MoE for ALL queries (Indic, Hinglish, and English)
+    if (isSarvamConfigured()) {
       try {
         const sarvamSystemPrompt = `You are SafeSpark LawBot powered by Sarvam 105B Sovereign Indic Legal Intelligence and TinyFish Legal Web Research.
 You are an authoritative, deeply trauma-informed legal advocate specializing in Indian constitutional, statutory, and criminal law protecting women, survivors, and citizens in distress.
 
 CRITICAL INSTRUCTION:
-- Respond natively in the language of the user (${language === 'en-IN' && isIndic ? 'colloquial Hindi/Hinglish' : language}).
+- Respond natively in the language of the user (${isIndic ? 'colloquial Hindi/Hinglish or the detected Indic language' : 'clear, empathetic English'}).
 - Provide an EXHAUSTIVE, DEEPLY DETAILED, LONG-FORM legal advisory. Do NOT give short summaries.
 - Cite exact Indian Statutory Provisions:
   1. Protection of Women from Domestic Violence Act (PWDVA) 2005 (Sections 12, 17, 18, 19, 20, 21, 22, 23, 31).

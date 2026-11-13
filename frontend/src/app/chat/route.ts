@@ -263,11 +263,11 @@ export async function POST(req: Request) {
     let expression = dynamicResponse.facialExpression;
     let animation = dynamicResponse.animation;
 
-    // 1A. Prioritize Sarvam 105B Indic MoE for Maya's conversational therapy
-    if (isSarvamConfigured() && (isIndicOrHinglish(userMessage, language) || !GEMINI_API_KEY)) {
+    // 1A. Sarvam 105B MoE for ALL queries — primary brain for Maya
+    if (isSarvamConfigured()) {
       try {
         const sarvamSystemPrompt = `You are Maya, an empathetic, trauma-informed 3D therapy companion for SafeSpark supporting women in distress.
-Respond directly to the user in their language (${language === 'en-IN' && isIndicOrHinglish(userMessage) ? 'warm conversational Hindi/Hinglish' : language}).
+Respond directly to the user in their language (${isIndicOrHinglish(userMessage) ? 'warm conversational Hindi/Hinglish' : 'warm empathetic English'}).
 Keep your response concise, compassionate, and validating (2-3 sentences max).
 Format your response as valid JSON:
 {
