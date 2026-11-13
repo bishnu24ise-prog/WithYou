@@ -23,6 +23,41 @@ import { GNANI_LANGUAGES, GnaniLanguage } from '@/lib/gnani';
 import { Button } from '@/components/ui/button';
 import { convertAudioBlobToWav } from '@/lib/audio-converter';
 
+const GNANI_DIRECT_KEY =
+  process.env.NEXT_PUBLIC_GNANI_API_KEY ||
+  'vach_1ytE2CY5X2Ou0P0yPaoQaijATV9H6AC2vDsQtS8dgXk6mUiO7nosR3zooCkBJT8SN5B5fkX50nyMP5eYFaAnn4ot8qELeVUd_463065025f61f6385cdda8592c2c37b4';
+
+async function fetchDirectGnaniTTS(text: string, lang: string): Promise<string> {
+  const cleanText = text.slice(0, 400).trim();
+  const res = await fetch('https://api.vachana.ai/api/v1/tts/inference', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-API-Key-ID': GNANI_DIRECT_KEY,
+    },
+    body: JSON.stringify({
+      text: cleanText,
+      voice: 'Nalini',
+      model: 'timbre-v2.5',
+      language: lang,
+      speed: 1.0,
+      audio_config: {
+        sample_rate: 24000,
+        num_channels: 1,
+        sample_width: 2,
+        encoding: 'linear_pcm',
+        container: 'wav',
+      },
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`Direct Gnani TTS HTTP ${res.status}`);
+  }
+  const buf = await res.arrayBuffer();
+  const blob = new Blob([buf], { type: 'audio/wav' });
+  return URL.createObjectURL(blob);
+}
+
 export function GnaniVoiceGuide() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -128,8 +163,15 @@ export function GnaniVoiceGuide() {
           setAudioUrl(url);
           await playAudio(url);
         } else {
-          // Voice fallback using browser speech synthesis
-          speakWithBrowserVoice(data.guidanceText, selectedLang);
+          // Direct client synthesis via Gnani Timbre v2.5
+          try {
+            const directUrl = await fetchDirectGnaniTTS(data.guidanceText, selectedLang);
+            setAudioUrl(directUrl);
+            await playAudio(directUrl);
+          } catch (gnaniErr) {
+            console.warn('Direct Gnani TTS fallback to browser voice:', gnaniErr);
+            speakWithBrowserVoice(data.guidanceText, selectedLang);
+          }
         }
       }
     } catch (err) {
