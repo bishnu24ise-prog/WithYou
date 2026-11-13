@@ -2,8 +2,10 @@
 
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Sparkles, Scale, HeartHandshake, ArrowRight, Lock } from 'lucide-react';
+import womenHeroImg from '@/assets/women-hero.webp';
 
 interface Particle {
   x: number;
@@ -128,16 +130,20 @@ export default function HeroSpark() {
   ];
 
   return (
-    <section className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center overflow-hidden py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-cream/60 via-background to-background dark:from-aubergine/40 dark:via-background dark:to-background">
-      {/* Women Hero Background Image with Atmospheric Lighting */}
+    <section className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center overflow-hidden py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-cream/30 via-background to-background dark:from-slate-950 dark:via-background dark:to-background">
+      {/* High-Visibility Women Hero Background Image */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
-        <img
-          src="/women-hero.webp"
+        <Image
+          src={womenHeroImg}
           alt="Women Empowerment Background"
-          className="w-full h-full object-cover object-center opacity-30 dark:opacity-20 transition-opacity duration-700 filter contrast-105"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center lg:object-right opacity-85 dark:opacity-75 transition-opacity duration-700 filter contrast-110 brightness-105 dark:brightness-95"
         />
-        {/* Soft gradient wash so typography & buttons stay 100% crisp and readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/80 to-background dark:from-slate-950/75 dark:via-slate-900/85 dark:to-slate-950" />
+        {/* Soft directional gradient: preserves readability on text while keeping the woman image vividly visible */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-background/20 dark:from-slate-950/90 dark:via-slate-950/60 dark:to-slate-950/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-75" />
       </div>
 
       {/* Background Interactive Firefly Canvas */}
