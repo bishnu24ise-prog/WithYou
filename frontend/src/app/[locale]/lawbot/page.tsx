@@ -126,7 +126,7 @@ export default function LawBotPage() {
         result?.reply ||
         result?.answer ||
         result?.error ||
-        'Under Indian statutory frameworks (PWDVA 2005 and BNS), you have immediate rights to protection orders, safe shelter, and free legal aid. Emergency: dial 112 or 1091.';
+        t('defaultLegalReply');
       const isEmerg = !!result?.is_emergency;
       const sources: CitedSource[] = result?.sources || [];
       const pagesRead = result?.pagesRead || sources.length;
@@ -158,8 +158,7 @@ export default function LawBotPage() {
       }
     } catch (err: any) {
       console.warn('Lawbot request notice:', err);
-      const fallback =
-        'Under the Protection of Women from Domestic Violence Act (PWDVA) 2005, you have the right to seek emergency protection orders, residence orders, and immediate assistance. For immediate emergency help in India, please contact the Women Helpline at 1091 or National Emergency at 112.';
+      const fallback = t('defaultLegalReply');
       setMessages((prev) => [...prev, { text: fallback, isUser: false }]);
       if (handsFree) {
         speak(fallback, locale);
@@ -187,7 +186,12 @@ export default function LawBotPage() {
   };
 
   if (!mounted) {
-    return <div className="h-screen flex items-center justify-center">Loading Law Bot...</div>;
+    return (
+      <div className="h-screen flex flex-col items-center justify-center gap-2 text-slate-500 font-medium">
+        <ScaleIcon className="w-8 h-8 animate-pulse text-peacock" />
+        <span>{t('thinking')}</span>
+      </div>
+    );
   }
 
   return (
@@ -211,7 +215,7 @@ export default function LawBotPage() {
               {/* TinyFish Agent Live Badge */}
               <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                 <Sparkles className="w-3 h-3 text-blue-500 animate-pulse" />
-                TinyFish Legal Agent
+                {t('tinyfishAgentBadge')}
               </span>
             </div>
             <p className="text-[11px] text-slate-500 hidden sm:block">{t('subtitle')}</p>
@@ -255,7 +259,7 @@ export default function LawBotPage() {
             </p>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 mb-6">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Grounded with TinyFish Live Statutory Research & Legal Precedents</span>
+              <span>{t('groundedBadge')}</span>
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 max-w-2xl px-1">
@@ -289,7 +293,7 @@ export default function LawBotPage() {
                 {msg.isEmergency && (
                   <div className="mb-3 p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950 border border-rose-300 dark:border-rose-800 text-rose-800 dark:text-rose-200 flex items-center gap-2 text-xs font-bold">
                     <ShieldAlert className="w-4 h-4 text-rose-600 shrink-0" />
-                    <span>CRITICAL EMERGENCY: Call Police 112 | Women Helpline 1091 | Sakhi OSC 181</span>
+                    <span>{t('emergencyBanner')}</span>
                   </div>
                 )}
 
@@ -308,7 +312,7 @@ export default function LawBotPage() {
                     >
                       <span className="flex items-center gap-1.5">
                         <BookOpen className="w-3.5 h-3.5" />
-                        <span>TinyFish Verified Statutory Sources ({msg.sources.length})</span>
+                        <span>{t('verifiedSourcesCount', { count: msg.sources.length })}</span>
                       </span>
                       {expandedSources[index] ? (
                         <ChevronUp className="w-3.5 h-3.5" />
@@ -376,7 +380,7 @@ export default function LawBotPage() {
                         </>
                       )}
                     </button>
-                    <span className="text-[10px] text-slate-400">⚡ Grounded in Indian Law via Sarvam 105B & TinyFish</span>
+                    <span className="text-[10px] text-slate-400">{t('groundedLawTag')}</span>
                   </div>
                 )}
               </div>
@@ -388,11 +392,11 @@ export default function LawBotPage() {
           <div className="flex flex-col gap-1.5 p-3 rounded-2xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-900/40 max-w-md animate-in fade-in duration-200">
             <div className="flex items-center gap-2 text-xs font-semibold text-blue-700 dark:text-blue-300">
               <Sparkles className="w-3.5 h-3.5 animate-spin text-blue-600" />
-              <span>TinyFish Legal Research Agent Active</span>
+              <span>{t('agentActive')}</span>
             </div>
             <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
               <Skeleton className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse" />
-              <span>Searching NALSA, NCW, and statutory provisions for exhaustive legal advisory...</span>
+              <span>{t('agentSearching')}</span>
             </div>
           </div>
         )}

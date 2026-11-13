@@ -29,10 +29,13 @@ interface Message {
 }
 
 export default function TherapyBotPage() {
+  const t = useTranslations('therapy');
+  const locale = useLocale();
+
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: 'bot',
-      text: 'Hello, I am your confidential Therapy Assistant. You are in a safe, judgment-free space. Take a gentle breath, and share whatever is on your heart.',
+      text: t('initialMessage'),
     },
   ]);
   const [input, setInput] = useState('');
@@ -44,8 +47,6 @@ export default function TherapyBotPage() {
   const [view3D, setView3D] = useState(true);
   const [mounted, setMounted] = useState(false);
 
-  const t = useTranslations('therapy');
-  const locale = useLocale();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -164,8 +165,7 @@ export default function TherapyBotPage() {
         }),
       });
 
-      let botReply =
-        'I hear you deeply, and what you are experiencing is real and important. You are safe in this moment, and you do not have to carry this alone.';
+      let botReply = t('initialMessage');
       let audioUrl: string | undefined = undefined;
 
       if (chatRes.ok) {
@@ -191,8 +191,7 @@ export default function TherapyBotPage() {
       }
     } catch (err) {
       console.warn('Therapy chat notice:', err);
-      const fallback =
-        'I am here with you right now. Please take a slow, gentle breath. You are safe, and help is always within reach.';
+      const fallback = t('initialMessage');
       setMessages((prev) => [...prev, { sender: 'bot', text: fallback }]);
       if (voiceEnabled) {
         playSpokenReply(fallback);
@@ -205,7 +204,7 @@ export default function TherapyBotPage() {
   if (!mounted) {
     return (
       <div className="h-[calc(100vh-5rem)] flex items-center justify-center text-slate-500 gap-2">
-        <RefreshCw className="h-5 w-5 animate-spin text-rani" /> Loading Sanctuary...
+        <RefreshCw className="h-5 w-5 animate-spin text-rani" /> {t('loadingSanctuary')}
       </div>
     );
   }
@@ -238,12 +237,12 @@ export default function TherapyBotPage() {
           <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
             {/* Quick Voice Test Button */}
             <button
-              onClick={() => handleReplayBot('Hello, I am Maya. My voice is working and I am here with you.')}
+              onClick={() => handleReplayBot(t('testVoiceSample'))}
               className="text-[11px] sm:text-xs px-2 sm:px-2.5 py-1 rounded-lg border font-semibold flex items-center gap-1 bg-white/90 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-rani hover:text-rani transition-all shadow-xs"
               title="Test Maya's Voice & Audio"
             >
               <Play className="w-3 h-3 text-rani fill-rani/20" />
-              <span>Test Voice</span>
+              <span>{t('testVoice')}</span>
             </button>
 
             {/* Hands-free mode toggle */}
@@ -257,7 +256,7 @@ export default function TherapyBotPage() {
               title="Hands-free Conversation Mode"
             >
               <Radio className={`w-3 h-3 ${handsFree ? 'animate-pulse' : ''}`} />
-              <span className="hidden sm:inline">Hands-free</span>
+              <span className="hidden sm:inline">{t('handsFree')}</span>
             </button>
 
             {view3D && (
@@ -268,7 +267,7 @@ export default function TherapyBotPage() {
                 title="Open 3D Avatar in full window"
                 className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-md border shadow-xs flex items-center gap-1 hover:text-rani font-medium"
               >
-                <Maximize2 className="h-3 w-3" /> Full
+                <Maximize2 className="h-3 w-3" /> {t('fullWindow')}
               </a>
             )}
 
@@ -336,12 +335,14 @@ export default function TherapyBotPage() {
                     }`}
                   >
                     <Sparkles className="h-6 w-6 animate-pulse" />
-                    <span className="text-xs font-semibold mt-1">{breathPhase}</span>
+                    <span className="text-xs font-semibold mt-1">
+                      {breathPhase === 'Inhale' ? t('inhale') : breathPhase === 'Hold' ? t('hold') : t('exhale')}
+                    </span>
                   </div>
                 </div>
               </div>
               <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
-                4-4-6 Somatic Breathing: Inhale peace, hold gently, and slowly release all tension.
+                {t('breathingCycle')}
               </p>
             </div>
           )}
@@ -354,7 +355,7 @@ export default function TherapyBotPage() {
               }`}
             />
             <span className="capitalize text-slate-700 dark:text-slate-200">
-              {isSpeaking ? 'Maya is speaking...' : loading ? 'Maya is reflecting...' : 'Maya is present'}
+              {isSpeaking ? t('mayaSpeaking') : loading ? t('mayaReflecting') : t('mayaPresent')}
             </span>
           </div>
         </div>
@@ -366,13 +367,13 @@ export default function TherapyBotPage() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
-              onClick={() => handleSend('Can you guide me through a 2-minute calming breath exercise?')}
+              onClick={() => handleSend(t('quickGroundingPrompt'))}
               className="text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-700 dark:text-slate-200 hover:border-rani hover:text-rani transition shadow-xs font-medium text-left truncate"
             >
               🧘 {t('quickGrounding')}
             </button>
             <button
-              onClick={() => handleSend('I feel in danger right now. What safety steps should I follow immediately?')}
+              onClick={() => handleSend(t('quickUrgentPrompt'))}
               className="text-xs bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900 rounded-lg px-2.5 py-1.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 transition shadow-xs font-medium text-left truncate"
             >
               🚨 {t('quickUrgent')}
@@ -389,7 +390,7 @@ export default function TherapyBotPage() {
             <h2 className="font-semibold text-sm sm:text-base text-slate-800 dark:text-slate-100">{t('title')}</h2>
           </div>
           <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 font-medium bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800 shrink-0">
-            <Shield className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-500" /> 100% Confidential
+            <Shield className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-500" /> {t('confidentialBadge')}
           </span>
         </div>
 
@@ -415,7 +416,7 @@ export default function TherapyBotPage() {
                     <button
                       type="button"
                       onClick={() => handleReplayBot(msg.text, msg.audioUrl)}
-                      title="Hear Maya speak this aloud"
+                      title={t('listenAloud')}
                       className="ml-2 inline-flex items-center text-xs text-rani hover:text-rani-600 transition p-1 hover:bg-rose-50 dark:hover:bg-slate-700 rounded-full"
                     >
                       <Volume2 className="h-3.5 w-3.5" />
@@ -433,7 +434,7 @@ export default function TherapyBotPage() {
 
           {loading && (
             <div className="flex items-center gap-2 text-slate-500 text-xs py-2 ml-9">
-              <RefreshCw className="h-3.5 w-3.5 animate-spin text-rani" /> Maya is listening...
+              <RefreshCw className="h-3.5 w-3.5 animate-spin text-rani" /> {t('mayaListening')}
             </div>
           )}
           <div ref={messagesEndRef} />

@@ -3,50 +3,51 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
-const MANIFESTO_WORDS = [
-  { word: 'Artist', color: '#D81B60' }, // Rani
-  { word: 'Engineer', color: '#00A6A6' }, // Peacock
-  { word: 'Healer', color: '#2BB673' }, // Jade
-  { word: 'Fighter', color: '#FF7A1A' }, // Saffron
-  { word: 'Storyteller', color: '#B79CFF' }, // Lavender
-  { word: 'Leader', color: '#FFB300' }, // Marigold
-];
+const COLORS = ['#D81B60', '#00A6A6', '#2BB673', '#FF7A1A', '#B79CFF', '#FFB300'];
 
 export default function Manifesto() {
   const [index, setIndex] = useState(0);
+  const t = useTranslations('manifesto');
+
+  const words = t.raw('words') as string[];
+  const wordList = Array.isArray(words) && words.length > 0 ? words : [
+    'Courageous', 'Unbroken', 'Sovereign', 'Resilient', 'Protected', 'Free'
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % MANIFESTO_WORDS.length);
+      setIndex((prev) => (prev + 1) % wordList.length);
     }, 2800);
     return () => clearInterval(timer);
-  }, []);
+  }, [wordList.length]);
 
-  const current = MANIFESTO_WORDS[index];
+  const currentWord = wordList[index] || wordList[0];
+  const currentColor = COLORS[index % COLORS.length];
 
   return (
     <section id="manifesto" className="py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center relative">
       <div className="space-y-6">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-rani/10 dark:bg-rani/20 text-rani-600 dark:text-rani-300 font-bold text-xs uppercase tracking-widest">
           <Heart className="w-3.5 h-3.5 text-rani fill-current" />
-          The SafeSpark Manifesto
+          {t('badge')}
         </div>
 
         <div className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center flex-wrap gap-3 sm:gap-4">
-          <span>She is an</span>
+          <span>{t('sheIs')}</span>
           <div className="relative inline-flex flex-col items-center min-w-[220px] sm:min-w-[320px]">
             <AnimatePresence mode="wait">
               <motion.span
-                key={current.word}
+                key={currentWord}
                 initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
                 transition={{ duration: 0.4 }}
-                style={{ color: current.color }}
+                style={{ color: currentColor }}
                 className="inline-block"
               >
-                {current.word}.
+                {currentWord}.
               </motion.span>
             </AnimatePresence>
 
@@ -58,12 +59,12 @@ export default function Manifesto() {
               xmlns="http://www.w3.org/2000/svg"
             >
               <motion.path
-                key={`line-${current.word}`}
+                key={`line-${currentWord}`}
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
                 d="M 5 15 Q 125 5, 245 12 Q 135 18, 15 16"
-                stroke={current.color}
+                stroke={currentColor}
                 strokeWidth="3.5"
                 strokeLinecap="round"
               />
@@ -72,15 +73,18 @@ export default function Manifesto() {
         </div>
 
         <p className="max-w-2xl mx-auto text-base sm:text-xl text-slate-700 dark:text-slate-300 font-medium leading-relaxed pt-4">
-          A woman is not one fragile thing. She carries quiet galaxies, boundless resilience, and fierce tenderness. SafeSpark exists not to define her by what she has suffered, but to stand beside her with unshakeable confidentiality while she rises.
+          {t('body1')}
+        </p>
+        <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-500 dark:text-slate-400 font-normal leading-relaxed">
+          {t('body2')}
         </p>
 
         <div className="pt-4 flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-widest">
-          <span>Unbroken</span>
+          <span>{wordList[1] || 'Unbroken'}</span>
           <span>•</span>
-          <span>Sovereign</span>
+          <span>{wordList[2] || 'Sovereign'}</span>
           <span>•</span>
-          <span>Supported</span>
+          <span>{wordList[4] || 'Protected'}</span>
         </div>
       </div>
     </section>

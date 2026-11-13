@@ -4,9 +4,11 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { COUNTRY_SAFETY_DATA } from '@/data/stats';
 import { Globe, Moon, Shield, ExternalLink } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function SafetyGapChart() {
   const [selectedCountryCode, setSelectedCountryCode] = useState<string>('GL');
+  const t = useTranslations('safetyGap');
 
   const activeMetric =
     COUNTRY_SAFETY_DATA.find((c) => c.code === selectedCountryCode) ||
@@ -23,13 +25,13 @@ export default function SafetyGapChart() {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-peacock/10 text-peacock font-semibold text-xs tracking-wider uppercase mb-2">
               <Moon className="w-3.5 h-3.5 text-peacock" />
-              Gallup 2025 Global Safety Report
+              {t('badge')}
             </div>
             <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              The Nighttime <span className="text-gradient-peacock">Safety Divide</span>
+              {t('title')} <span className="text-gradient-peacock">{t('titleHighlight')}</span>
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-2xl">
-              Survey question: <em>&quot;Do you feel safe walking alone at night in the city or area where you live?&quot;</em> In over 100 countries, women maintain a double-digit safety deficit compared to men.
+              {t('subtitle')}
             </p>
           </div>
 
@@ -39,7 +41,7 @@ export default function SafetyGapChart() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-peacock font-medium transition-colors"
           >
-            <span>Gallup World Poll (144 nations)</span>
+            <span>{t('gallupPoll')}</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
@@ -80,7 +82,7 @@ export default function SafetyGapChart() {
               <div className="flex justify-between items-center text-sm font-semibold">
                 <span className="flex items-center gap-2 text-rani">
                   <span className="w-2.5 h-2.5 rounded-full bg-rani" />
-                  Women Feel Safe:
+                  {t('womenSafeCol')}:
                 </span>
                 <span className="text-xl font-bold text-rani">{activeMetric.womenSafe}%</span>
               </div>
@@ -100,7 +102,7 @@ export default function SafetyGapChart() {
               <div className="flex justify-between items-center text-sm font-semibold">
                 <span className="flex items-center gap-2 text-peacock">
                   <span className="w-2.5 h-2.5 rounded-full bg-peacock" />
-                  Men Feel Safe:
+                  {t('menSafeCol')}:
                 </span>
                 <span className="text-xl font-bold text-peacock">{activeMetric.menSafe}%</span>
               </div>
@@ -118,10 +120,10 @@ export default function SafetyGapChart() {
             {/* Gap Metric Pill */}
             <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-                Gender Safety Disparity in <strong>{activeMetric.country}</strong>:
+                {t('gapCol')} (<strong>{activeMetric.country}</strong>):
               </div>
               <div className="flex items-center gap-2 font-black text-rose-600 dark:text-rose-400 text-lg">
-                <span>{activeMetric.gap} Points Gap</span>
+                <span>{activeMetric.gap}%</span>
               </div>
             </div>
           </div>
@@ -130,7 +132,7 @@ export default function SafetyGapChart() {
           <div className="lg:col-span-5 p-6 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
             <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
               <Globe className="w-4 h-4 text-peacock" />
-              <span>{activeMetric.region} Context</span>
+              <span>{activeMetric.region} ({t('regionCol')})</span>
             </div>
 
             <h4 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -142,9 +144,12 @@ export default function SafetyGapChart() {
             </p>
 
             <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 space-y-2">
-              <div className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-rani shrink-0" />
-                <span>SafeSpark provides instant discreet SOS anywhere you feel vulnerable on the street or in transit.</span>
+              <div className="flex items-start gap-2">
+                <Shield className="w-4 h-4 text-rani shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-slate-700 dark:text-slate-300">{t('keyFinding')} </strong>
+                  <span>{t('keyFindingDesc')}</span>
+                </div>
               </div>
             </div>
           </div>

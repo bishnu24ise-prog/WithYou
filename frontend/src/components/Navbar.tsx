@@ -28,8 +28,8 @@ export default function Navbar() {
     { href: '/create-post', label: t('sos') },
     { href: '/lawbot', label: t('lawbot') },
     { href: '/therapybot', label: t('therapy') },
-    { href: '/directory', label: 'Help Directory' },
-    { href: '/assist', label: 'Complaint Assist' },
+    { href: '/directory', label: t('directory') },
+    { href: '/assist', label: t('assist') },
     { href: '/dashboard', label: t('dashboard') },
   ];
 

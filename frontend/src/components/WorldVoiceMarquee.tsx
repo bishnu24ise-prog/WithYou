@@ -3,10 +3,19 @@
 import React, { useState } from 'react';
 import { WORLD_VOICES_ROW_1, WORLD_VOICES_ROW_2, MarqueeCard } from '@/data/stats';
 import { ExternalLink, RotateCw, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 function FlipCard({ card }: { card: MarqueeCard }) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const t = useTranslations('marquee');
+
+  const getActionLabel = (href: string) => {
+    if (href.includes('/lawbot')) return t('actionKnowRights');
+    if (href.includes('/directory')) return t('actionSeekShelter');
+    if (href.includes('/therapybot')) return t('actionCompanion');
+    return t('actionReportSos');
+  };
 
   return (
     <div
@@ -34,7 +43,7 @@ function FlipCard({ card }: { card: MarqueeCard }) {
                 {card.theme}
               </span>
               <span className="text-[10px] text-slate-500 font-medium flex items-center gap-1">
-                <RotateCw className="w-2.5 h-2.5" /> Tap to flip
+                <RotateCw className="w-2.5 h-2.5" /> {t('tapToFlip')}
               </span>
             </div>
 
@@ -42,7 +51,7 @@ function FlipCard({ card }: { card: MarqueeCard }) {
               {card.statHighlight}
             </div>
 
-            {/* Short summary in own words (<= 25 words) */}
+            {/* Short summary */}
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
               {card.summary}
             </p>
@@ -59,7 +68,7 @@ function FlipCard({ card }: { card: MarqueeCard }) {
               onClick={(e) => e.stopPropagation()}
               className="text-peacock hover:underline flex items-center gap-1 font-semibold"
             >
-              <span>Source</span>
+              <span>{t('source')}</span>
               <ExternalLink className="w-3 h-3" />
             </a>
           </div>
@@ -70,10 +79,10 @@ function FlipCard({ card }: { card: MarqueeCard }) {
           <div>
             <div className="flex items-center justify-between text-xs mb-2">
               <span className="text-marigold font-bold flex items-center gap-1 text-[11px] uppercase tracking-wider">
-                <ShieldCheck className="w-3.5 h-3.5" /> How SafeSpark Responds
+                <ShieldCheck className="w-3.5 h-3.5" /> {t('howSafeSparkResponds')}
               </span>
               <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                <RotateCw className="w-2.5 h-2.5" /> Flip back
+                <RotateCw className="w-2.5 h-2.5" /> {t('flipBack')}
               </span>
             </div>
 
@@ -92,7 +101,7 @@ function FlipCard({ card }: { card: MarqueeCard }) {
               onClick={(e) => e.stopPropagation()}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rani hover:bg-rani-600 text-white text-xs font-bold transition-all shadow-sm"
             >
-              <span>{card.safeSparkSolution.actionLabel}</span>
+              <span>{getActionLabel(card.safeSparkSolution.actionHref)}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -103,19 +112,21 @@ function FlipCard({ card }: { card: MarqueeCard }) {
 }
 
 export default function WorldVoiceMarquee() {
+  const t = useTranslations('marquee');
+
   return (
     <section id="what-the-world-is-saying" className="py-20 relative overflow-hidden">
       {/* Section Header */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12 space-y-3">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-rani/10 dark:bg-rani/20 text-rani-600 dark:text-rani-300 font-semibold text-xs tracking-wider uppercase">
           <Sparkles className="w-3.5 h-3.5 text-marigold" />
-          Global Survey & Evidence Registry
+          {t('badge')}
         </div>
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
-          What The World <span className="text-gradient-aurora">Is Saying</span>
+          {t('title')} <span className="text-gradient-aurora">{t('titleHighlight')}</span>
         </h2>
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-          Hover or tap any card to flip it and explore how SafeSpark directly counters each challenge with discreet, privacy-first technology.
+          {t('subtitle')}
         </p>
       </div>
 

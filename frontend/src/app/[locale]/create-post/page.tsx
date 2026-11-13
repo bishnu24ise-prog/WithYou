@@ -6,10 +6,12 @@ import Share from '@/components/Share';
 import { useSafeClerk } from '@/lib/auth-context';
 import HorizontalLinearStepper from '@/components/MultiStep';
 import ImageGen from '@/components/ImageGen';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { ShieldCheck } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function CreatePostPage() {
+  const t = useTranslations('sos');
   const [resImage, setResImage] = useState<string | null>(null);
   const [resText, setText] = useState<string | null>(null);
   const [resTextGemma, setTextGemma] = useState<string | null>(null);
@@ -64,7 +66,7 @@ export default function CreatePostPage() {
   ];
 
   if (!mounted) {
-    return <div className="h-screen flex items-center justify-center">Loading Report Portal...</div>;
+    return <div className="h-screen flex items-center justify-center">{t('loadingPortal')}</div>;
   }
 
   return (
@@ -75,7 +77,7 @@ export default function CreatePostPage() {
           <div className="flex items-center gap-2 text-slate-800 dark:text-slate-200 font-medium">
             <ShieldCheck className="h-4 w-4 text-jade shrink-0" />
             <span>
-              <strong className="text-rani-600 dark:text-rani-400">Discreet Anonymous SOS Mode Active:</strong> You can create and encode emergency reports without creating an account.
+              {t('anonymousModeNotice')}
             </span>
           </div>
           <Link
@@ -83,7 +85,7 @@ export default function CreatePostPage() {
             prefetch={false}
             className="text-rani-600 dark:text-rani-400 hover:underline font-bold shrink-0"
           >
-            Sign In with Account →
+            {t('signInWithAccount')}
           </Link>
         </div>
       )}

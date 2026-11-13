@@ -1,10 +1,12 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import ICON from '../assets/liveicon.json';
+import { useTranslations } from 'next-intl';
 
 export default function LiveTitle() {
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations('dashboard');
 
   useEffect(() => {
     setMounted(true);
@@ -45,7 +47,7 @@ export default function LiveTitle() {
           <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
         </span>
         <h1 className="font-bold text-xl tracking-wide text-slate-800 dark:text-slate-100">
-          Live Distress Reports
+          {t('liveDistressTitle')}
         </h1>
       </div>
       <div className="w-6 h-6 flex items-center justify-center shrink-0">

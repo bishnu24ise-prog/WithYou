@@ -12,7 +12,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import Typography from '@mui/material/Typography';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface CustomTimelineProps {
   createdAt?: string;
@@ -25,6 +25,7 @@ export default function CustomTimeline({
   status = 'pending',
   closedAt,
 }: CustomTimelineProps) {
+  const t = useTranslations('timeline');
   const [mounted, setMounted] = useState(false);
   let locale = 'en-IN';
   try {
@@ -58,11 +59,11 @@ export default function CustomTimeline({
     createdAt && !isNaN(new Date(createdAt).getTime())
       ? new Date(createdAt)
       : new Date();
-  const createdTimeStr = mounted ? formatTime(createdDate) : 'Live Time';
+  const createdTimeStr = mounted ? formatTime(createdDate) : t('liveTime');
 
   // 2. Live time when location visited (25 minutes after creation)
   const visitedDate = new Date(createdDate.getTime() + 25 * 60 * 1000);
-  const visitedTimeStr = mounted ? formatTime(visitedDate) : 'In Progress';
+  const visitedTimeStr = mounted ? formatTime(visitedDate) : t('inProgress');
 
   // 3. Issue completed time
   const isClosed = status === 'closed' || status === 'resolved';
@@ -73,8 +74,8 @@ export default function CustomTimeline({
   const completedTimeStr = mounted
     ? isClosed
       ? formatTime(completedDate)
-      : 'In Progress'
-    : 'Pending';
+      : t('inProgress')
+    : t('pending');
 
   return (
     <Timeline position="alternate">
@@ -103,10 +104,10 @@ export default function CustomTimeline({
               fontWeight: 'bold',
             }}
           >
-            Issue Created
+            {t('createdTitle')}
           </Typography>
           <Typography variant="body2">
-            User created the issue and provided the details.
+            {t('createdDesc')}
           </Typography>
         </TimelineContent>
       </TimelineItem>
@@ -135,10 +136,10 @@ export default function CustomTimeline({
               fontWeight: 'bold',
             }}
           >
-            Location Visited
+            {t('visitedTitle')}
           </Typography>
           <Typography variant="body2">
-            The location was visited and inspected for further action.
+            {t('visitedDesc')}
           </Typography>
         </TimelineContent>
       </TimelineItem>
@@ -169,12 +170,12 @@ export default function CustomTimeline({
               color: isClosed ? 'success.dark' : 'inherit',
             }}
           >
-            {isClosed ? 'Issue Completed' : 'Pending Resolution'}
+            {isClosed ? t('completedTitle') : t('pendingTitle')}
           </Typography>
           <Typography variant="body2">
             {isClosed
-              ? 'The issue was resolved and marked closed.'
-              : 'Action in progress by emergency responder unit.'}
+              ? t('completedDesc')
+              : t('pendingDesc')}
           </Typography>
         </TimelineContent>
       </TimelineItem>

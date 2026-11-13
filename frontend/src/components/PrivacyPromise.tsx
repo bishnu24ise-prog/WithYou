@@ -2,28 +2,31 @@
 
 import React from 'react';
 import { ShieldCheck, EyeOff, Trash2, KeyRound, Lock } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function PrivacyPromise() {
+  const t = useTranslations('privacy');
+
   const promises = [
     {
       icon: <EyeOff className="w-6 h-6 text-rani" />,
-      title: 'Zero Ad Trackers or Pixels',
-      description: 'We do not run Meta pixels, Google Analytics, or third-party marketing tags that could leak your browsing patterns.',
+      title: t('p1Title'),
+      description: t('p1Desc'),
     },
     {
       icon: <Trash2 className="w-6 h-6 text-saffron" />,
-      title: 'Emergency Cache Cleanup',
-      description: 'Clicking Quick Exit or pressing Esc x 3 immediately redirects to a neutral search query and clears temporary local cache.',
+      title: t('p2Title'),
+      description: t('p2Desc'),
     },
     {
       icon: <KeyRound className="w-6 h-6 text-marigold" />,
-      title: 'Anonymous Incident Dispatch',
-      description: 'You can submit distress alerts without signing in or providing your email. We prioritize physical safety above all.',
+      title: t('p3Title'),
+      description: t('p3Desc'),
     },
     {
       icon: <Lock className="w-6 h-6 text-peacock" />,
-      title: 'Encrypted Steganography',
-      description: 'Distress messages and location markers are embedded inside innocuous pixel matrices indistinguishable from common phone photos.',
+      title: t('p4Title'),
+      description: t('p4Desc'),
     },
   ];
 
@@ -36,13 +39,13 @@ export default function PrivacyPromise() {
         <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-jade/10 text-jade font-semibold text-xs tracking-wider uppercase">
             <ShieldCheck className="w-3.5 h-3.5 text-jade" />
-            Zero-Compromise Security Architecture
+            {t('badge')}
           </div>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Our Ironclad <span className="text-gradient-aurora">Privacy Promise</span>
+            {t('title')} <span className="text-gradient-aurora">{t('titleHighlight')}</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-            For a woman facing domestic intimidation, a digital trace can be dangerous. We engineered SafeSpark with paranoia-grade safeguards.
+            {t('subtitle')}
           </p>
         </div>
 

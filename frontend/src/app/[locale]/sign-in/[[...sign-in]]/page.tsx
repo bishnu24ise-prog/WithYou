@@ -1,16 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link, useRouter } from '@/i18n/routing';
 import { useSafeClerk } from '@/lib/auth-context';
-import { Shield, User, ArrowLeft, Lock, Mail, BadgeCheck, Sparkles, Building, Phone, ArrowRight, Zap } from 'lucide-react';
+import { Shield, User, ArrowLeft, Lock, Mail, Building, Phone, Zap, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useTranslations } from 'next-intl';
 
 export default function SignInPage() {
   const router = useRouter();
   const { loginAs } = useSafeClerk();
+  const t = useTranslations('auth');
   const [activeTab, setActiveTab] = useState<'authority' | 'victim'>('authority');
 
   // Authority Form State
@@ -33,9 +34,6 @@ export default function SignInPage() {
       badge: 'Law Enforcement / Official',
     });
     router.push('/dashboard');
-    setTimeout(() => {
-      window.location.href = '/dashboard';
-    }, 150);
   };
 
   const handleSurvivorSubmit = (e: React.FormEvent) => {
@@ -47,9 +45,6 @@ export default function SignInPage() {
       badge: 'Protected Citizen',
     });
     router.push('/create-post');
-    setTimeout(() => {
-      window.location.href = '/create-post';
-    }, 150);
   };
 
   const executeQuickLogin = (role: 'police' | 'ngo' | 'anonymous' | 'verified_citizen') => {
@@ -61,9 +56,6 @@ export default function SignInPage() {
         badge: 'Law Enforcement / Official',
       });
       router.push('/dashboard');
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 150);
     } else if (role === 'ngo') {
       loginAs('authority', {
         name: 'Dr. Meera Iyer',
@@ -72,9 +64,6 @@ export default function SignInPage() {
         badge: 'Crisis Center Director',
       });
       router.push('/dashboard');
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 150);
     } else if (role === 'anonymous') {
       loginAs('victim', {
         name: 'Anonymous Survivor',
@@ -83,9 +72,6 @@ export default function SignInPage() {
         badge: 'Protected Citizen',
       });
       router.push('/create-post');
-      setTimeout(() => {
-        window.location.href = '/create-post';
-      }, 150);
     } else if (role === 'verified_citizen') {
       loginAs('victim', {
         name: 'Kavita Verma',
@@ -94,9 +80,6 @@ export default function SignInPage() {
         badge: 'Protected Citizen',
       });
       router.push('/create-post');
-      setTimeout(() => {
-        window.location.href = '/create-post';
-      }, 150);
     }
   };
 
@@ -110,98 +93,78 @@ export default function SignInPage() {
             href="/"
             className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-rani mb-2 transition-colors font-medium"
           >
-            <ArrowLeft className="w-3.5 h-3.5" /> Back to SafeSpark Home
+            <ArrowLeft className="w-3.5 h-3.5" /> {t('backHome')}
           </Link>
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rani via-saffron to-marigold text-white flex items-center justify-center mx-auto shadow-md">
             <Lock className="w-6 h-6" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
-            SafeSpark Login Portal
+            {t('signInTitle')}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-            Choose your account role to access authorized case dossiers, official investigation tools, or confidential survivor resources.
+            {t('demoDisclaimer')}
           </p>
         </div>
 
         {/* 1-Click Fast Track Hero Buttons */}
         <div className="bg-slate-50 dark:bg-slate-900/60 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
           <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
-            <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" /> Instant 1-Click Demo Login
+            <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" /> {t('quickLogin')}
           </span>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <button
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <Button
               type="button"
               onClick={() => executeQuickLogin('police')}
-              className="flex items-center justify-between p-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-md transition-all group"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs h-9 justify-start"
             >
-              <div className="flex items-center gap-2 text-left">
-                <Shield className="w-4 h-4 shrink-0" />
-                <div>
-                  <div className="font-bold">Login as Authority</div>
-                  <div className="text-[10px] text-blue-200">Insp. Sharma (SPUWAC Police)</div>
-                </div>
-              </div>
-              <ArrowRight className="w-4 h-4 opacity-75 group-hover:translate-x-0.5 transition-transform shrink-0" />
-            </button>
-
-            <button
+              <Shield className="w-3.5 h-3.5 mr-1" />
+              <span>{t('quickDemoPolice')}</span>
+            </Button>
+            <Button
               type="button"
               onClick={() => executeQuickLogin('anonymous')}
-              className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-rani to-saffron hover:opacity-95 text-white font-semibold text-xs shadow-md transition-all group"
+              className="bg-gradient-to-r from-rani to-saffron text-white font-bold text-xs h-9 justify-start"
             >
-              <div className="flex items-center gap-2 text-left">
-                <User className="w-4 h-4 shrink-0" />
-                <div>
-                  <div className="font-bold">Login as Survivor</div>
-                  <div className="text-[10px] text-pink-100">Confidential Citizen SOS</div>
-                </div>
-              </div>
-              <ArrowRight className="w-4 h-4 opacity-75 group-hover:translate-x-0.5 transition-transform shrink-0" />
-            </button>
+              <User className="w-3.5 h-3.5 mr-1" />
+              <span>{t('quickDemoCitizen')}</span>
+            </Button>
           </div>
         </div>
 
-        {/* Role Tabs */}
-        <div className="grid grid-cols-2 p-1.5 bg-slate-100 dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800">
+        {/* Tab Switcher */}
+        <div className="flex rounded-2xl bg-slate-100 dark:bg-slate-800 p-1 border border-slate-200 dark:border-slate-700">
           <button
             type="button"
             onClick={() => setActiveTab('authority')}
-            className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               activeTab === 'authority'
-                ? 'bg-blue-600 text-white shadow-md'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm'
+                : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
-            <Shield className="w-4 h-4" />
-            <span>Authority / Official</span>
+            <Shield className="w-3.5 h-3.5" />
+            <span>{t('officialTab')}</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('victim')}
-            className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               activeTab === 'victim'
-                ? 'bg-gradient-to-r from-rani to-saffron text-white shadow-md'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-slate-900 text-rani shadow-sm'
+                : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
-            <User className="w-4 h-4" />
-            <span>Citizen / Survivor</span>
+            <User className="w-3.5 h-3.5" />
+            <span>{t('citizenTab')}</span>
           </button>
         </div>
 
         {/* Tab 1: Authority Form */}
         {activeTab === 'authority' && (
           <form onSubmit={handleAuthoritySubmit} className="space-y-4">
-            <div className="p-3 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 rounded-xl text-xs text-blue-900 dark:text-blue-200 flex items-start gap-2">
-              <BadgeCheck className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-              <span>
-                <strong>Authorized Responders:</strong> Police dispatch, Protection Officers under PWDVA 2005, and certified NGO case managers.
-              </span>
-            </div>
-
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                Official Name & Rank
+                {t('officialName')}
               </label>
               <div className="relative">
                 <Shield className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
@@ -217,7 +180,7 @@ export default function SignInPage() {
 
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                Govt Official Email / Service ID
+                {t('govtEmail')}
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
@@ -234,7 +197,7 @@ export default function SignInPage() {
 
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                Assigned Unit / Department
+                {t('department')}
               </label>
               <div className="relative">
                 <Building className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
@@ -250,7 +213,7 @@ export default function SignInPage() {
 
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                Security Passcode
+                {t('password')}
               </label>
               <div className="relative">
                 <Lock className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
@@ -269,49 +232,17 @@ export default function SignInPage() {
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl shadow-md transition-all text-sm"
             >
-              Sign In as Authority Officer →
+              {t('signInBtn')} →
             </Button>
-
-            {/* Quick Presets */}
-            <div className="pt-2">
-              <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-2">
-                ⚡ More 1-Click Authority Profiles
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => executeQuickLogin('police')}
-                  className="text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-blue-50/50 transition-colors"
-                >
-                  <div className="font-bold text-blue-600 dark:text-blue-400">🛡️ Police Duty Officer</div>
-                  <div className="text-[10px] text-slate-400">Insp. Sharma • SPUWAC Command</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => executeQuickLogin('ngo')}
-                  className="text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-blue-50/50 transition-colors"
-                >
-                  <div className="font-bold text-purple-600 dark:text-purple-400">🏥 NGO Crisis Director</div>
-                  <div className="text-[10px] text-slate-400">Dr. Meera Iyer • Sakhi 181</div>
-                </button>
-              </div>
-            </div>
           </form>
         )}
 
         {/* Tab 2: Survivor Form */}
         {activeTab === 'victim' && (
           <form onSubmit={handleSurvivorSubmit} className="space-y-4">
-            <div className="p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 rounded-xl text-xs text-rose-900 dark:text-rose-200 flex items-start gap-2">
-              <Sparkles className="w-4 h-4 text-rani shrink-0 mt-0.5" />
-              <span>
-                <strong>Confidential Sanctuary:</strong> Zero device trackers, encrypted local session, and instant Triple-Esc privacy exit.
-              </span>
-            </div>
-
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                Safe Alias / Display Name
+                {t('citizenName')}
               </label>
               <div className="relative">
                 <User className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
@@ -327,14 +258,14 @@ export default function SignInPage() {
 
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                Contact Phone / Safe Callback Number
+                {t('safePhone')}
               </label>
               <div className="relative">
                 <Phone className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
                 <Input
                   value={victimPhone}
                   onChange={(e) => setVictimPhone(e.target.value)}
-                  placeholder="e.g. +91 98765 43210 (or leave blank)"
+                  placeholder="e.g. +91 98765 43210"
                   className="pl-9 bg-white dark:bg-slate-950"
                 />
               </div>
@@ -342,7 +273,7 @@ export default function SignInPage() {
 
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                Private Access PIN (Optional)
+                {t('safePin')}
               </label>
               <div className="relative">
                 <Lock className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
@@ -360,44 +291,19 @@ export default function SignInPage() {
               type="submit"
               className="w-full bg-gradient-to-r from-rani via-saffron to-marigold hover:opacity-95 text-white font-bold py-2.5 rounded-xl shadow-md transition-all text-sm"
             >
-              Sign In as Citizen / Survivor →
+              {t('signInBtn')} →
             </Button>
-
-            {/* Quick Presets */}
-            <div className="pt-2">
-              <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-2">
-                ⚡ More 1-Click Survivor Profiles
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => executeQuickLogin('anonymous')}
-                  className="text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-rani bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-rose-50/50 transition-colors"
-                >
-                  <div className="font-bold text-rani">🌸 Anonymous Survivor</div>
-                  <div className="text-[10px] text-slate-400">Zero ID trace • Steganography SOS</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => executeQuickLogin('verified_citizen')}
-                  className="text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-rani bg-white dark:bg-slate-950 text-xs text-slate-700 dark:text-slate-300 hover:bg-rose-50/50 transition-colors"
-                >
-                  <div className="font-bold text-emerald-600 dark:text-emerald-400">👤 Registered Citizen</div>
-                  <div className="text-[10px] text-slate-400">Kavita Verma • Case Tracking</div>
-                </button>
-              </div>
-            </div>
           </form>
         )}
 
         {/* Footer links */}
         <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
-          <span>Don&apos;t have an account?</span>
+          <span>{t('noAccount')}</span>
           <Link
             href="/sign-up"
             className="text-rani font-bold hover:underline"
           >
-            Register SafeSpark Identity →
+            {t('signUpBtn')} →
           </Link>
         </div>
       </div>

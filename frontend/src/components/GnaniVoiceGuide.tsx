@@ -22,6 +22,7 @@ import {
 import { GNANI_LANGUAGES, GnaniLanguage } from '@/lib/gnani';
 import { Button } from '@/components/ui/button';
 import { convertAudioBlobToWav } from '@/lib/audio-converter';
+import { useTranslations, useLocale } from 'next-intl';
 
 const GNANI_DIRECT_KEY =
   process.env.NEXT_PUBLIC_GNANI_API_KEY ||
@@ -59,9 +60,17 @@ async function fetchDirectGnaniTTS(text: string, lang: string): Promise<string> 
 }
 
 export function GnaniVoiceGuide() {
+  const t = useTranslations('voiceGuide');
   const pathname = usePathname();
+  const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState<string>('hi-IN');
+  const [selectedLang, setSelectedLang] = useState<string>(locale || 'en-IN');
+
+  useEffect(() => {
+    if (locale) {
+      setSelectedLang(locale);
+    }
+  }, [locale]);
   const [isRecording, setIsRecording] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -317,7 +326,7 @@ export function GnaniVoiceGuide() {
           </span>
           <Mic className="h-4 w-4 sm:h-5 sm:w-5" />
           <span className="text-xs sm:text-sm tracking-wide hidden sm:inline">
-            {isOpen ? 'Close Guide' : 'Voice Guide (Gnani AI)'}
+            {isOpen ? t('floatingClose') : t('floatingOpen')}
           </span>
         </button>
       </div>
@@ -333,13 +342,13 @@ export function GnaniVoiceGuide() {
               </div>
               <div>
                 <h3 className="font-bold text-sm tracking-wide text-white flex items-center gap-1.5">
-                  Gnani AI Voice Guide
+                  {t('title')}
                   <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-normal border border-emerald-500/30">
-                    Live Spoken Voice
+                    {t('badge')}
                   </span>
                 </h3>
                 <p className="text-[11px] text-zinc-300">
-                  Prisma v3.0 STT & Timbre v2.5 TTS
+                  {t('engineDesc')}
                 </p>
               </div>
             </div>
@@ -358,7 +367,7 @@ export function GnaniVoiceGuide() {
           <div className="mt-3 flex items-center justify-between gap-2 bg-white/5 p-2 rounded-2xl border border-white/10">
             <div className="flex items-center gap-1.5 text-xs text-zinc-300 pl-1">
               <Languages className="h-4 w-4 text-saffron" />
-              <span>Spoken Language:</span>
+              <span>{t('languageLabel')}</span>
             </div>
             <select
               value={selectedLang}
@@ -389,14 +398,14 @@ export function GnaniVoiceGuide() {
                   <span className="w-1 bg-peacock animate-[pulse_0.7s_ease-in-out_infinite_200ms] rounded-full h-3.5"></span>
                 </span>
                 <span className="text-xs font-semibold text-peacock">
-                  Reading aloud in {currentLangObj.nativeName}...
+                  {t('readingAloud', { language: currentLangObj.nativeName })}
                 </span>
               </div>
               <button
                 onClick={stopAudio}
                 className="text-[11px] bg-red-500/20 hover:bg-red-500/40 text-red-200 px-2 py-0.5 rounded-lg border border-red-500/30 transition flex items-center gap-1"
               >
-                <VolumeX className="h-3 w-3" /> Stop
+                <VolumeX className="h-3 w-3" /> {t('stop')}
               </button>
             </div>
           )}
@@ -406,14 +415,14 @@ export function GnaniVoiceGuide() {
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-6 gap-2 text-zinc-300 text-xs">
                 <Loader2 className="h-6 w-6 animate-spin text-rani" />
-                <span>Synthesizing voice guidance with Gnani AI Timbre v2.5...</span>
+                <span>{t('synthesizing')}</span>
               </div>
             ) : guidance ? (
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[10px] uppercase font-bold tracking-wider text-saffron flex items-center gap-1">
                     <Volume2 className="h-3.5 w-3.5" />
-                    Spoken Guide ({currentLangObj.nativeName})
+                    {t('spokenGuidePrefix')} ({currentLangObj.nativeName})
                   </span>
                   <div className="flex items-center gap-1.5">
                     {isPlaying ? (
@@ -421,21 +430,21 @@ export function GnaniVoiceGuide() {
                         onClick={stopAudio}
                         className="flex items-center gap-1 text-[11px] bg-rani/30 text-white px-2.5 py-1 rounded-full border border-rani/50 hover:bg-rani/50 transition"
                       >
-                        <VolumeX className="h-3.5 w-3.5" /> Pause
+                        <VolumeX className="h-3.5 w-3.5" /> {t('pause')}
                       </button>
                     ) : audioUrl ? (
                       <button
                         onClick={() => playAudio(audioUrl)}
                         className="flex items-center gap-1 text-[11px] bg-peacock/40 text-white px-2.5 py-1 rounded-full border border-peacock/60 hover:bg-peacock/60 transition"
                       >
-                        <Play className="h-3.5 w-3.5" /> Play Aloud
+                        <Play className="h-3.5 w-3.5" /> {t('playAloud')}
                       </button>
                     ) : (
                       <button
                         onClick={() => speakWithBrowserVoice(guidance, selectedLang)}
                         className="flex items-center gap-1 text-[11px] bg-peacock/40 text-white px-2.5 py-1 rounded-full border border-peacock/60 hover:bg-peacock/60 transition"
                       >
-                        <Volume2 className="h-3.5 w-3.5" /> Read Aloud
+                        <Volume2 className="h-3.5 w-3.5" /> {t('readAloud')}
                       </button>
                     )}
                   </div>
@@ -448,13 +457,13 @@ export function GnaniVoiceGuide() {
 
                 {transcript && (
                   <p className="mt-2 text-[10px] text-zinc-400 italic flex items-center gap-1">
-                    <span className="text-saffron font-bold">Query:</span> "{transcript}"
+                    <span className="text-saffron font-bold">{t('queryPrefix')}</span> &quot;{transcript}&quot;
                   </p>
                 )}
               </div>
             ) : (
               <div className="text-center py-6 text-zinc-300 text-xs">
-                Tap "How to use this page" or speak in {currentLangObj.nativeName} to hear the voice guide speak out loud.
+                {t('emptyNotice', { lang: currentLangObj.nativeName })}
               </div>
             )}
           </div>
@@ -473,7 +482,7 @@ export function GnaniVoiceGuide() {
               className="mt-3 w-full py-3 px-4 bg-gradient-to-r from-emerald-500 via-peacock to-rani text-white font-bold rounded-2xl shadow-xl flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all animate-pulse text-xs sm:text-sm border border-emerald-400/40"
             >
               <Volume2 className="h-4 w-4" />
-              <span>🔊 Tap Here to Listen Aloud in {currentLangObj.nativeName}</span>
+              <span>{t('tapToListenAloud', { lang: currentLangObj.nativeName })}</span>
             </button>
           )}
 
@@ -484,28 +493,28 @@ export function GnaniVoiceGuide() {
               disabled={isLoading || isRecording}
               className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition"
             >
-              📖 How to use this page?
+              📖 {t('qHowToUse')}
             </button>
             <button
               onClick={() => handleAskGuidance('Call emergency police 112')}
               disabled={isLoading || isRecording}
               className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition"
             >
-              🚨 Emergency & 112 Help
+              {t('qEmergency')}
             </button>
             <button
               onClick={() => handleAskGuidance('How to hide photo steganography?')}
               disabled={isLoading || isRecording}
               className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition"
             >
-              🖼️ Hide Secret Message
+              {t('qStego')}
             </button>
             <button
               onClick={() => handleAskGuidance('Find nearest crisis centres and shelter')}
               disabled={isLoading || isRecording}
               className="p-2 text-left rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-200 transition"
             >
-              📍 Nearby Help Centres
+              {t('qCentres')}
             </button>
           </div>
 
@@ -518,10 +527,10 @@ export function GnaniVoiceGuide() {
             >
               <div className="flex items-center gap-1.5">
                 <Activity className="h-3.5 w-3.5 text-peacock" />
-                <span>Gnani AI Live Diagnostic Test (STT + TTS)</span>
+                <span>{t('diagnosticBtn')}</span>
               </div>
               <span className="font-semibold text-rani">
-                {testResult?.running ? 'Testing...' : 'Run Test →'}
+                {testResult?.running ? t('diagnosticRunning') : t('diagnosticRun')}
               </span>
             </button>
 
@@ -541,7 +550,7 @@ export function GnaniVoiceGuide() {
                 <div className="text-[10px] text-emerald-300/80">
                   • Timbre TTS: {testResult.data.tts?.audioBytes} bytes generated ({testResult.data.tts?.durationMs}ms)
                   <br />
-                  • Prisma STT: {testResult.data.stt?.model} (Transcribed: "{testResult.data.stt?.transcribedText}")
+                  • Prisma STT: {testResult.data.stt?.model} (Transcribed: &quot;{testResult.data.stt?.transcribedText}&quot;)
                 </div>
               </div>
             )}
@@ -562,7 +571,7 @@ export function GnaniVoiceGuide() {
               className="flex-1 bg-gradient-to-r from-rani to-saffron hover:opacity-90 text-white text-xs font-semibold rounded-2xl py-5 shadow-lg"
             >
               <Volume2 className="h-4 w-4 mr-1.5" />
-              Listen to Page Guide
+              {t('listenPageGuide')}
             </Button>
 
             <button
@@ -573,7 +582,7 @@ export function GnaniVoiceGuide() {
                   ? 'bg-red-600 text-white animate-pulse ring-4 ring-red-400/50'
                   : 'bg-white/10 hover:bg-white/20 text-white border border-white/20 active:scale-95 shadow-lg'
               }`}
-              title={isRecording ? 'Tap to Stop Recording' : 'Tap to Speak a Question'}
+              title={isRecording ? t('tapMicStop') : t('tapMicSpeak')}
             >
               {isRecording ? (
                 <MicOff className="h-5 w-5" />
@@ -586,8 +595,8 @@ export function GnaniVoiceGuide() {
           <div className="mt-3 text-center">
             <span className="text-[10px] text-zinc-400">
               {isRecording
-                ? 'Listening in ' + currentLangObj.nativeName + '... Tap mic again to transcribe & speak.'
-                : 'Supports Hindi, English, Tamil, Telugu, Kannada, Bengali & Marathi'}
+                ? t('listeningIn', { language: currentLangObj.nativeName })
+                : t('supportsHint')}
             </span>
           </div>
         </div>

@@ -300,17 +300,17 @@ export function InputForm({
               {voiceExtracting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Extracting...</span>
+                  <span>{t('extracting')}</span>
                 </>
               ) : isFormVoiceRecording ? (
                 <>
                   <Mic className="w-4 h-4 animate-bounce" />
-                  <span>Stop & Extract</span>
+                  <span>{t('stopAndExtract')}</span>
                 </>
               ) : (
                 <>
                   <Mic className="w-4 h-4 text-rani" />
-                  <span>Start Dictation</span>
+                  <span>{t('startDictation')}</span>
                 </>
               )}
             </Button>
@@ -321,7 +321,7 @@ export function InputForm({
             <div className="mt-3 p-3 bg-white/90 dark:bg-slate-800/90 rounded-xl border border-rani/20 flex items-start gap-2 text-xs">
               <HelpCircle className="w-4 h-4 text-rani shrink-0 mt-0.5" />
               <div className="flex-1">
-                <span className="font-semibold text-slate-900 dark:text-white">Follow-up Question: </span>
+                <span className="font-semibold text-slate-900 dark:text-white">{t('followUpQuestion')} </span>
                 <span className="text-slate-700 dark:text-slate-200">{followUpQuestion}</span>
               </div>
             </div>
@@ -346,7 +346,7 @@ export function InputForm({
                   <span>{t('nameLabel')}</span>
                   {aiFilledFields.has('name') && (
                     <span className="text-[10px] text-rani bg-rose-50 dark:bg-rose-950 px-1.5 py-0.5 rounded-md font-bold">
-                      ✨ Voice Filled
+                      {t('voiceFilled')}
                     </span>
                   )}
                 </FormLabel>
@@ -389,7 +389,7 @@ export function InputForm({
                         }}
                       />
                       <span className="text-xs font-medium text-slate-800 dark:text-slate-200">
-                        {method}
+                        {method === 'Phone' ? t('contactPhone') : method === 'Email' ? t('contactEmail') : method === 'Text message' ? t('contactSms') : t('contactInPerson')}
                       </span>
                     </div>
                   ))}
@@ -412,7 +412,7 @@ export function InputForm({
                     <span>{t('phoneLabel')}</span>
                     {aiFilledFields.has('phone') && (
                       <span className="text-[10px] text-rani bg-rose-50 px-1.5 py-0.5 rounded-md font-bold">
-                        ✨ Voice Filled
+                        {t('voiceFilled')}
                       </span>
                     )}
                   </FormLabel>
@@ -470,7 +470,7 @@ export function InputForm({
                   <span>{t('situationLabel')}</span>
                   {aiFilledFields.has('currentSituation') && (
                     <span className="text-[10px] text-rani bg-rose-50 dark:bg-rose-950 px-1.5 py-0.5 rounded-md font-bold">
-                      ✨ Voice Filled
+                      {t('voiceFilled')}
                     </span>
                   )}
                 </FormLabel>
@@ -515,7 +515,7 @@ export function InputForm({
                   <span>{t('culpritLabel')}</span>
                   {aiFilledFields.has('culprit') && (
                     <span className="text-[10px] text-rani bg-rose-50 dark:bg-rose-950 px-1.5 py-0.5 rounded-md font-bold">
-                      ✨ Voice Filled
+                      {t('voiceFilled')}
                     </span>
                   )}
                 </FormLabel>
@@ -562,7 +562,7 @@ export function InputForm({
             min={1}
             step={1}
           />
-          <div className="text-xs text-slate-500">{occurrenceDuration} year(s)</div>
+          <div className="text-xs text-slate-500">{occurrenceDuration} {t('yearsSuffix')}</div>
         </div>
 
         {/* Frequency Slider */}
@@ -578,7 +578,7 @@ export function InputForm({
             min={1}
             step={1}
           />
-          <div className="text-xs text-slate-500">{frequency} time(s) a week</div>
+          <div className="text-xs text-slate-500">{frequency} {t('timesAWeekSuffix')}</div>
         </div>
 
         {/* Direct Save & Steganography Actions */}

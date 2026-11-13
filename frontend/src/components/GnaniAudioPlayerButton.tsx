@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX, Loader2 } from 'lucide-react';
 import { GNANI_LANGUAGES } from '@/lib/gnani';
+import { useTranslations } from 'next-intl';
 
 interface GnaniAudioPlayerButtonProps {
   text: string;
@@ -15,6 +16,7 @@ export function GnaniAudioPlayerButton({
   defaultLang = 'hi-IN',
   className = '',
 }: GnaniAudioPlayerButtonProps) {
+  const t = useTranslations('audio');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedLang, setSelectedLang] = useState(defaultLang);
@@ -109,17 +111,17 @@ export function GnaniAudioPlayerButton({
         {isLoading ? (
           <>
             <Loader2 className="h-3 w-3 animate-spin text-rani" />
-            <span>Loading...</span>
+            <span>{t('loading')}</span>
           </>
         ) : isPlaying ? (
           <>
             <VolumeX className="h-3 w-3 text-rani" />
-            <span>Pause</span>
+            <span>{t('pause')}</span>
           </>
         ) : (
           <>
             <Volume2 className="h-3 w-3 text-peacock" />
-            <span>Listen (Gnani AI)</span>
+            <span>{t('listen')}</span>
           </>
         )}
       </button>

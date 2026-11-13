@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ExternalLink, BookOpen, ShieldCheck, CheckCircle2, Clock } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export interface SourceItem {
   title: string;
@@ -18,12 +19,14 @@ interface SourcesPanelProps {
 }
 
 export function SourcesPanel({ sources, pagesRead = 0, isLoading = false }: SourcesPanelProps) {
+  const t = useTranslations('sources');
+
   if (isLoading) {
     return (
       <div className="mt-3 p-3.5 rounded-2xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200/60 dark:border-blue-900/40 animate-pulse">
         <div className="flex items-center gap-2 text-xs font-semibold text-blue-700 dark:text-blue-300">
           <BookOpen className="w-4 h-4 animate-spin text-blue-600" />
-          <span>TinyFish Live Cited Research: Searching statutory portals & reading legal pages...</span>
+          <span>{t('searchingLegal')}</span>
         </div>
         <div className="mt-2 space-y-1.5">
           <div className="h-3 bg-blue-200 dark:bg-blue-900/60 rounded-full w-3/4" />
@@ -40,13 +43,13 @@ export function SourcesPanel({ sources, pagesRead = 0, isLoading = false }: Sour
       <div className="flex items-center justify-between mb-2.5">
         <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300">
           <ShieldCheck className="w-4 h-4 text-emerald-600" />
-          <span>Cited Sources</span>
+          <span>{t('citedSources')}</span>
           <span className="px-1.5 py-0.2 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 rounded text-[10px] font-semibold">
-            {pagesRead || sources.length} Pages Verified
+            {pagesRead || sources.length} {t('pagesVerified')}
           </span>
         </div>
         <span className="text-[10px] text-slate-400 flex items-center gap-1">
-          <Clock className="w-3 h-3" /> Live Fact-Check
+          <Clock className="w-3 h-3" /> {t('liveFactCheck')}
         </span>
       </div>
 
@@ -89,9 +92,9 @@ export function SourcesPanel({ sources, pagesRead = 0, isLoading = false }: Sour
             </div>
 
             <div className="mt-2 pt-1 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between text-[10px] text-slate-400">
-              <span>Verified Source</span>
+              <span>{t('verifiedSource')}</span>
               <span className="flex items-center gap-0.5 text-blue-600 dark:text-blue-400 group-hover:underline">
-                Read Source <ExternalLink className="w-2.5 h-2.5" />
+                {t('readSource')} <ExternalLink className="w-2.5 h-2.5" />
               </span>
             </div>
           </a>
@@ -99,9 +102,8 @@ export function SourcesPanel({ sources, pagesRead = 0, isLoading = false }: Sour
       </div>
 
       <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-2.5 italic">
-        ⚖️ <strong>Disclaimer:</strong> Provided for crisis orientation and legal educational awareness under Indian law. Not formal legal advice. For emergency assistance, dial 112 or 1091.
+        ⚖️ {t('disclaimer')}
       </p>
     </div>
   );
 }
-
