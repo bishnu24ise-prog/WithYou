@@ -66,28 +66,59 @@ function PostDetail({ id }: { id: string }) {
   useEffect(() => {
     const fetchPostById = async () => {
       try {
-        const response = await fetch(`/api/postbyid/${id}`);
+        const cleanTargetId = String(id || '').trim().toLowerCase();
 
-        if (response.ok) {
-          const data = await response.json();
-          setPost(data);
-          return;
-        }
-
-        // Fallback: check localStorage for recently submitted posts in browser
+        // 1. First check localStorage for locally submitted SOS posts
         if (typeof window !== 'undefined') {
           const localStr = localStorage.getItem('safespark_local_posts');
           if (localStr) {
-            const localPosts = JSON.parse(localStr);
-            const found = localPosts.find((p: any) => p._id === id || p._id?.toLowerCase() === id?.toLowerCase());
-            if (found) {
-              setPost(found);
-              return;
+            try {
+              const localPosts = JSON.parse(localStr);
+              const found = localPosts.find(
+                (p: any) => String(p._id || '').trim().toLowerCase() === cleanTargetId
+              );
+              if (found) {
+                setPost(found);
+                return;
+              }
+            } catch (parseErr) {
+              console.warn('Error reading local posts:', parseErr);
             }
           }
         }
 
-        throw new Error('Post record could not be loaded');
+        // 2. Fetch from postbyid API
+        const response = await fetch(`/api/postbyid/${id}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          // STRICT ID MATCH: Ensure the returned dossier strictly matches the requested ID
+          if (data && String(data._id || '').trim().toLowerCase() === cleanTargetId) {
+            setPost(data);
+            return;
+          }
+        }
+
+        // 3. Re-verify localStorage just in case it was written during navigation
+        if (typeof window !== 'undefined') {
+          const localStr = localStorage.getItem('safespark_local_posts');
+          if (localStr) {
+            try {
+              const localPosts = JSON.parse(localStr);
+              const found = localPosts.find(
+                (p: any) => String(p._id || '').trim().toLowerCase() === cleanTargetId
+              );
+              if (found) {
+                setPost(found);
+                return;
+              }
+            } catch {
+              // ignore
+            }
+          }
+        }
+
+        throw new Error(`Incident dossier #${id} could not be found`);
       } catch (err) {
         setError(
           err instanceof Error ? err.message : 'An unknown error occurred'

@@ -198,8 +198,14 @@ export default function RealtimeList() {
                   {t('copyId')}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link href={`/post/${post._id}`} prefetch={false}>{t('viewDetails')}</Link>
+                <DropdownMenuItem asChild>
+                  <Link
+                    href={`/post/${post._id}`}
+                    prefetch={false}
+                    className="w-full cursor-pointer flex items-center"
+                  >
+                    {t('viewDetails')}
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
               </DropdownMenuContent>

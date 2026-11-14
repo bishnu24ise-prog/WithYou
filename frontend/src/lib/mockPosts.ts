@@ -1,6 +1,7 @@
 // In-memory / localStorage / disk-cache bridge for live posts
 import fs from 'fs';
 import path from 'path';
+import defaultPostsData from './posts_store.json';
 
 export interface PostRecord {
   _id: string;
@@ -78,8 +79,15 @@ function loadPostsFromDisk(): PostRecord[] {
       }
     }
   } catch (err) {
-    console.warn('Notice reading posts_store.json:', err);
+    // Disk read fallback
   }
+
+  if (Array.isArray(defaultPostsData) && defaultPostsData.length > 0) {
+    return (defaultPostsData as unknown as PostRecord[]).filter(
+      (p: any) => p.Name !== 'Survivor Report'
+    );
+  }
+
   return [...INITIAL_POSTS];
 }
 
@@ -177,11 +185,14 @@ export function addStoredPost(data: any): PostRecord {
 }
 
 export function getPostById(id: string): PostRecord | undefined {
+  if (!id) return undefined;
+  const targetId = String(id).trim().toLowerCase();
   const posts = getStoredPosts();
-  const found =
-    posts.find((p) => p._id === id) ||
-    posts.find((p) => p._id.toLowerCase() === id.toLowerCase()) ||
-    posts[0];
+
+  const found = posts.find((p) => {
+    const pId = String(p._id || '').trim().toLowerCase();
+    return pId === targetId;
+  });
 
   if (!found) return undefined;
 

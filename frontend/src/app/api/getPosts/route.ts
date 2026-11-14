@@ -9,7 +9,7 @@ export async function GET() {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/get-admin-posts`,
         { timeout: 3000 }
       );
-      if (response.status === 200 && response.data) {
+      if (response.status === 200 && Array.isArray(response.data) && response.data.length > 0) {
         return NextResponse.json(response.data, { status: 200 });
       }
     } catch (backendErr) {

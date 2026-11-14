@@ -462,11 +462,19 @@ def find_top_matching_posts(info: str, collection: str):
 def get_post_by_id(post_id: str):
     try:
         if db is not None:
-            post = db["admin"].find_one({"_id": ObjectId(post_id)})
+            clean_id = post_id.strip()
+            query = {}
+            if ObjectId.is_valid(clean_id):
+                query = {"$or": [{"_id": ObjectId(clean_id)}, {"_id": clean_id}]}
+            else:
+                query = {"_id": clean_id}
+            post = db["admin"].find_one(query)
             if not post:
                 raise HTTPException(status_code=404, detail="Post not found")
             return JSONResponse(content=serialize_object_id(post))
         raise HTTPException(status_code=503, detail="Database not connected")
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error retrieving post by ID: {e}")
 
